@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>コウモリの声は誰の声？ — Madoka Slides</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
+<style>
+  /* ============================================================
+     PALETTE — デッキごとにここだけ差し替える(ヒアリング→自動生成)
+     mood: ポップ・エネルギッシュ (default)
+     ============================================================ */
+  :root {
+    /* ポップ・高彩度 (vivid) — 既定ムード */
+    --c1: #F26419;   /* orange */
+    --c2: #1E6FE8;   /* blue   */
+    --c3: #8B2FE0;   /* violet */
+    --c4: #12B36A;   /* green  */
+    --c5: #EF2D3C;   /* red    */
+    --c6: #E84393;   /* pink   */
+    --impact: #D62E86;      /* インパクト全面背景 (高彩度マゼンタ・白文字) */
+    --note-ink: #111111;    /* カラーカード上の文字色 */
+  }
+  /* 旧: Apple Notes基準パレット (戻す場合はこちら)
+     --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
+
+  /* ---------- 背景テーマ: black(既定) / white / gray — tキーで切替 ---------- */
+  body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
+  body.theme-white { --bg:#FAFAF8; --fg:#161616; --muted:#71717A; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14); }
+  body.theme-gray  { --bg:#232327; --fg:#F0F0F0; --muted:#A2A2AA; --card:#2C2C31; --border:#3B3B42; --chrome:#1C1C20; --shadow:rgba(0,0,0,.35); }
+
+  html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
+  .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
+  .reveal .slides section { text-align: left; padding: 0; }
+  .reveal .slides section > * { margin-top: 1.35em; margin-bottom: 1.35em; }
+  /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
+     これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */
+  .reveal .lang-ja > * + *, .reveal .lang-en > * + * { margin-top: 1.25em; }
+  .reveal .lang-ja > .kicker + h2, .reveal .lang-en > .kicker + h2 { margin-top: 0.15em; }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--fg); font-weight: 900; letter-spacing: -0.02em; text-transform: none; }
+  .reveal h2 { font-size: 1.5em; margin: 0 0 0.6em 0; }
+  .reveal h3 { font-size: 1em; color: var(--muted); font-weight: 500; margin-top: 0; }
+  .reveal .title h1 { font-size: 2.1em; line-height: 1.15; }
+  .reveal section.center, .reveal section.center * { text-align: center; }
+  .reveal a { color: var(--c2); }
+  .reveal b, .reveal strong { color: var(--fg); }
+
+  /* アクセント文字色 */
+  .a1{color:var(--c1)} .a2{color:var(--c2)} .a3{color:var(--c3)} .a4{color:var(--c4)} .a5{color:var(--c5)}
+  /* コントラスト保証: 白/グレー背景では淡いアクセント文字を本文色(黒)に落とす */
+  body.theme-white .a1, body.theme-white .a2, body.theme-white .a3, body.theme-white .a4, body.theme-white .a5,
+  body.theme-white .num, body.theme-gray .a1, body.theme-gray .a2, body.theme-gray .a3,
+  body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
+  body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
+
+  .tiny  { font-size: 0.55em; color: var(--muted); }
+  .small { font-size: 0.75em; }
+  .kicker { color: var(--muted); font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
+
+  /* ---------- Notes風カラーカード(付箋) ---------- */
+  /* カラーカード = 一色の深いベタ塗り(不透明)+ 白文字/白アイコン。白がくっきり乗るよう黒を混ぜて濃くする */
+  .note { --nc: var(--c1); background: color-mix(in srgb, var(--nc) 88%, #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: #fff; }
+  .note h4 { color: #fff; font-size: 0.8em; font-weight: 800; margin: 0 0 0.5em 0; }
+  .note p  { color: #fff; font-size: 0.62em; font-weight: 600; margin: 0; line-height: 1.65; }
+  .note .picto { color: #fff; }
+  .n1{--nc:var(--c1)} .n2{--nc:var(--c2)} .n3{--nc:var(--c3)} .n4{--nc:var(--c4)} .n5{--nc:var(--c5)} .n6{--nc:var(--c6)}
+
+  /* ---------- ダークセル(ベント) ---------- */
+  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
+  .cell h4 { font-size: 0.8em; margin: 0 0 0.45em 0; }
+  .cell p  { font-size: 0.62em; font-weight: 500; margin: 0; color: var(--fg); line-height: 1.6; }
+
+  .bento  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5em; align-items: stretch; }
+  .bento2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5em; align-items: stretch; }
+  .wide   { grid-column: span 2; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; align-items: start; }
+
+  /* 巨大数字 */
+  .big  { font-size: 2.3em; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; }
+
+  /* ---------- ピクトグラム(黒地に白 / currentColorで自動反転) ---------- */
+  .picto { width: 1.7em; height: 1.7em; display: inline-block; vertical-align: middle; }
+  .picto svg, svg.picto { stroke: currentColor; fill: none; stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
+  .picto-lg { width: 2.15em; height: 2.15em; }
+
+  /* ---------- フロー図 ---------- */
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
+  .flow .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 0.65em 0.5em; }
+  .flow .step h4 { font-size: 0.72em; margin: 0.3em 0 0.15em 0; }
+  .flow .step p { font-size: 0.55em; color: var(--fg); margin: 0; }
+  .flow .arrow { color: var(--muted); font-size: 1.1em; }
+
+  /* ---------- インパクトスライド ---------- */
+  section.impact h1 { color: #fff; font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
+  section.impact p  { color: rgba(255,255,255,0.9); }
+
+  /* ---------- 既存互換パーツ ---------- */
+  /* 意味のない座布団ボックスは禁止。持ち帰り/気づきは枠なしのテキストで、余白と字間だけで整理する */
+  .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
+  .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
+  .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+  .label { display: inline-block; background: var(--c1); color: #fff; font-size: 0.5em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
+  .reveal ul li, .reveal ol li { margin: 0.25em 0; }
+  .reveal ul { font-size: 0.9em; }
+
+  table.compare { border-collapse: collapse; font-size: 0.75em; margin-top: 0.4em; color: var(--fg); }
+  table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 16px; text-align: left; }
+  table.compare th { background: var(--card); }
+
+  .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 24px var(--shadow); }
+  .fig-card img { display: block; max-width: 100%; max-height: 360px; border-radius: 6px; }
+  .fig-row { text-align: center; }
+  .fig-caption { font-size: 0.6em; color: var(--muted); margin-top: 0.7em; }
+
+  .reveal .katex { color: var(--fg); }
+  .reveal kbd { background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
+  .num { color: var(--c1); font-weight: 800; }
+
+  /* ============================================================
+     Notes風アプリ・クローム(上バー + サイドバー目次)
+     ============================================================ */
+  #chrome { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 44px; background: var(--chrome); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+  .tl { width: 12px; height: 12px; border-radius: 50%; }
+  .tl-r { background:#FF5F57; } .tl-y { background:#FEBC2E; } .tl-g { background:#28C840; }
+  #topbar .tools { margin-left: auto; color: var(--muted); font-size: 13px; letter-spacing: 0.35em; }
+  #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 1px solid var(--border); padding: 14px 12px; box-sizing: border-box; }
+  #sidebar .side-title { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin: 2px 4px 10px 4px; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #sidebar ul { list-style: none; margin: 0; padding: 0; }
+  #sidebar li { color: var(--fg); background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
+  #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
+  #sidebar li.active { background: var(--c5); border-color: var(--c5); color: #fff; }
+  #sidebar li.active .meta { color: rgba(255,255,255,0.8); }
+
+  .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
+  body.no-chrome #chrome { display: none; }
+  body.no-chrome .reveal { inset: 0; }
+  body.no-sidebar #sidebar { display: none; }
+  body.no-sidebar .reveal { left: 0; }
+
+  .nav-hint { position: fixed; bottom: 8px; right: 12px; font-size: 11px; color: var(--muted); z-index: 100; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #pal-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 120;
+    background: var(--card); border: 1px solid var(--border); color: var(--fg); font-family: 'Inter','Zen Kaku Gothic New',sans-serif;
+    font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  #pal-toast .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px -1px 0; }
+  #pal-toast.show { opacity: 1; }
+  .lang-badge { position: fixed; top: 14px; right: 14px; font-size: 11px; color: var(--muted); z-index: 100; letter-spacing: 0.1em; font-weight: 700; font-family: Inter, sans-serif; }
+  .lang-badge::before { content: 'JA'; }
+  body.lang-en .lang-badge::before { content: 'EN'; }
+  body.lang-ja .lang-en { display: none; }
+  body.lang-en .lang-ja { display: none; }
+
+  /* PDFエクスポート時はクロームを外して全面に */
+  html.print-pdf #chrome, html.print-pdf .nav-hint, html.print-pdf .lang-badge { display: none; }
+  html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
+</style>
+</head>
+<body class="lang-ja theme-black">
+
+<div id="chrome">
+  <div id="topbar">
+    <span class="tl tl-r"></span><span class="tl tl-y"></span><span class="tl tl-g"></span>
+    <span class="tools">Aa &nbsp;☰ &nbsp;⊞ &nbsp;⌂</span>
+  </div>
+  <div id="sidebar">
+    <div class="side-title">Contents</div>
+    <ul id="toc"></ul>
+  </div>
+</div>
+
+<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>p</kbd> palette &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+<div class="lang-badge"></div>
+<div id="pal-toast"></div>
+
+<div class="reveal"><div class="slides">
+
+<!-- 1. TITLE -->
+<section class="center title" data-section-ja="タイトル" data-section-en="Title" data-meta="Madoka · 2026年7月">
+  <div class="lang-ja">
+    <h1>コウモリの声は、<span class="a3">誰の声？</span></h1>
+    <h3 style="margin-top:0.8em;">AIが見つける「構造」は、コウモリに由来するのか、それとも私たちの手つきに由来するのか</h3>
+    <p style="margin-top:1.4em;"><b>Madoka</b> <span class="small" style="color:var(--muted);">・ 反響定位とAIをめぐる研究レポート ・ 2026年7月</span></p>
+  </div>
+  <div class="lang-en">
+    <h1>Whose voice is a <span class="a3">bat's voice?</span></h1>
+    <h3 style="margin-top:0.8em;">Does the "structure" AI finds come from the bat — or from how we handled the sound?</h3>
+    <p style="margin-top:1.4em;"><b>Madoka</b> <span class="small" style="color:var(--muted);">・ A study on echolocation and AI ・ July 2026</span></p>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">初見の人向けに、問い→なぜコウモリ→前提→用語→仮説→実験→結果→結論の順で話す。</div>
+    <div class="lang-en">Ordered for a first-time listener.</div>
+  </aside>
+</section>
+
+<!-- 2. QUESTION -->
+<section data-section-ja="問いの核心" data-section-en="The question">
+  <div class="lang-ja">
+    <div class="kicker">問い</div>
+    <h2>AIは本当に<span class="a3">「コウモリ」</span>を見ているのか？</h2>
+    <p class="small">AIはコウモリの鳴き声に「似た音のまとまり(パターン)」を見つける。では、そのパターンは——</p>
+    <div class="bento2">
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 60c8-26 20-40 28-40s20 14 28 40"/><path d="M20 60c6-6 10-6 14 0M34 60c6-6 10-6 14 0M48 60c6-6 10-6 14 0M62 60c6-6 10-6 14 0"/></svg></span>
+        <h4>コウモリ由来？（H2）</h4>
+        <p>声そのものに、はじめから刻まれた性質。</p>
+      </div>
+      <div class="note n6">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M24 30h48M24 48h36M24 66h44"/><circle cx="76" cy="60" r="10"/><path d="M83 67l8 8"/></svg></span>
+        <h4>私たち由来？（H1）</h4>
+        <p>音の変換・モデル・評価という、人間側の選択。</p>
+      </div>
+    </div>
+    <div class="takeaway">このデッキは、この<b>一点</b>だけを追いかける。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">The question</div>
+    <h2>Is AI really seeing <span class="a3">"the bat"?</span></h2>
+    <p class="small">AI finds "clusters of similar sound" in bat calls. But where do those patterns come from —</p>
+    <div class="bento2">
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 60c8-26 20-40 28-40s20 14 28 40"/><path d="M20 60c6-6 10-6 14 0M34 60c6-6 10-6 14 0M48 60c6-6 10-6 14 0M62 60c6-6 10-6 14 0"/></svg></span>
+        <h4>From the bat? (H2)</h4>
+        <p>A property already written into the voice itself.</p>
+      </div>
+      <div class="note n6">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M24 30h48M24 48h36M24 66h44"/><circle cx="76" cy="60" r="10"/><path d="M83 67l8 8"/></svg></span>
+        <h4>From us? (H1)</h4>
+        <p>Our own choices: the transform, the model, the evaluation.</p>
+      </div>
+    </div>
+    <div class="takeaway">This deck chases that <b>single</b> question.</div>
+  </div>
+</section>
+
+<!-- 3. WHY BATS -->
+<section data-section-ja="なぜコウモリ" data-section-en="Why bats">
+  <div class="lang-ja">
+    <div class="kicker">動機</div>
+    <h2>なぜ<span class="a3">コウモリ</span>なのか</h2>
+    <p class="small">哲学者ネーゲル「コウモリであるとはどのようなことか」——人間の主観からもっとも遠い知覚世界。<b>だからこそ</b>、AIの結果に人間のクセがどれだけ混じるかを試すのに最適な相手。</p>
+    <div class="bento">
+      <div class="cell"><span class="picto a2"><svg viewBox="0 0 96 96"><path d="M14 48h14l10-22 20 44 10-22h14"/></svg></span><h4>届かない超音波</h4><p>人の耳にもAIにも高すぎて入らない。</p></div>
+      <div class="cell"><span class="picto a3"><svg viewBox="0 0 96 96"><circle cx="48" cy="42" r="20"/><circle cx="48" cy="42" r="6"/><path d="M48 62v20M34 82h28"/></svg></span><h4>隔たった知覚</h4><p>ユクスキュルの「環世界」——他者の経験は覗けない。</p></div>
+      <div class="cell"><span class="picto a4"><svg viewBox="0 0 96 96"><path d="M40 20h16v18a20 20 0 1 1-16 0Z"/><path d="M48 60v10"/></svg></span><h4>炭鉱のカナリア</h4><p>環境変化を鋭敏に映す生態指標。</p></div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Motivation</div>
+    <h2>Why <span class="a3">bats?</span></h2>
+    <p class="small">Nagel's "What is it like to be a bat?" — the perceptual world furthest from human subjectivity. <b>That</b> is exactly why it best tests how much of us leaks into AI's results.</p>
+    <div class="bento">
+      <div class="cell"><span class="picto a2"><svg viewBox="0 0 96 96"><path d="M14 48h14l10-22 20 44 10-22h14"/></svg></span><h4>Unreachable ultrasound</h4><p>Too high for human ears and AI alike.</p></div>
+      <div class="cell"><span class="picto a3"><svg viewBox="0 0 96 96"><circle cx="48" cy="42" r="20"/><circle cx="48" cy="42" r="6"/><path d="M48 62v20M34 82h28"/></svg></span><h4>An alien mind</h4><p>Uexküll's "Umwelt" — we can't look inside another's experience.</p></div>
+      <div class="cell"><span class="picto a4"><svg viewBox="0 0 96 96"><path d="M40 20h16v18a20 20 0 1 1-16 0Z"/><path d="M48 60v10"/></svg></span><h4>Canary in the mine</h4><p>A sensitive indicator of ecological change.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. FREQUENCY PROBLEM -->
+<section data-section-ja="大前提" data-section-en="The obstacle">
+  <div class="lang-ja">
+    <div class="kicker">前提</div>
+    <h2>まず大問題：声が<span class="a1">高すぎて</span>聞こえない</h2>
+    <div class="fig-row"><div class="fig-card" style="max-width:74%;"><img src="figs/fig1_freq.png" alt="図1 周波数の対応関係"><div class="fig-caption">図1・原図：コウモリの超音波は人の可聴域にもAIの窓(0〜8kHz)にも高すぎる</div></div></div>
+    <div class="takeaway">だから、必ず<b>「引き伸ばして（減速）」</b>窓に収める加工が要る。<b>その加工こそが結果を左右する</b>。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">The premise</div>
+    <h2>The obstacle: the voice is <span class="a1">too high</span> to hear</h2>
+    <div class="fig-row"><div class="fig-card" style="max-width:74%;"><img src="figs/fig1_freq.png" alt="Figure 1 frequency map"><div class="fig-caption">Figure 1 (original): bat ultrasound sits far above both human hearing and the AI window (0–8kHz)</div></div></div>
+    <div class="takeaway">So you <b>must slow it down (stretch it)</b> to fit the window. <b>That very handling shapes the result.</b></div>
+  </div>
+</section>
+
+<!-- 5. VOCAB -->
+<section data-section-ja="先に3つの言葉" data-section-en="Three terms first">
+  <div class="lang-ja">
+    <div class="kicker">用語</div>
+    <h2>先に、<span class="a1">3つの言葉</span>だけ</h2>
+    <div class="bento">
+      <div class="note n2"><h4>埋め込み</h4><p>音を「768個の数値」に変換した<b>指紋</b>。似た音は似た数値になる。</p></div>
+      <div class="note n3"><h4>クラスタリング</h4><p>正解を見ずに、<b>似た音どうし</b>を自動でグループ分けする。</p></div>
+      <div class="note n1"><h4>AMI（0〜1）</h4><p>そのグループが<b>地理（国）</b>をどれだけ言い当てるか。1=完全一致、0=無関係。</p></div>
+    </div>
+    <div class="insight">この3つが分かれば、あとの結果はぜんぶ読める。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Vocabulary</div>
+    <h2>First, just <span class="a1">three words</span></h2>
+    <div class="bento">
+      <div class="note n2"><h4>Embedding</h4><p>A sound turned into "768 numbers" — its <b>fingerprint</b>. Similar sounds get similar numbers.</p></div>
+      <div class="note n3"><h4>Clustering</h4><p>Grouping <b>similar sounds</b> automatically, without any answer key.</p></div>
+      <div class="note n1"><h4>AMI (0–1)</h4><p>How well those groups predict <b>geography (country)</b>. 1 = perfect, 0 = unrelated.</p></div>
+    </div>
+    <div class="insight">Grasp these three and every result ahead becomes readable.</div>
+  </div>
+</section>
+
+<!-- 6. HYPOTHESES -->
+<section data-section-ja="二つの仮説" data-section-en="Two hypotheses">
+  <div class="lang-ja">
+    <div class="kicker">仮説</div>
+    <h2>正反対の、<span class="a1">二つの予想</span></h2>
+    <div class="bento2">
+      <div class="note n6"><h4>H1 ・ 枠組み優位</h4><p>変換のつまみ（減速・フィルター）を変える方が、録音地を変えるよりパターンを大きく動かす。→ 構造は<b>人間側</b>のレンダリング。</p></div>
+      <div class="note n4"><h4>H2 ・ 信号優位</h4><p>パターンは設定を変えても安定し、むしろ地理に沿う。→ 構造は<b>コウモリ側</b>の信号の性質。</p></div>
+    </div>
+    <div class="takeaway">同じ実験に対して、二つは<b>逆の結果</b>を予言する。どちらが正しいか、次から確かめる。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Hypotheses</div>
+    <h2>Two <span class="a1">opposite predictions</span></h2>
+    <div class="bento2">
+      <div class="note n6"><h4>H1 · Framework wins</h4><p>Changing the knobs (slowing, filtering) shifts the pattern more than swapping sites. → Structure is <b>our</b> rendering.</p></div>
+      <div class="note n4"><h4>H2 · Signal wins</h4><p>The pattern stays stable across settings and tracks geography. → Structure is a property of <b>the bat's</b> signal.</p></div>
+    </div>
+    <div class="takeaway">For the same experiment they predict <b>opposite</b> outcomes. Next, we test which holds.</div>
+  </div>
+</section>
+
+<!-- 7. SETUP -->
+<section data-section-ja="実験の材料" data-section-en="The setup">
+  <div class="lang-ja">
+    <div class="kicker">方法</div>
+    <h2>対照的な<span class="a2">2モデル</span> × <span class="a1">3地域</span></h2>
+    <div class="twocol">
+      <div>
+        <div class="bento2" style="gap:0.4em;">
+          <div class="note n2"><h4>Wav2Vec2</h4><p>人の声で学習（英語の朗読）。</p></div>
+          <div class="note n4"><h4>AVES</h4><p>動物の声で学習（鳥・哺乳類ほか）。</p></div>
+        </div>
+        <div class="cell" style="margin-top:0.4em;"><p>両モデルとも<b class="a1">16kHz の窓（0〜8kHz）</b>しか扱えない。だから減速が不可欠。</p></div>
+      </div>
+      <div class="cell">
+        <h4>データ：Bat Detective / iBats</h4>
+        <p style="margin-bottom:0.4em;">市民科学者が道路沿いで録音した探索音。</p>
+        <p>・ ブルガリア<br>・ イギリス<br>・ <b class="a1">ノーフォーク</b> = 据え置き録音で<b>機材がちがう＝交絡</b></p>
+      </div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Method</div>
+    <h2>Two contrasting <span class="a2">models</span> × three <span class="a1">regions</span></h2>
+    <div class="twocol">
+      <div>
+        <div class="bento2" style="gap:0.4em;">
+          <div class="note n2"><h4>Wav2Vec2</h4><p>Trained on human speech (English audiobooks).</p></div>
+          <div class="note n4"><h4>AVES</h4><p>Trained on animal sounds (birds, mammals, more).</p></div>
+        </div>
+        <div class="cell" style="margin-top:0.4em;"><p>Both only handle a <b class="a1">16kHz window (0–8kHz)</b>. Slowing is unavoidable.</p></div>
+      </div>
+      <div class="cell">
+        <h4>Data: Bat Detective / iBats</h4>
+        <p style="margin-bottom:0.4em;">Search calls recorded roadside by citizen scientists.</p>
+        <p>・ Bulgaria<br>・ UK<br>・ <b class="a1">Norfolk</b> = fixed recorder, <b>different gear = a confound</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. RESULT 1 -->
+<section data-section-ja="結果1：引き伸ばす" data-section-en="Result 1">
+  <div class="lang-ja">
+    <div class="kicker">結果 1</div>
+    <h2>強く引き伸ばすほど、<span class="a4">地理がよく見える</span></h2>
+    <div class="twocol" style="align-items:center;">
+      <div class="fig-card" style="max-width:100%;"><img src="figs/fig3_geo.png" alt="図3 地理感度"><div class="fig-caption">図3・原図：減速を強めるほど地理感度AMIが上昇（橙=動物AVES / 青=人の声）</div></div>
+      <div class="cell"><p>標準の変換のままでは、地理は<b>ほとんど見えない</b>。<b class="a4">より強く引き伸ばす</b>という人間の選択だけで、「国のちがい」が顕在化する。</p></div>
+    </div>
+    <div class="insight">見えるかどうかが、すでに<b>人間側の設定</b>に左右されている。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Result 1</div>
+    <h2>Stretch harder, and <span class="a4">geography shows up</span></h2>
+    <div class="twocol" style="align-items:center;">
+      <div class="fig-card" style="max-width:100%;"><img src="figs/fig3_geo.png" alt="Figure 3 geo-sensitivity"><div class="fig-caption">Figure 3 (original): geo-sensitivity AMI rises as slowing increases (orange = animal AVES / blue = human)</div></div>
+      <div class="cell"><p>With the standard transform, geography is <b>barely visible</b>. Just the human choice to <b class="a4">stretch harder</b> makes the difference between countries surface.</p></div>
+    </div>
+    <div class="insight">Whether it's visible already depends on <b>our settings</b>.</div>
+  </div>
+</section>
+
+<!-- 9. RESULT 2 KEY -->
+<section data-section-ja="結果2：総入れ替え" data-section-en="Result 2">
+  <div class="lang-ja">
+    <div class="kicker">結果 2 ・ 最重要</div>
+    <h2>倍速を変えるだけで、グループが<span class="a3">丸ごと入れ替わる</span></h2>
+    <div class="twocol" style="align-items:center;">
+      <div class="fig-card" style="max-width:100%;"><img src="figs/fig5_alluvial.png" alt="図5 総入れ替え"><div class="fig-caption">図5・原図：倍速を×5→×2に変えるとリボンが激しく交差＝グループの総入れ替え</div></div>
+      <div class="cell"><p>×2で同じグループだった音が、×5では<b>まったく別の仲間</b>にまとめられる。声そのものは<b>何も変わっていない</b>のに。</p></div>
+    </div>
+    <div class="takeaway">分け方を決めているのは<b>声ではなく、私たちの設定</b>。→ <b class="a3">H1を強く支持</b>。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Result 2 · most important</div>
+    <h2>Change the speed, and the groups <span class="a3">reshuffle entirely</span></h2>
+    <div class="twocol" style="align-items:center;">
+      <div class="fig-card" style="max-width:100%;"><img src="figs/fig5_alluvial.png" alt="Figure 5 reshuffle"><div class="fig-caption">Figure 5 (original): switching ×5→×2 makes ribbons cross heavily — a full reshuffle of groups</div></div>
+      <div class="cell"><p>A sound grouped together at ×2 lands with a <b>completely different set</b> at ×5 — though the voice itself <b>hasn't changed at all</b>.</p></div>
+    </div>
+    <div class="takeaway">What decides the grouping is <b>not the voice, but our setting</b>. → <b class="a3">Strong support for H1</b>.</div>
+  </div>
+</section>
+
+<!-- 10. RESULT 3 CONFOUND -->
+<section data-section-ja="結果3：正体は機材" data-section-en="Result 3">
+  <div class="lang-ja">
+    <div class="kicker">結果 3 ・ 交絡</div>
+    <h2>「地理の差」の正体は、<span class="a1">録音機材</span>だった</h2>
+    <p class="small">決定的な事実：<b>同じ国</b>（イギリスとノーフォーク）の方が、<b>別々の国</b>（ブルガリアとイギリス）より、はっきり分離した。</p>
+    <div class="fig-row"><div class="fig-card" style="max-width:60%;"><img src="figs/fig7_samecountry.png" alt="図7 同一国 vs 別々の国"><div class="fig-caption">図7・原図：同じ国(イギリスvsノーフォーク,99%)の方が別々の国(ブルガリアvsイギリス,37%)より明瞭に分離＝機材の指紋</div></div></div>
+    <div class="takeaway">AIが捉えていたのは国ではなく、<b>録音機材の指紋</b>。地理を測るには機材をそろえる必要がある。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Result 3 · confound</div>
+    <h2>The "geographic difference" was really the <span class="a1">recording gear</span></h2>
+    <p class="small">The decisive fact: the <b>same country</b> (UK vs Norfolk) separated more cleanly than <b>two different countries</b> (Bulgaria vs UK).</p>
+    <div class="fig-row"><div class="fig-card" style="max-width:60%;"><img src="figs/fig7_samecountry.png" alt="Figure 7 same vs different country"><div class="fig-caption">Figure 7 (original): same country (UK vs Norfolk, 99%) separates more than two countries (Bulgaria vs UK, 37%) = the gear's fingerprint</div></div></div>
+    <div class="takeaway">AI was catching not country but the <b>fingerprint of the equipment</b>. To measure geography, standardize the gear.</div>
+  </div>
+</section>
+
+<!-- 11. RESULT 4 CRUX -->
+<section data-section-ja="結果4：測り方で反転" data-section-en="Result 4">
+  <div class="lang-ja">
+    <div class="kicker">結果 4 ・ 核心</div>
+    <h2>同じデータでも、<span class="a1">道具しだいで結論が反転</span></h2>
+    <p class="small">機材をそろえたブルガリア対イギリス。同じ埋め込みを、二つの道具で測ると——</p>
+    <table class="compare" style="width:100%;">
+      <tr><th>測り方</th><th>結果</th><th>読み</th></tr>
+      <tr><td>教師なし（クラスタリング）</td><td><b class="a2">AMI 0.00</b></td><td>地理は<b>自動的には見えない</b></td></tr>
+      <tr><td>教師あり（正解率）</td><td><b class="a4">86%</b></td><td>探せば<b>地理は取り出せる</b></td></tr>
+    </table>
+    <div class="insight"><b>「見えない」は「存在しない」ではない</b>。地理情報は最初から埋め込みに入っていた。→ H1とH2の<b>両方に橋を架ける</b>。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Result 4 · the crux</div>
+    <h2>Same data — the <span class="a1">tool flips the conclusion</span></h2>
+    <p class="small">Same-gear Bulgaria vs UK. Measure the same embedding with two tools —</p>
+    <table class="compare" style="width:100%;">
+      <tr><th>Tool</th><th>Result</th><th>Reading</th></tr>
+      <tr><td>Unsupervised (clustering)</td><td><b class="a2">AMI 0.00</b></td><td>Geography <b>doesn't surface on its own</b></td></tr>
+      <tr><td>Supervised (accuracy)</td><td><b class="a4">86%</b></td><td>Look for it and <b>geography comes out</b></td></tr>
+    </table>
+    <div class="insight"><b>"Invisible" is not "absent."</b> The geographic signal was in the embedding all along. → It <b>bridges both H1 and H2</b>.</div>
+  </div>
+</section>
+
+<!-- 12. WHICH MODEL -->
+<section data-section-ja="モデルも音の高さ次第" data-section-en="Model vs pitch">
+  <div class="lang-ja">
+    <div class="kicker">結果 5</div>
+    <h2>万能の<span class="a3">「正しいモデル」</span>はない</h2>
+    <div class="bento2">
+      <div class="note n4"><h4>高いエコロケーション → 動物モデル AVES</h4><p>コウモリの探索音は 45〜135kHz と高い。動物音に習熟したAVESが有利。</p></div>
+      <div class="note n2"><h4>低い歌 → 人の声モデル</h4><p>先行研究の「歌」は約15.5kHzと人の声に近く、人の声モデルが適した。</p></div>
+    </div>
+    <div class="twocol" style="align-items:center;margin-top:0.3em;">
+      <div style="text-align:center;"><div class="big"><span class="a4">75%</span> vs <span class="a2">56%</span></div><p class="small" style="color:var(--muted);">エコロケーションの正解率<br>AVES（動物）／ 人の声モデル</p></div>
+      <div class="cell"><p>どのモデルが勝つかは<b>音の高さ</b>で変わる。<b>どれを選ぶか</b>もまた人間側の選択（枠組み）。</p></div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Result 5</div>
+    <h2>There is no universal <span class="a3">"right model"</span></h2>
+    <div class="bento2">
+      <div class="note n4"><h4>High echolocation → animal model AVES</h4><p>Search calls run 45–135kHz. A model fluent in animal sound wins.</p></div>
+      <div class="note n2"><h4>Low song → human-voice model</h4><p>Prior work's "song" sits near 15.5kHz, close to speech — so a speech model fit.</p></div>
+    </div>
+    <div class="twocol" style="align-items:center;margin-top:0.3em;">
+      <div style="text-align:center;"><div class="big"><span class="a4">75%</span> vs <span class="a2">56%</span></div><p class="small" style="color:var(--muted);">Echolocation accuracy<br>AVES (animal) / human-voice model</p></div>
+      <div class="cell"><p>Which model wins depends on <b>pitch</b>. And <b>which to pick</b> is itself a human choice (framework).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. CONCLUSION -->
+<section data-section-ja="結論" data-section-en="Conclusion">
+  <div class="lang-ja">
+    <div class="kicker">結論</div>
+    <h2>AIの「発見」は、思う以上に<span class="a1">人間しだい</span></h2>
+    <div class="bento">
+      <div class="note n1"><span class="picto"><svg viewBox="0 0 96 96"><rect x="20" y="30" width="56" height="40" rx="6"/><circle cx="48" cy="50" r="10"/><path d="M34 30l6-10h16l6 10"/></svg></span><h4>録音機材しだい</h4><p>見かけの地理差の大半は機材の違い。</p></div>
+      <div class="note n6"><span class="picto"><svg viewBox="0 0 96 96"><circle cx="34" cy="34" r="12"/><circle cx="66" cy="62" r="12"/><path d="M34 46v10a10 10 0 0 0 10 10h10"/></svg></span><h4>前処理しだい</h4><p>どれだけ引き伸ばすかで結論が変わる。</p></div>
+      <div class="note n3"><span class="picto"><svg viewBox="0 0 96 96"><path d="M24 40l14-14 34 34-14 14zM60 42L54 36M20 76l16-6-10-10z"/></svg></span><h4>評価手法しだい</h4><p>教師なし0 / 教師あり86%——道具で逆転。</p></div>
+    </div>
+    <div class="takeaway">それでも——<b>適切に呈示し、適切な道具で探せば、実在の信号もそこにある</b>（H2）。両義的な結論。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Conclusion</div>
+    <h2>AI's "discoveries" depend on <span class="a1">us</span> more than we think</h2>
+    <div class="bento">
+      <div class="note n1"><span class="picto"><svg viewBox="0 0 96 96"><rect x="20" y="30" width="56" height="40" rx="6"/><circle cx="48" cy="50" r="10"/><path d="M34 30l6-10h16l6 10"/></svg></span><h4>On the gear</h4><p>Most apparent geography was equipment.</p></div>
+      <div class="note n6"><span class="picto"><svg viewBox="0 0 96 96"><circle cx="34" cy="34" r="12"/><circle cx="66" cy="62" r="12"/><path d="M34 46v10a10 10 0 0 0 10 10h10"/></svg></span><h4>On preprocessing</h4><p>How far you stretch changes the answer.</p></div>
+      <div class="note n3"><span class="picto"><svg viewBox="0 0 96 96"><path d="M24 40l14-14 34 34-14 14zM60 42L54 36M20 76l16-6-10-10z"/></svg></span><h4>On the evaluation</h4><p>Unsupervised 0 / supervised 86% — the tool flips it.</p></div>
+    </div>
+    <div class="takeaway">And yet — <b>present it right, probe with the right tool, and the real signal is there too</b> (H2). A two-sided conclusion.</div>
+  </div>
+</section>
+
+<!-- 14. CHECKLIST -->
+<section data-section-ja="点検リスト" data-section-en="Checklist">
+  <div class="lang-ja">
+    <div class="kicker">持ち帰り</div>
+    <h2>「発見した」と言う前に、<span class="a1">4つの確認</span></h2>
+    <div class="bento2">
+      <div class="cell"><h4><span class="a4">01</span> 録音条件</h4><p>全地点で機材・方法をそろえたか。差が「地理」に化けていないか。</p></div>
+      <div class="cell"><h4><span class="a4">02</span> 前処理の感度</h4><p>減速・フィルターをどれだけ変えると結論が変わるか、系統的に走査したか。</p></div>
+      <div class="cell"><h4><span class="a4">03</span> 評価手法</h4><p>教師なし・ありの両方で見たか。「見えない」を「無い」と混同していないか。</p></div>
+      <div class="cell"><h4><span class="a4">04</span> 統計の裏づけ</h4><p>偶然補正済みの指標で測り、並べ替え検定で偶然でないと確認したか。</p></div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Takeaway</div>
+    <h2>Before claiming a "discovery," <span class="a1">check four things</span></h2>
+    <div class="bento2">
+      <div class="cell"><h4><span class="a4">01</span> Recording conditions</h4><p>Same gear and method everywhere? Could a difference masquerade as "geography"?</p></div>
+      <div class="cell"><h4><span class="a4">02</span> Preprocessing sensitivity</h4><p>Did you sweep slowing/filtering to see how much the conclusion moves?</p></div>
+      <div class="cell"><h4><span class="a4">03</span> Evaluation method</h4><p>Both unsupervised and supervised? Not mistaking "invisible" for "absent"?</p></div>
+      <div class="cell"><h4><span class="a4">04</span> Statistical backing</h4><p>Chance-corrected metric, and a permutation test to rule out coincidence?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15. IMPACT CLOSING -->
+<section class="impact center" data-background-color="#D62E86" data-chrome="off">
+  <div class="lang-ja">
+    <h1>「コウモリの声」を測る前に、<br>私たちは<span style="text-decoration:underline;">自分の手つき</span>を測らねばならない。</h1>
+    <p class="small">— 見えるかどうかは、まず人間側の枠組みで決まる。</p>
+  </div>
+  <div class="lang-en">
+    <h1>Before we measure a bat's voice,<br>we must measure <span style="text-decoration:underline;">our own hands.</span></h1>
+    <p class="small">— What's visible is decided first by our framework.</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+  /* ---------- 言語切替 ---------- */
+  function setLanguage(lang) {
+    document.body.classList.remove('lang-ja', 'lang-en');
+    document.body.classList.add(lang === 'en' ? 'lang-en' : 'lang-ja');
+    document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
+  }
+  function toggleLanguage() {
+    setLanguage(document.body.classList.contains('lang-en') ? 'ja' : 'en');
+  }
+
+  /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
+  const THEMES = ['theme-black', 'theme-white', 'theme-gray'];
+  function setTheme(name) {
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
+  }
+  function cycleTheme() {
+    const i = THEMES.findIndex(t => document.body.classList.contains(t));
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES[(i + 1) % THEMES.length]);
+  }
+
+  /* ---------- カラーパレット切替 (pキー) ---------- */
+  const PALETTES=[
+    { id:'pop',        ja:'ポップ',          vars:{'--c1':'#F26419','--c2':'#1E6FE8','--c3':'#8B2FE0','--c4':'#12B36A','--c5':'#EF2D3C','--c6':'#E84393','--impact':'#D62E86'} },
+    { id:'tech',       ja:'テック',          vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#0D9488','--c5':'#4F46E5','--c6':'#C026D3','--impact':'#2563EB'} },
+    { id:'ai',         ja:'AI',             vars:{'--c1':'#6D28D9','--c2':'#2563EB','--c3':'#0891B2','--c4':'#DB2777','--c5':'#4F46E5','--c6':'#0D9488','--impact':'#6D28D9'} },
+    { id:'cyberpunk',  ja:'サイバーパンク',   vars:{'--c1':'#D6006E','--c2':'#7C3AED','--c3':'#0891B2','--c4':'#C026D3','--c5':'#2563EB','--c6':'#DB2777','--impact':'#D6006E'} },
+    { id:'minimal',    ja:'ミニマル',        vars:{'--c1':'#1D4ED8','--c2':'#2563EB','--c3':'#4338CA','--c4':'#0E7490','--c5':'#3730A3','--c6':'#0891B2','--impact':'#1D4ED8'} },
+    { id:'education',  ja:'教育',            vars:{'--c1':'#EA580C','--c2':'#2563EB','--c3':'#16A34A','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#2563EB'} },
+    { id:'academic',   ja:'アカデミック',     vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#065F46','--c4':'#78350F','--c5':'#3730A3','--c6':'#831843','--impact':'#1E3A8A'} },
+    { id:'science',    ja:'サイエンス',       vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#059669','--c5':'#DB2777','--c6':'#EA580C','--impact':'#0891B2'} },
+    { id:'corporate',  ja:'コーポレート',     vars:{'--c1':'#1D4ED8','--c2':'#0F766E','--c3':'#4338CA','--c4':'#0E7490','--c5':'#1E3A8A','--c6':'#0369A1','--impact':'#1D4ED8'} },
+    { id:'executive',  ja:'エグゼクティブ',   vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#78350F','--impact':'#7F1D1D'} },
+    { id:'growth',     ja:'成長',            vars:{'--c1':'#16A34A','--c2':'#059669','--c3':'#4D7C0F','--c4':'#0D9488','--c5':'#15803D','--c6':'#65A30D','--impact':'#15803D'} },
+    { id:'positive',   ja:'ポジティブ',       vars:{'--c1':'#EA580C','--c2':'#16A34A','--c3':'#2563EB','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#EA580C'} },
+    { id:'nature',     ja:'自然・グリーン',   vars:{'--c1':'#16A34A','--c2':'#0D9488','--c3':'#4D7C0F','--c4':'#059669','--c5':'#65A30D','--c6':'#15803D','--impact':'#15803D'} },
+    { id:'ocean',      ja:'海洋',            vars:{'--c1':'#0891B2','--c2':'#0E7490','--c3':'#2563EB','--c4':'#0369A1','--c5':'#0D9488','--c6':'#1D4ED8','--impact':'#0E7490'} },
+    { id:'bio',        ja:'生き物・生命',     vars:{'--c1':'#16A34A','--c2':'#EA580C','--c3':'#2563EB','--c4':'#CA8A04','--c5':'#7C3AED','--c6':'#0D9488','--impact':'#16A34A'} },
+    { id:'community',  ja:'人・コミュニティ',  vars:{'--c1':'#EA580C','--c2':'#DB2777','--c3':'#2563EB','--c4':'#16A34A','--c5':'#7C3AED','--c6':'#CA8A04','--impact':'#DB2777'} },
+    { id:'art',        ja:'アート・クリエイティブ', vars:{'--c1':'#E11D48','--c2':'#7C3AED','--c3':'#2563EB','--c4':'#EA580C','--c5':'#16A34A','--c6':'#DB2777','--impact':'#E11D48'} },
+    { id:'retro',      ja:'レトロ',          vars:{'--c1':'#B45309','--c2':'#C2410C','--c3':'#A16207','--c4':'#15803D','--c5':'#9D174D','--c6':'#1E3A8A','--impact':'#9D174D'} },
+    { id:'cinematic',  ja:'シネマティック',   vars:{'--c1':'#7F1D1D','--c2':'#1E3A8A','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#831843','--impact':'#7F1D1D'} },
+    { id:'fantasy',    ja:'幻想的',          vars:{'--c1':'#7C3AED','--c2':'#C026D3','--c3':'#2563EB','--c4':'#DB2777','--c5':'#6D28D9','--c6':'#0891B2','--impact':'#7C3AED'} },
+    { id:'love',       ja:'愛',             vars:{'--c1':'#E11D48','--c2':'#DB2777','--c3':'#BE185D','--c4':'#EC4899','--c5':'#9D174D','--c6':'#DC2626','--impact':'#E11D48'} }
+  ];
+  let palIdx = 0;
+  const palToast = document.getElementById('pal-toast');
+  function applyPalette(i) {
+    palIdx = (i % PALETTES.length + PALETTES.length) % PALETTES.length;
+    const p = PALETTES[palIdx];
+    for (const k in p.vars) document.documentElement.style.setProperty(k, p.vars[k]);
+    palToast.innerHTML = '<span class="sw" style="background:' + p.vars['--c6'] + '"></span>パレット: ' + p.ja +
+      ' <span style="color:var(--muted);font-weight:400">(' + (palIdx+1) + '/' + PALETTES.length + ')</span>';
+    palToast.classList.add('show');
+    clearTimeout(applyPalette._t);
+    applyPalette._t = setTimeout(() => palToast.classList.remove('show'), 1400);
+  }
+  function cyclePalette() { applyPalette(palIdx + 1); }
+
+  function toggleSidebar() {
+    document.body.classList.toggle('no-sidebar');
+    Reveal.layout();
+  }
+
+  const params = new URLSearchParams(location.search);
+  if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
+  if (['black','white','gray'].includes(params.get('theme'))) setTheme(params.get('theme'));
+  if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
+  const pQ = params.get('palette');
+  if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }
+
+  /* ---------- サイドバー目次 (data-section-ja / -en を持つスライドから生成) ---------- */
+  const allSlides = Array.from(document.querySelectorAll('.slides section'));
+  const tocEl = document.getElementById('toc');
+  const entries = [];
+  allSlides.forEach((sec) => {
+    if (sec.dataset.sectionJa || sec.dataset.sectionEn) {
+      const li = document.createElement('li');
+      const meta = sec.dataset.meta ? '<span class="meta">' + sec.dataset.meta + '</span>' : '';
+      li.innerHTML = '<span class="lang-ja">' + (sec.dataset.sectionJa || sec.dataset.sectionEn) + '</span>' +
+                     '<span class="lang-en">' + (sec.dataset.sectionEn || sec.dataset.sectionJa) + '</span>' + meta;
+      tocEl.appendChild(li);
+      entries.push({ sec, li });
+    }
+  });
+  function updateChrome(slide) {
+    // サイドバーの現在位置ハイライト
+    const idx = allSlides.indexOf(slide);
+    let current = null;
+    for (const e of entries) { if (allSlides.indexOf(e.sec) <= idx) current = e; }
+    entries.forEach(e => e.li.classList.toggle('active', e === current));
+    // data-chrome="off" のスライドは全画面
+    const off = slide.dataset.chrome === 'off';
+    document.body.classList.toggle('no-chrome', off);
+    Reveal.layout();
+  }
+
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.05,
+    minScale: 0.2,
+    maxScale: 2.0,
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'none',
+    backgroundTransition: 'none',
+    controls: true,
+    progress: true,
+    plugins: [ RevealNotes ],
+    keyboard: {
+      76: toggleLanguage,  // l
+      84: cycleTheme,      // t
+      80: cyclePalette,    // p
+      67: toggleSidebar    // c
+    }
+  });
+
+  function renderMath() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '$$', right: '$$', display: true}
+      ],
+      throwOnError: false
+    });
+  }
+  Reveal.on('ready', (e) => { renderMath(); updateChrome(e.currentSlide); });
+  Reveal.on('slidechanged', (e) => { renderMath(); updateChrome(e.currentSlide); });
+</script>
+</body>
+</html>

@@ -2,287 +2,397 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>Presentation Title — Subtitle</title>
+<title>Presentation Title — Madoka Slides</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
 <style>
+  /* ============================================================
+     PALETTE — デッキごとにここだけ差し替える(ヒアリング→自動生成)
+     mood: ポップ・エネルギッシュ (default)
+     ============================================================ */
   :root {
-    --bg: #0a0a0a;
-    --fg: #f5f5f5;
-    --muted: #a0a0a0;
-    --accent: #ff6b6b;
-    --accent2: #4ec9b0;
-    --soft: #1a1a1a;
-    --warm: #2a2418;
-    --warm-border: #d4a017;
-    --cool: #182230;
-    --cool-border: #4a90d9;
+    /* ポップ・高彩度 (vivid) — 既定ムード */
+    --c1: #F26419;   /* orange */
+    --c2: #1E6FE8;   /* blue   */
+    --c3: #8B2FE0;   /* violet */
+    --c4: #12B36A;   /* green  */
+    --c5: #EF2D3C;   /* red    */
+    --c6: #E84393;   /* pink   */
+    --impact: #D62E86;      /* インパクト全面背景 (高彩度マゼンタ・白文字) */
+    --note-ink: #111111;    /* カラーカード上の文字色 */
   }
+  /* 旧: Apple Notes基準パレット (戻す場合はこちら)
+     --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
+
+  /* ---------- 背景テーマ: black(既定) / white / gray — tキーで切替 ---------- */
+  body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
+  body.theme-white { --bg:#FAFAF8; --fg:#161616; --muted:#71717A; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14); }
+  body.theme-gray  { --bg:#232327; --fg:#F0F0F0; --muted:#A2A2AA; --card:#2C2C31; --border:#3B3B42; --chrome:#1C1C20; --shadow:rgba(0,0,0,.35); }
+
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
-  .reveal { font-size: 30px; }
+  .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
   .reveal .slides section { text-align: left; padding: 0; }
-  .reveal .slides section > * { margin-top: 0.5em; margin-bottom: 0.5em; }
-  .reveal h1, .reveal h2, .reveal h3 { color: var(--fg); letter-spacing: -0.01em; text-transform: none;}
-  .reveal h2 { font-size: 1.5em; margin-bottom: 0.4em; margin-top: 0; border-bottom: 3px solid var(--accent); padding-bottom: 0.12em; display: inline-block; }
-  .reveal h3 { font-size: 1.05em; color: var(--muted); font-weight: 400; margin-top: 0; }
-  .reveal .title h1 { font-size: 1.8em; color: var(--accent); }
+  .reveal .slides section > * { margin-top: 1.35em; margin-bottom: 1.35em; }
+  /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
+     これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */
+  .reveal .lang-ja > * + *, .reveal .lang-en > * + * { margin-top: 1.25em; }
+  .reveal .lang-ja > .kicker + h2, .reveal .lang-en > .kicker + h2 { margin-top: 0.15em; }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--fg); font-weight: 900; letter-spacing: -0.02em; text-transform: none; }
+  .reveal h2 { font-size: 1.5em; margin: 0 0 0.6em 0; }
+  .reveal h3 { font-size: 1em; color: var(--muted); font-weight: 500; margin-top: 0; }
+  .reveal .title h1 { font-size: 2.1em; line-height: 1.15; }
   .reveal section.center, .reveal section.center * { text-align: center; }
-  .reveal a { color: var(--accent2); }
+  .reveal a { color: var(--c2); }
   .reveal b, .reveal strong { color: var(--fg); }
-  .tiny { font-size: 0.55em; color: var(--muted); }
+
+  /* アクセント文字色 */
+  .a1{color:var(--c1)} .a2{color:var(--c2)} .a3{color:var(--c3)} .a4{color:var(--c4)} .a5{color:var(--c5)}
+  /* コントラスト保証: 白/グレー背景では淡いアクセント文字を本文色(黒)に落とす */
+  body.theme-white .a1, body.theme-white .a2, body.theme-white .a3, body.theme-white .a4, body.theme-white .a5,
+  body.theme-white .num, body.theme-gray .a1, body.theme-gray .a2, body.theme-gray .a3,
+  body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
+  body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
+
+  .tiny  { font-size: 0.55em; color: var(--muted); }
   .small { font-size: 0.75em; }
-  .takeaway { background: var(--warm); border-left: 5px solid var(--warm-border); padding: 0.5em 1em; border-radius: 3px; color: var(--fg); font-size: 0.9em;}
-  .insight { background: var(--cool); border-left: 5px solid var(--cool-border); padding: 0.5em 1em; border-radius: 3px; color: var(--fg); font-size: 0.9em;}
-  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4em; align-items: start; }
-  .eq-block { background: var(--soft); padding: 0.6em 1em; border-radius: 5px; text-align: center; border: 1px solid #2a2a2a;}
-  .quote { font-style: italic; color: var(--muted); border-left: 3px solid #444; padding-left: 1em; font-size: 0.9em;}
+  .kicker { color: var(--muted); font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
+
+  /* ---------- Notes風カラーカード(付箋) ---------- */
+  /* カラーカード = 一色の深いベタ塗り(不透明)+ 白文字/白アイコン。白がくっきり乗るよう黒を混ぜて濃くする */
+  .note { --nc: var(--c1); background: color-mix(in srgb, var(--nc) 88%, #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: #fff; }
+  .note h4 { color: #fff; font-size: 0.8em; font-weight: 800; margin: 0 0 0.5em 0; }
+  .note p  { color: #fff; font-size: 0.62em; font-weight: 600; margin: 0; line-height: 1.65; }
+  .note .picto { color: #fff; }
+  .n1{--nc:var(--c1)} .n2{--nc:var(--c2)} .n3{--nc:var(--c3)} .n4{--nc:var(--c4)} .n5{--nc:var(--c5)} .n6{--nc:var(--c6)}
+
+  /* ---------- ダークセル(ベント) ---------- */
+  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
+  .cell h4 { font-size: 0.8em; margin: 0 0 0.45em 0; }
+  .cell p  { font-size: 0.62em; font-weight: 500; margin: 0; color: var(--fg); line-height: 1.6; }
+
+  .bento  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5em; align-items: stretch; }
+  .bento2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5em; align-items: stretch; }
+  .wide   { grid-column: span 2; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; align-items: start; }
+
+  /* 巨大数字 */
+  .big  { font-size: 2.3em; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; }
+
+  /* ---------- ピクトグラム(黒地に白 / currentColorで自動反転) ---------- */
+  .picto { width: 1.7em; height: 1.7em; display: inline-block; vertical-align: middle; }
+  .picto svg, svg.picto { stroke: currentColor; fill: none; stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
+  .picto-lg { width: 2.15em; height: 2.15em; }
+
+  /* ---------- フロー図 ---------- */
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
+  .flow .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 0.65em 0.5em; }
+  .flow .step h4 { font-size: 0.72em; margin: 0.3em 0 0.15em 0; }
+  .flow .step p { font-size: 0.55em; color: var(--fg); margin: 0; }
+  .flow .arrow { color: var(--muted); font-size: 1.1em; }
+
+  /* ---------- インパクトスライド ---------- */
+  section.impact h1 { color: #fff; font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
+  section.impact p  { color: rgba(255,255,255,0.9); }
+
+  /* ---------- 既存互換パーツ ---------- */
+  /* 意味のない座布団ボックスは禁止。持ち帰り/気づきは枠なしのテキストで、余白と字間だけで整理する */
+  .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
+  .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
+  .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+  .label { display: inline-block; background: var(--c1); color: #fff; font-size: 0.5em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
   .reveal ul li, .reveal ol li { margin: 0.25em 0; }
-  .label { display: inline-block; background: var(--accent); color: #0a0a0a; font-size: 0.55em; padding: 0.15em 0.6em; border-radius: 10px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 700;}
-  .nav-hint { position: fixed; bottom: 8px; right: 12px; font-size: 11px; color: #555; z-index: 100; }
-  .lang-badge { position: fixed; bottom: 8px; left: 12px; font-size: 11px; color: #888; z-index: 100; letter-spacing: 0.1em; font-weight: 700; }
+  .reveal ul { font-size: 0.9em; }
+
+  table.compare { border-collapse: collapse; font-size: 0.75em; margin-top: 0.4em; color: var(--fg); }
+  table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 16px; text-align: left; }
+  table.compare th { background: var(--card); }
+
+  .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 24px var(--shadow); }
+  .fig-card img { display: block; max-width: 100%; max-height: 360px; border-radius: 6px; }
+  .fig-row { text-align: center; }
+  .fig-caption { font-size: 0.6em; color: var(--muted); margin-top: 0.7em; }
+
+  .reveal .katex { color: var(--fg); }
+  .reveal kbd { background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
+  .num { color: var(--c1); font-weight: 800; }
+
+  /* ============================================================
+     Notes風アプリ・クローム(上バー + サイドバー目次)
+     ============================================================ */
+  #chrome { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 44px; background: var(--chrome); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+  .tl { width: 12px; height: 12px; border-radius: 50%; }
+  .tl-r { background:#FF5F57; } .tl-y { background:#FEBC2E; } .tl-g { background:#28C840; }
+  #topbar .tools { margin-left: auto; color: var(--muted); font-size: 13px; letter-spacing: 0.35em; }
+  #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 1px solid var(--border); padding: 14px 12px; box-sizing: border-box; }
+  #sidebar .side-title { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin: 2px 4px 10px 4px; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #sidebar ul { list-style: none; margin: 0; padding: 0; }
+  #sidebar li { color: var(--fg); background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
+  #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
+  #sidebar li.active { background: var(--c5); border-color: var(--c5); color: #fff; }
+  #sidebar li.active .meta { color: rgba(255,255,255,0.8); }
+
+  .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
+  body.no-chrome #chrome { display: none; }
+  body.no-chrome .reveal { inset: 0; }
+  body.no-sidebar #sidebar { display: none; }
+  body.no-sidebar .reveal { left: 0; }
+
+  .nav-hint { position: fixed; bottom: 8px; right: 12px; font-size: 11px; color: var(--muted); z-index: 100; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #pal-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 120;
+    background: var(--card); border: 1px solid var(--border); color: var(--fg); font-family: 'Inter','Zen Kaku Gothic New',sans-serif;
+    font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  #pal-toast .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px -1px 0; }
+  #pal-toast.show { opacity: 1; }
+  .lang-badge { position: fixed; top: 14px; right: 14px; font-size: 11px; color: var(--muted); z-index: 100; letter-spacing: 0.1em; font-weight: 700; font-family: Inter, sans-serif; }
   .lang-badge::before { content: 'JA'; }
   body.lang-en .lang-badge::before { content: 'EN'; }
   body.lang-ja .lang-en { display: none; }
   body.lang-en .lang-ja { display: none; }
-  table.compare { border-collapse: collapse; font-size: 0.82em; margin-top: 0.4em; color: var(--fg);}
-  table.compare th, table.compare td { border: 1px solid #333; padding: 7px 14px; text-align: left;}
-  table.compare th { background: var(--soft);}
-  .ex-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5em; text-align: center; font-size: 0.8em;}
-  .ex-grid .cell { background: var(--soft); padding: 0.4em; border-radius: 3px; border: 1px solid #2a2a2a;}
-  .fig-card { background: #fff; padding: 10px; border-radius: 5px; display: inline-block; box-shadow: 0 4px 16px rgba(0,0,0,0.5);}
-  .fig-card img { display: block; max-width: 100%; max-height: 600px;}
-  .fig-row { text-align: center;}
-  .fig-caption { font-size: 0.65em; color: var(--muted); margin-top: 0.3em; font-style: italic;}
-  .reveal .katex { color: var(--fg); }
-  .reveal kbd { background: #222; color: var(--fg); padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.85em;}
-  .num { color: var(--accent); font-weight: bold; }
-  .progress-step { color: var(--muted); font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3em;}
+
+  /* PDFエクスポート時はクロームを外して全面に */
+  html.print-pdf #chrome, html.print-pdf .nav-hint, html.print-pdf .lang-badge { display: none; }
+  html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
 </style>
 </head>
-<body class="lang-ja">
+<body class="lang-ja theme-black">
 
-<div class="nav-hint">← → ↑ ↓ &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> fullscreen &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+<div id="chrome">
+  <div id="topbar">
+    <span class="tl tl-r"></span><span class="tl tl-y"></span><span class="tl tl-g"></span>
+    <span class="tools">Aa &nbsp;☰ &nbsp;⊞ &nbsp;⌂</span>
+  </div>
+  <div id="sidebar">
+    <div class="side-title">Contents</div>
+    <ul id="toc"></ul>
+  </div>
+</div>
+
+<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>p</kbd> palette &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
 <div class="lang-badge"></div>
+<div id="pal-toast"></div>
 
 <div class="reveal"><div class="slides">
 
 <!-- =================== 1. TITLE =================== -->
-<section class="center title">
+<section class="center title" data-section-ja="タイトル" data-section-en="Title">
   <div class="lang-ja">
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
-    <p style="margin-top:1em;"><b>著者名</b><br>
-    <span class="small" style="color: var(--muted);">会場 / コース名 ・ 年</span></p>
-    <p style="margin-top:2em;" class="small" style="color: var(--muted);">発表者名</p>
-    <p class="tiny" style="margin-top:2.5em;">移動: 矢印キー · <kbd>l</kbd> で日英切替 · <kbd>s</kbd> でスピーカーノート</p>
+    <p style="margin-top:1.2em;"><b>まどか</b><br>
+    <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/白/グレー · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
-    <h1>Presentation Title<br>Goes Here</h1>
-    <p style="margin-top:1em;"><b>Author Name</b><br>
-    <span class="small" style="color: var(--muted);">Venue / Course · Year</span></p>
-    <p style="margin-top:2em;" class="small" style="color: var(--muted);">Presenter Name</p>
-    <p class="tiny" style="margin-top:2.5em;">Navigate: arrow keys · <kbd>l</kbd> toggles JA/EN · <kbd>s</kbd> opens speaker notes</p>
+    <h1>Presentation Title<br>Subtitle</h1>
+    <p style="margin-top:1.2em;"><b>Madoka</b><br>
+    <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/white/gray · <kbd>s</kbd> notes</p>
   </div>
-
   <aside class="notes">
-  <div class="lang-ja">
-  タイトルスライドのスピーカーノート。<kbd>s</kbd> でノート用ウィンドウが開く。
-  </div>
-  <div class="lang-en">
-  Speaker notes for the title slide. Press <kbd>s</kbd> to open the notes window.
-  </div>
+    <div class="lang-ja">タイトルのスピーカーノート。</div>
+    <div class="lang-en">Speaker notes for the title slide.</div>
   </aside>
 </section>
 
-<!-- =================== 2. BASIC SLIDE: lists + takeaway + insight =================== -->
-<section>
+<!-- =================== 2. NOTES風カラーカード =================== -->
+<section data-section-ja="概要" data-section-en="Overview">
   <div class="lang-ja">
-    <div class="progress-step">1 / 4 · セクション名</div>
-    <h2>主要コンポーネントを並べたスライド</h2>
-
-    <p>本文はデフォルトサイズで表示する。補足には <code>.small</code> や <code>.tiny</code> を使う。</p>
-
-    <ul>
-      <li>箇条書き 1 — <code>style="color: var(--accent2)"</code> でアクセント色</li>
-      <li>箇条書き 2 — <b>太字</b> は前景色で描画される</li>
-      <li>箇条書き 3 — インライン数式 \(p(h \mid X)\) は KaTeX で描画</li>
-    </ul>
-
-    <div class="takeaway"><b>持ち帰りボックス</b> — 暖色系。聴衆に持ち帰ってほしい主張に使う。</div>
-
-    <div class="insight"><b>気づきボックス</b> — 寒色系。補足の観察や「鍵となる仕組み」に使う。</div>
+    <div class="kicker">1 / 4 · 概要</div>
+    <h2>付箋カードで<span class="a1">要点だけ</span>見せる</h2>
+    <div class="bento2">
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="38" r="16"/><path d="M42 60h12M42 68h12"/><path d="M48 10v6M76 38h-6M26 38h-6M67 19l-4 4M29 19l4 4"/></svg></span>
+        <h4>アイデア</h4>
+        <p>1カード1メッセージ。説明は口頭で。</p>
+      </div>
+      <div class="note n2">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="30"/><circle cx="48" cy="48" r="16"/><circle cx="48" cy="48" r="3"/></svg></span>
+        <h4>ゴール</h4>
+        <p>このデッキで達成したいこと。</p>
+      </div>
+      <div class="note n3">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M24 24v48h48"/><path d="M36 72V56M50 72V42M64 72V30"/></svg></span>
+        <h4>データ</h4>
+        <p>数字は次のスライドで大きく。</p>
+      </div>
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="34" cy="36" r="10"/><circle cx="62" cy="36" r="10"/><path d="M20 70a14 14 0 0 1 28 0M48 70a14 14 0 0 1 28 0"/></svg></span>
+        <h4>チーム</h4>
+        <p>誰と進めるか。</p>
+      </div>
+    </div>
   </div>
   <div class="lang-en">
-    <div class="progress-step">1 / 4 · Section name</div>
-    <h2>A slide with the main components</h2>
-
-    <p>Body text uses the default size. Use <code>.small</code> or <code>.tiny</code> for secondary content.</p>
-
-    <ul>
-      <li>Bullet one — accent color via <code>style="color: var(--accent2)"</code></li>
-      <li>Bullet two — <b>bold</b> renders in the foreground color</li>
-      <li>Bullet three — math inline like \(p(h \mid X)\) via KaTeX</li>
-    </ul>
-
-    <div class="takeaway"><b>Takeaway box</b> — warm-toned, for the main message you want the audience to walk away with.</div>
-
-    <div class="insight"><b>Insight box</b> — cool-toned, for a subtler observation or "key mechanism" callout.</div>
+    <div class="kicker">1 / 4 · Overview</div>
+    <h2>Sticky-note cards show <span class="a1">only the essentials</span></h2>
+    <div class="bento2">
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="38" r="16"/><path d="M42 60h12M42 68h12"/><path d="M48 10v6M76 38h-6M26 38h-6M67 19l-4 4M29 19l4 4"/></svg></span>
+        <h4>Idea</h4>
+        <p>One message per card. Explain the rest aloud.</p>
+      </div>
+      <div class="note n2">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="30"/><circle cx="48" cy="48" r="16"/><circle cx="48" cy="48" r="3"/></svg></span>
+        <h4>Goal</h4>
+        <p>What this deck should achieve.</p>
+      </div>
+      <div class="note n3">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M24 24v48h48"/><path d="M36 72V56M50 72V42M64 72V30"/></svg></span>
+        <h4>Data</h4>
+        <p>Numbers go big on the next slide.</p>
+      </div>
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="34" cy="36" r="10"/><circle cx="62" cy="36" r="10"/><path d="M20 70a14 14 0 0 1 28 0M48 70a14 14 0 0 1 28 0"/></svg></span>
+        <h4>Team</h4>
+        <p>Who drives it.</p>
+      </div>
+    </div>
   </div>
-
   <aside class="notes">
-  <div class="lang-ja">
-  ノートは <code>&lt;aside class="notes"&gt;</code> 内に書く。ノート・ウィンドウのみに表示され、本スライドには出ない。
-  </div>
-  <div class="lang-en">
-  Notes are written inside <code>&lt;aside class="notes"&gt;</code>. They appear in
-  the speaker-notes window but not on the main slide.
-  </div>
+    <div class="lang-ja">カードの色は n1〜n5。文字を詰め込まず、口頭で補足する。</div>
+    <div class="lang-en">Card colors are n1–n5. Keep text sparse; elaborate verbally.</div>
   </aside>
 </section>
 
-<!-- =================== 3. TWO-COLUMN LAYOUT =================== -->
-<section>
+<!-- =================== 3. BIG NUMBERS =================== -->
+<section data-section-ja="数字で見る" data-section-en="By the numbers">
   <div class="lang-ja">
-    <h2>2 カラムレイアウト</h2>
+    <div class="kicker">2 / 4 · 数字で見る</div>
+    <h2>数字は<span class="a2">大きく</span>見せる</h2>
+    <div class="bento">
+      <div class="cell"><div class="big a1">45%</div><p>説明はこの一行だけに抑える</p></div>
+      <div class="cell"><div class="big a2">3.2<span style="font-size:0.5em">倍</span></div><p>単位は小さく添える</p></div>
+      <div class="cell"><div class="big a4">120<span style="font-size:0.5em">人</span></div><p>根拠はノートか口頭で</p></div>
+    </div>
+    <div class="takeaway"><b>持ち帰り</b> — 一番伝えたい数字を1つ選び、それだけ喋る。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">2 / 4 · By the numbers</div>
+    <h2>Make the numbers <span class="a2">big</span></h2>
+    <div class="bento">
+      <div class="cell"><div class="big a1">45%</div><p>Keep the caption to one line</p></div>
+      <div class="cell"><div class="big a2">3.2<span style="font-size:0.5em">x</span></div><p>Units stay small</p></div>
+      <div class="cell"><div class="big a4">120</div><p>Evidence lives in the notes</p></div>
+    </div>
+    <div class="takeaway"><b>Takeaway</b> — pick the one number that matters and talk about that.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">.big + .a1〜.a5 で色付き巨大数字。</div>
+    <div class="lang-en">.big + .a1–.a5 for colored huge numbers.</div>
+  </aside>
+</section>
 
+<!-- =================== 4. FLOW (ピクトグラム) =================== -->
+<section data-section-ja="プロセス" data-section-en="Process">
+  <div class="lang-ja">
+    <div class="kicker">3 / 4 · プロセス</div>
+    <h2>流れは図で<span class="a3">見せる</span></h2>
+    <div class="flow">
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="22"/><path d="M58 58l18 18"/></svg></span>
+        <h4>1. ヒアリング</h4><p>テーマとムード</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><rect x="18" y="18" width="26" height="26" rx="6"/><rect x="52" y="18" width="26" height="26" rx="6"/><rect x="18" y="52" width="26" height="26" rx="6"/><rect x="52" y="52" width="26" height="26" rx="6"/></svg></span>
+        <h4>2. パレット生成</h4><p>5色 + 背景</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M48 14c10 12 12 30 6 46H42c-6-16-4-34 6-46Z"/><circle cx="48" cy="38" r="6"/><path d="M42 60 34 74M54 60l8 14"/></svg></span>
+        <h4>3. スライド化</h4><p>日英ペアで作成</p>
+      </div>
+    </div>
+    <div class="insight"><b>ルール</b> — 文字だけのスライドは作らない。必ず図・カード・数字のどれかを入れる。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">3 / 4 · Process</div>
+    <h2>Show flows as <span class="a3">diagrams</span></h2>
+    <div class="flow">
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><circle cx="42" cy="42" r="22"/><path d="M58 58l18 18"/></svg></span>
+        <h4>1. Hearing</h4><p>Theme &amp; mood</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><rect x="18" y="18" width="26" height="26" rx="6"/><rect x="52" y="18" width="26" height="26" rx="6"/><rect x="18" y="52" width="26" height="26" rx="6"/><rect x="52" y="52" width="26" height="26" rx="6"/></svg></span>
+        <h4>2. Palette</h4><p>5 colors + bg</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M48 14c10 12 12 30 6 46H42c-6-16-4-34 6-46Z"/><circle cx="48" cy="38" r="6"/><path d="M42 60 34 74M54 60l8 14"/></svg></span>
+        <h4>3. Slides</h4><p>Built as JA/EN pairs</p>
+      </div>
+    </div>
+    <div class="insight"><b>Rule</b> — no text-only slides. Every slide gets a diagram, cards, or a number.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">ピクトグラムはstroke=currentColorのインラインSVG。黒地では白になる。</div>
+    <div class="lang-en">Pictograms are inline SVGs with stroke=currentColor; white on dark themes.</div>
+  </aside>
+</section>
+
+<!-- =================== 5. IMPACT (全面アクセント背景) =================== -->
+<section class="impact center" data-background-color="#D62E86" data-chrome="off">
+  <div class="lang-ja">
+    <h1>言い切りたい一文は、<br>背景ごと塗る。</h1>
+    <p class="small">インパクトスライド — 1デッキに1〜2枚まで</p>
+  </div>
+  <div class="lang-en">
+    <h1>When one sentence matters,<br>paint the whole slide.</h1>
+    <p class="small">Impact slide — at most one or two per deck</p>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">data-background-color で全面色。data-chrome="off" でサイドバーを消して全画面に。</div>
+    <div class="lang-en">Full-bleed color via data-background-color; data-chrome="off" hides the app chrome.</div>
+  </aside>
+</section>
+
+<!-- =================== 6. FIGURE + TABLE =================== -->
+<section data-section-ja="図と表" data-section-en="Figures">
+  <div class="lang-ja">
+    <div class="kicker">4 / 4 · 図と表</div>
+    <h2>図は<span class="a4">白カード</span>、比較は表で</h2>
     <div class="twocol">
-      <div>
-        <h3>左カラム</h3>
-        <p class="small"><code>.twocol</code> で 2 等分する。比較や対比に向く。</p>
-        <ul class="small">
-          <li>ポイント A</li>
-          <li>ポイント B</li>
-        </ul>
+      <div class="fig-row">
+        <div class="fig-card" style="max-width:92%;">
+          <img src="figs/sample.svg" alt="サンプル図">
+          <div class="fig-caption">figs/ に置いて差し替える</div>
+        </div>
       </div>
-      <div>
-        <h3>右カラム</h3>
-        <p class="small"><code>.twocol</code> の各子要素が 1 カラムになる。中身は独立に折り返す。</p>
-        <ul class="small">
-          <li>反対意見 A</li>
-          <li>反対意見 B</li>
-        </ul>
-      </div>
+      <table class="compare">
+        <tr><th></th><th>従来</th><th>提案</th></tr>
+        <tr><td>速度</td><td>1x</td><td><span class="num">3.2x</span></td></tr>
+        <tr><td>コスト</td><td>高</td><td><b>低</b></td></tr>
+        <tr><td>手間</td><td>手動</td><td><b>自動</b></td></tr>
+      </table>
     </div>
   </div>
   <div class="lang-en">
-    <h2>Two-column layout</h2>
-
+    <div class="kicker">4 / 4 · Figures</div>
+    <h2>Figures on a <span class="a4">white card</span>, comparisons in tables</h2>
     <div class="twocol">
-      <div>
-        <h3>Left column</h3>
-        <p class="small">Use <code>.twocol</code> to split content into two equal columns. Good for compare-and-contrast.</p>
-        <ul class="small">
-          <li>Point A</li>
-          <li>Point B</li>
-        </ul>
+      <div class="fig-row">
+        <div class="fig-card" style="max-width:92%;">
+          <img src="figs/sample.svg" alt="Sample figure">
+          <div class="fig-caption">Drop figures into figs/</div>
+        </div>
       </div>
-      <div>
-        <h3>Right column</h3>
-        <p class="small">Each child of <code>.twocol</code> becomes a column. Columns wrap independently.</p>
-        <ul class="small">
-          <li>Counterpoint A</li>
-          <li>Counterpoint B</li>
-        </ul>
-      </div>
+      <table class="compare">
+        <tr><th></th><th>Before</th><th>Proposed</th></tr>
+        <tr><td>Speed</td><td>1x</td><td><span class="num">3.2x</span></td></tr>
+        <tr><td>Cost</td><td>High</td><td><b>Low</b></td></tr>
+        <tr><td>Effort</td><td>Manual</td><td><b>Auto</b></td></tr>
+      </table>
     </div>
   </div>
-
   <aside class="notes">
-  <div class="lang-ja">
-  「before / after」「モデル / データ」など、二項の対比に向くレイアウト。
-  </div>
-  <div class="lang-en">
-  Two-column slides are great for "before vs after," "model vs data," or any binary contrast.
-  </div>
-  </aside>
-</section>
-
-<!-- =================== 4. EQUATION + TABLE =================== -->
-<section>
-  <div class="lang-ja">
-    <h2>数式と表 <span class="label">KEY</span></h2>
-
-    <p class="small">ディスプレイ数式は <code>.eq-block</code> に入れる:</p>
-
-    <div class="eq-block" style="font-size: 1.15em;">
-      \[ p(h \mid X) \;\propto\; \underbrace{p(X \mid h)}_{\text{尤度}}\; \underbrace{p(h)}_{\text{事前}} \]
-    </div>
-
-    <p class="small">比較表は <code>table.compare</code>:</p>
-
-    <table class="compare">
-      <tr><th>条件</th><th>効果</th></tr>
-      <tr><td>例 1 件</td><td>4×  &nbsp; <span style="color:var(--muted);">弱い</span></td></tr>
-      <tr><td>例 3 件</td><td>65×  &nbsp; <span style="color:var(--accent);">決定的</span></td></tr>
-    </table>
-  </div>
-  <div class="lang-en">
-    <h2>Equations and tables <span class="label">KEY</span></h2>
-
-    <p class="small">Display math goes in <code>.eq-block</code>:</p>
-
-    <div class="eq-block" style="font-size: 1.15em;">
-      \[ p(h \mid X) \;\propto\; \underbrace{p(X \mid h)}_{\text{likelihood}}\; \underbrace{p(h)}_{\text{prior}} \]
-    </div>
-
-    <p class="small">Comparison tables use <code>table.compare</code>:</p>
-
-    <table class="compare">
-      <tr><th>Condition</th><th>Effect</th></tr>
-      <tr><td>One example</td><td>4×  &nbsp; <span style="color:var(--muted);">mild</span></td></tr>
-      <tr><td>Three examples</td><td>65×  &nbsp; <span style="color:var(--accent);">decisive</span></td></tr>
-    </table>
-  </div>
-
-  <aside class="notes">
-  <div class="lang-ja">
-  KaTeX はインライン \(...\) とディスプレイ \[...\] の両方を描画する。<code>.label</code> ピル (<span class="label">KEY</span>) は中核スライドの目印に。
-  </div>
-  <div class="lang-en">
-  KaTeX renders both inline \(...\) and display \[...\] math. The <code>.label</code>
-  pill (<span class="label">KEY</span>) is for tagging the central slides of the talk.
-  </div>
-  </aside>
-</section>
-
-<!-- =================== 5. FIGURE =================== -->
-<section>
-  <div class="lang-ja">
-    <h2>白カードで図を見せる</h2>
-    <h3>図は <code>figs/</code> に置き、<code>.fig-card</code> で参照する</h3>
-
-    <div class="fig-row">
-      <div class="fig-card" style="max-width: 60%;">
-        <img src="figs/sample.svg" alt="サンプル図のプレースホルダ">
-        <div class="fig-caption">figs/sample.svg を差し替える。白カードがダーク背景の図を綺麗に縁取る。</div>
-      </div>
-    </div>
-
-    <div class="takeaway">Tip: PNG / SVG どちらも可。論文からの引用図はキャプションに出典を明記する。</div>
-  </div>
-  <div class="lang-en">
-    <h2>Figures with the white card</h2>
-    <h3>Drop your figure into <code>figs/</code> and reference it from <code>.fig-card</code></h3>
-
-    <div class="fig-row">
-      <div class="fig-card" style="max-width: 60%;">
-        <img src="figs/sample.svg" alt="Sample figure placeholder">
-        <div class="fig-caption">Replace figs/sample.svg with your figure. The white card frames dark figures cleanly.</div>
-      </div>
-    </div>
-
-    <div class="takeaway">Tip: PNG/SVG both work. For research figures pulled from papers, cite them in the caption.</div>
-  </div>
-
-  <aside class="notes">
-  <div class="lang-ja">
-  白カードで縁取るとダークテーマでも図が映える。キャプションも収めるため最大高さは 500–600 px 程度に。
-  </div>
-  <div class="lang-en">
-  The white-card framing makes figures pop against the dark theme. Keep the
-  max-height around 500-600px so captions still fit.
-  </div>
+    <div class="lang-ja">数式は KaTeX: \(p(h \mid X)\)。</div>
+    <div class="lang-en">Math via KaTeX: \(p(h \mid X)\).</div>
   </aside>
 </section>
 
@@ -293,23 +403,108 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
+  /* ---------- 言語切替 ---------- */
   function setLanguage(lang) {
-    const body = document.body;
-    body.classList.remove('lang-ja', 'lang-en');
-    body.classList.add(lang === 'en' ? 'lang-en' : 'lang-ja');
+    document.body.classList.remove('lang-ja', 'lang-en');
+    document.body.classList.add(lang === 'en' ? 'lang-en' : 'lang-ja');
     document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
   }
   function toggleLanguage() {
     setLanguage(document.body.classList.contains('lang-en') ? 'ja' : 'en');
   }
 
-  const urlLang = new URLSearchParams(location.search).get('lang');
-  if (urlLang === 'en' || urlLang === 'ja') setLanguage(urlLang);
+  /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
+  const THEMES = ['theme-black', 'theme-white', 'theme-gray'];
+  function setTheme(name) {
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
+  }
+  function cycleTheme() {
+    const i = THEMES.findIndex(t => document.body.classList.contains(t));
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES[(i + 1) % THEMES.length]);
+  }
+
+  /* ---------- カラーパレット切替 (pキー) ---------- */
+  const PALETTES=[
+    { id:'pop',        ja:'ポップ',          vars:{'--c1':'#F26419','--c2':'#1E6FE8','--c3':'#8B2FE0','--c4':'#12B36A','--c5':'#EF2D3C','--c6':'#E84393','--impact':'#D62E86'} },
+    { id:'tech',       ja:'テック',          vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#0D9488','--c5':'#4F46E5','--c6':'#C026D3','--impact':'#2563EB'} },
+    { id:'ai',         ja:'AI',             vars:{'--c1':'#6D28D9','--c2':'#2563EB','--c3':'#0891B2','--c4':'#DB2777','--c5':'#4F46E5','--c6':'#0D9488','--impact':'#6D28D9'} },
+    { id:'cyberpunk',  ja:'サイバーパンク',   vars:{'--c1':'#D6006E','--c2':'#7C3AED','--c3':'#0891B2','--c4':'#C026D3','--c5':'#2563EB','--c6':'#DB2777','--impact':'#D6006E'} },
+    { id:'minimal',    ja:'ミニマル',        vars:{'--c1':'#1D4ED8','--c2':'#2563EB','--c3':'#4338CA','--c4':'#0E7490','--c5':'#3730A3','--c6':'#0891B2','--impact':'#1D4ED8'} },
+    { id:'education',  ja:'教育',            vars:{'--c1':'#EA580C','--c2':'#2563EB','--c3':'#16A34A','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#2563EB'} },
+    { id:'academic',   ja:'アカデミック',     vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#065F46','--c4':'#78350F','--c5':'#3730A3','--c6':'#831843','--impact':'#1E3A8A'} },
+    { id:'science',    ja:'サイエンス',       vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#059669','--c5':'#DB2777','--c6':'#EA580C','--impact':'#0891B2'} },
+    { id:'corporate',  ja:'コーポレート',     vars:{'--c1':'#1D4ED8','--c2':'#0F766E','--c3':'#4338CA','--c4':'#0E7490','--c5':'#1E3A8A','--c6':'#0369A1','--impact':'#1D4ED8'} },
+    { id:'executive',  ja:'エグゼクティブ',   vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#78350F','--impact':'#7F1D1D'} },
+    { id:'growth',     ja:'成長',            vars:{'--c1':'#16A34A','--c2':'#059669','--c3':'#4D7C0F','--c4':'#0D9488','--c5':'#15803D','--c6':'#65A30D','--impact':'#15803D'} },
+    { id:'positive',   ja:'ポジティブ',       vars:{'--c1':'#EA580C','--c2':'#16A34A','--c3':'#2563EB','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#EA580C'} },
+    { id:'nature',     ja:'自然・グリーン',   vars:{'--c1':'#16A34A','--c2':'#0D9488','--c3':'#4D7C0F','--c4':'#059669','--c5':'#65A30D','--c6':'#15803D','--impact':'#15803D'} },
+    { id:'ocean',      ja:'海洋',            vars:{'--c1':'#0891B2','--c2':'#0E7490','--c3':'#2563EB','--c4':'#0369A1','--c5':'#0D9488','--c6':'#1D4ED8','--impact':'#0E7490'} },
+    { id:'bio',        ja:'生き物・生命',     vars:{'--c1':'#16A34A','--c2':'#EA580C','--c3':'#2563EB','--c4':'#CA8A04','--c5':'#7C3AED','--c6':'#0D9488','--impact':'#16A34A'} },
+    { id:'community',  ja:'人・コミュニティ',  vars:{'--c1':'#EA580C','--c2':'#DB2777','--c3':'#2563EB','--c4':'#16A34A','--c5':'#7C3AED','--c6':'#CA8A04','--impact':'#DB2777'} },
+    { id:'art',        ja:'アート・クリエイティブ', vars:{'--c1':'#E11D48','--c2':'#7C3AED','--c3':'#2563EB','--c4':'#EA580C','--c5':'#16A34A','--c6':'#DB2777','--impact':'#E11D48'} },
+    { id:'retro',      ja:'レトロ',          vars:{'--c1':'#B45309','--c2':'#C2410C','--c3':'#A16207','--c4':'#15803D','--c5':'#9D174D','--c6':'#1E3A8A','--impact':'#9D174D'} },
+    { id:'cinematic',  ja:'シネマティック',   vars:{'--c1':'#7F1D1D','--c2':'#1E3A8A','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#831843','--impact':'#7F1D1D'} },
+    { id:'fantasy',    ja:'幻想的',          vars:{'--c1':'#7C3AED','--c2':'#C026D3','--c3':'#2563EB','--c4':'#DB2777','--c5':'#6D28D9','--c6':'#0891B2','--impact':'#7C3AED'} },
+    { id:'love',       ja:'愛',             vars:{'--c1':'#E11D48','--c2':'#DB2777','--c3':'#BE185D','--c4':'#EC4899','--c5':'#9D174D','--c6':'#DC2626','--impact':'#E11D48'} }
+  ];
+  let palIdx = 0;
+  const palToast = document.getElementById('pal-toast');
+  function applyPalette(i) {
+    palIdx = (i % PALETTES.length + PALETTES.length) % PALETTES.length;
+    const p = PALETTES[palIdx];
+    for (const k in p.vars) document.documentElement.style.setProperty(k, p.vars[k]);
+    palToast.innerHTML = '<span class="sw" style="background:' + p.vars['--c6'] + '"></span>パレット: ' + p.ja +
+      ' <span style="color:var(--muted);font-weight:400">(' + (palIdx+1) + '/' + PALETTES.length + ')</span>';
+    palToast.classList.add('show');
+    clearTimeout(applyPalette._t);
+    applyPalette._t = setTimeout(() => palToast.classList.remove('show'), 1400);
+  }
+  function cyclePalette() { applyPalette(palIdx + 1); }
+
+  function toggleSidebar() {
+    document.body.classList.toggle('no-sidebar');
+    Reveal.layout();
+  }
+
+  const params = new URLSearchParams(location.search);
+  if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
+  if (['black','white','gray'].includes(params.get('theme'))) setTheme(params.get('theme'));
+  if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
+  const pQ = params.get('palette');
+  if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }
+
+  /* ---------- サイドバー目次 (data-section-ja / -en を持つスライドから生成) ---------- */
+  const allSlides = Array.from(document.querySelectorAll('.slides section'));
+  const tocEl = document.getElementById('toc');
+  const entries = [];
+  allSlides.forEach((sec) => {
+    if (sec.dataset.sectionJa || sec.dataset.sectionEn) {
+      const li = document.createElement('li');
+      const meta = sec.dataset.meta ? '<span class="meta">' + sec.dataset.meta + '</span>' : '';
+      li.innerHTML = '<span class="lang-ja">' + (sec.dataset.sectionJa || sec.dataset.sectionEn) + '</span>' +
+                     '<span class="lang-en">' + (sec.dataset.sectionEn || sec.dataset.sectionJa) + '</span>' + meta;
+      tocEl.appendChild(li);
+      entries.push({ sec, li });
+    }
+  });
+  function updateChrome(slide) {
+    // サイドバーの現在位置ハイライト
+    const idx = allSlides.indexOf(slide);
+    let current = null;
+    for (const e of entries) { if (allSlides.indexOf(e.sec) <= idx) current = e; }
+    entries.forEach(e => e.li.classList.toggle('active', e === current));
+    // data-chrome="off" のスライドは全画面
+    const off = slide.dataset.chrome === 'off';
+    document.body.classList.toggle('no-chrome', off);
+    Reveal.layout();
+  }
 
   Reveal.initialize({
     width: 1280,
-    height: 960,
-    margin: 0.06,
+    height: 720,
+    margin: 0.05,
     minScale: 0.2,
     maxScale: 2.0,
     hash: true,
@@ -320,9 +515,13 @@
     progress: true,
     plugins: [ RevealNotes ],
     keyboard: {
-      76: toggleLanguage   // l: toggle JA/EN
+      76: toggleLanguage,  // l
+      84: cycleTheme,      // t
+      80: cyclePalette,    // p
+      67: toggleSidebar    // c
     }
   });
+
   function renderMath() {
     renderMathInElement(document.body, {
       delimiters: [
@@ -333,8 +532,8 @@
       throwOnError: false
     });
   }
-  Reveal.on('ready', renderMath);
-  Reveal.on('slidechanged', renderMath);
+  Reveal.on('ready', (e) => { renderMath(); updateChrome(e.currentSlide); });
+  Reveal.on('slidechanged', (e) => { renderMath(); updateChrome(e.currentSlide); });
 </script>
 </body>
 </html>
