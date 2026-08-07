@@ -57,22 +57,22 @@
   body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
   body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
 
-  .tiny  { font-size: 0.55em; color: var(--muted); }
-  .small { font-size: 0.75em; }
-  .kicker { color: var(--muted); font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
+  .tiny  { font-size: 0.7em; color: var(--muted); }
+  .small { font-size: 0.95em; }
+  .kicker { color: var(--muted); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
 
   /* ---------- Notes風カラーカード(付箋) ---------- */
   /* カラーカード = 一色の深いベタ塗り(不透明)+ 白文字/白アイコン。白がくっきり乗るよう黒を混ぜて濃くする */
   .note { --nc: var(--c1); background: color-mix(in srgb, var(--nc) 88%, #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: #fff; }
-  .note h4 { color: #fff; font-size: 0.8em; font-weight: 800; margin: 0 0 0.5em 0; }
-  .note p  { color: #fff; font-size: 0.62em; font-weight: 600; margin: 0; line-height: 1.65; }
+  .note h4 { color: #fff; font-size: 0.95em; font-weight: 800; margin: 0 0 0.5em 0; }
+  .note p  { color: #fff; font-size: 0.8em; font-weight: 600; margin: 0; line-height: 1.65; }
   .note .picto { color: #fff; }
   .n1{--nc:var(--c1)} .n2{--nc:var(--c2)} .n3{--nc:var(--c3)} .n4{--nc:var(--c4)} .n5{--nc:var(--c5)} .n6{--nc:var(--c6)}
 
   /* ---------- ダークセル(ベント) ---------- */
   .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
-  .cell h4 { font-size: 0.8em; margin: 0 0 0.45em 0; }
-  .cell p  { font-size: 0.62em; font-weight: 500; margin: 0; color: var(--fg); line-height: 1.6; }
+  .cell h4 { font-size: 0.95em; margin: 0 0 0.45em 0; }
+  .cell p  { font-size: 0.8em; font-weight: 500; margin: 0; color: var(--fg); line-height: 1.6; }
 
   .bento  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5em; align-items: stretch; }
   .bento2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5em; align-items: stretch; }
@@ -90,8 +90,8 @@
   /* ---------- フロー図 ---------- */
   .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
   .flow .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 0.65em 0.5em; }
-  .flow .step h4 { font-size: 0.72em; margin: 0.3em 0 0.15em 0; }
-  .flow .step p { font-size: 0.55em; color: var(--fg); margin: 0; }
+  .flow .step h4 { font-size: 0.9em; margin: 0.3em 0 0.15em 0; }
+  .flow .step p { font-size: 0.7em; color: var(--fg); margin: 0; }
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
 
   /* ---------- インパクトスライド ---------- */
@@ -103,18 +103,18 @@
   .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
   .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
   .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-  .label { display: inline-block; background: var(--c1); color: #fff; font-size: 0.5em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
+  .label { display: inline-block; background: var(--c1); color: #fff; font-size: 0.65em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
   .reveal ul li, .reveal ol li { margin: 0.25em 0; }
   .reveal ul { font-size: 0.9em; }
 
-  table.compare { border-collapse: collapse; font-size: 0.75em; margin-top: 0.4em; color: var(--fg); }
+  table.compare { border-collapse: collapse; font-size: 0.95em; margin-top: 0.4em; color: var(--fg); }
   table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 16px; text-align: left; }
   table.compare th { background: var(--card); }
 
   .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 24px var(--shadow); }
   .fig-card img { display: block; max-width: 100%; max-height: 360px; border-radius: 6px; }
   .fig-row { text-align: center; }
-  .fig-caption { font-size: 0.6em; color: var(--muted); margin-top: 0.7em; }
+  .fig-caption { font-size: 0.78em; color: var(--muted); margin-top: 0.7em; }
 
   .reveal .katex { color: var(--fg); }
   .reveal kbd { background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
