@@ -87,6 +87,7 @@
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
   .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
   .reveal .slides section { text-align: left; padding: 0; }
+  .reveal .lang-ja { word-break: auto-phrase; }   /* 日本語は文節で折り返す(単語の途中で切らない) */
   .reveal .slides section > * { margin-top: 1.35em; margin-bottom: 1.35em; }
   /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
      これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */
