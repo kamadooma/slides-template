@@ -2,7 +2,7 @@
 name: madoka-slides
 description: >-
   まどか式のプレゼンスライドを HTML(reveal.js 単一ファイル)で作るためのスキル。
-  Hot Magenta 地 + Deep Plum 文字 + Neon Lime のブランド配色・サンセリフ・日英併記・Notes風UIのデッキを、
+  黒背景 + ブランド配色(Cobalt / Blaze / Teal / Neon Lime / Hot Magenta / Deep Plum)・サンセリフ・日英併記・Notes風UIのデッキを、
   文字だけにせず図/カード/数字で構成する。ユーザーが日本語で概要を渡し、Claudeが
   日本語スライド+正確な英訳を作る運用。スライド作成・テンプレート編集・配色変更の
   依頼で使う。
@@ -16,21 +16,21 @@ description: >-
 
 ## 0. 制作フロー
 1. **ヒアリング**: テーマ・ムード(鮮やか/彩度)・(あれば)写真を先に聞く
-2. **パレットは標準(ブランド)**: 既定 `madoka` + マゼンタ地をそのまま使う。別ムードが要るときだけ `p`キー/`?palette=`。`:root` のブランドトークンは書き換えない
+2. **パレットは標準(ブランド)**: 既定 `madoka` + 黒背景をそのまま使う。別ムードが要るときだけ `p`キー/`?palette=`。`:root` のブランドトークンは書き換えない
 3. **概要は日本語で受け取る**: まどかが日本語で内容を渡す
 4. **スライド化**: 日本語スライドを作り、**正確な英訳**を `lang-en` に並置(`l`キーで切替)
 
 ## 0.5 ブランドカラー(固定・変えない)
 | 役割 | 色 | HEX | 用途 |
 |---|---|---|---|
-| Primary | Hot Magenta | `#F0249B` | グラウンド(ページ背景)= 既定テーマ `theme-magenta` |
+| Primary | Hot Magenta | `#F0249B` | カード `.n5`・見せ場。**ページ背景にはしない**(読みにくい) |
 | Primary | Neon Lime | `#D4F73C` | キーカラー・ロゴ・見せ場(強調文字・巨大数字・インパクト背景) |
-| Primary | Deep Plum | `#241029` | 全ての文字・ダークグラウンド |
+| Primary | Deep Plum | `#241029` | 淡色カード上の文字・ダークカード `.n6` |
 | Secondary | Cobalt | `#3346F0` | カード `.n1`(代替グラウンド) |
 | Secondary | Blaze | `#FF7A00` | カード `.n2`(アクセント・代替グラウンド) |
 | Secondary | Teal | `#18B7A0` | カード `.n3`。小さく使う |
 | Secondary | Pale Lilac | `#DCD2FF` | 長文カード `.n7`(calm) |
-| Secondary | Warm Cream | `#F4E9D8` | 長文カード `.n8`(reading)、マゼンタ地の `.cell` |
+| Secondary | Warm Cream | `#F4E9D8` | 長文カード `.n8`(reading) |
 
 - 変数: `--hot-magenta --neon-lime --deep-plum --cobalt --blaze --teal --pale-lilac --warm-cream`(`:root`)
 - 既定パレット `madoka`: `--c1` Cobalt / `--c2` Blaze / `--c3` Teal / `--c4` Neon Lime / `--c5` Hot Magenta / `--c6` Deep Plum
@@ -38,7 +38,7 @@ description: >-
 - インパクト: `data-background-color="var(--impact)"` = Neon Lime + Deep Plum 文字
 
 ## 1. コントラスト(最優先・破ると即NG)
-- **読ませる本文は Deep Plum**(マゼンタ地・既定)、黒背景では白。色をつけてよいのは**タイトル・強調語・巨大数字だけ**(マゼンタ地では Neon Lime)
+- **読ませる本文は必ず白**(黒背景時)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
 - 黒背景 → 白文字 / 白・グレー背景 → 黒文字。淡い色文字は白・グレーテーマで自動的に本文色へ落ちる
 - **カラーカードの文字・アイコンは白**。カード背景は「一色の深いベタ塗り(不透明)」にして白を乗せる
   - 実装: `background: color-mix(in srgb, var(--nc) 88%, #000)`(黒を少しだけ混ぜて白が読める深さに。混ぜすぎると鈍くなるので12%まで)
@@ -51,7 +51,7 @@ description: >-
   コーポレート / エグゼクティブ / 成長 / ポジティブ / 自然 / 海洋 / 生き物 / コミュニティ /
   アート / レトロ / シネマティック / 幻想的 / 愛
 - 全プリセットは「白文字が乗る中〜深トーンの高彩度色」で構成(Tailwind 600〜800相当)
-- 背景は マゼンタ(既定・ブランド)/ 黒 / 白 / グレー を `t`キーで切替
+- 背景は 黒(既定)/ 白 / グレー を `t`キーで切替(マゼンタ全面は読みにくいので使わない)
 
 ## 3. タイポグラフィ
 - **欧文 Inter / 和文 Zen Kaku Gothic New**(ヒラギノ角ゴにフォールバック)。サンセリフのみ

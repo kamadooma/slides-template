@@ -12,7 +12,7 @@
   /* ============================================================
      MADOKA BRAND COLOURS — まどかの標準カラー(全デッキ共通・変えない)
      ------------------------------------------------------------
-     PRIMARY   Hot Magenta #F0249B  ground / page background
+     PRIMARY   Hot Magenta #F0249B  brand ground (cards / impact), not the page bg
                Neon Lime   #D4F73C  key colour, logo, big moments
                Deep Plum   #241029  text, dark ground
      SECONDARY Cobalt      #3346F0  alternate ground (cards)
@@ -40,7 +40,7 @@
     --c2: var(--blaze);        /* アクセント・代替グラウンド */
     --c3: var(--teal);         /* ハイライト(小さく) */
     --c4: var(--neon-lime);    /* キーカラー・大きな見せ場 (淡色: 文字はDeep Plum) */
-    --c5: var(--hot-magenta);  /* グラウンド色 */
+    --c5: var(--hot-magenta);  /* カード・見せ場の地色 */
     --c6: var(--deep-plum);    /* 文字色・ダークグラウンド */
     --c4-ink: var(--deep-plum); --c4-mix: 100%;   /* 淡色カードは黒を混ぜず、文字を濃色に */
     --c6-mix: 100%;
@@ -53,8 +53,8 @@
      旧: Apple Notes基準パレット
      --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
 
-  /* ---------- 背景テーマ: magenta(既定・ブランド) / black / white / gray — tキーで切替 ---------- */
-  /* Hot Magenta がグラウンド、Deep Plum が全ての文字。セル(読ませる面)は Warm Cream */
+  /* ---------- 背景テーマ: black(既定) / white / gray / magenta — tキーで切替 ---------- */
+  /* magenta は Hot Magenta 地 + Deep Plum 文字の全面ブランド版。読みにくいので既定にはしない(見せ場の数枚だけ) */
   body.theme-magenta { --bg:var(--hot-magenta); --fg:var(--deep-plum); --muted:#5C1C4E; --card:var(--warm-cream); --border:rgba(36,16,41,.45); --chrome:#D81F8A; --shadow:rgba(36,16,41,.35); }
   body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
   body.theme-white { --bg:#FAFAF8; --fg:#161616; --muted:#71717A; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14); }
@@ -206,7 +206,7 @@
   html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
 </style>
 </head>
-<body class="lang-ja theme-magenta">
+<body class="lang-ja theme-black">
 
 <div id="chrome">
   <div id="topbar">
@@ -231,13 +231,13 @@
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
     <p style="margin-top:1.2em;"><b>まどか</b><br>
     <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 マゼンタ/黒/白/グレー · <kbd>s</kbd> ノート</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/白/グレー/マゼンタ · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
     <h1>Presentation Title<br>Subtitle</h1>
     <p style="margin-top:1.2em;"><b>Madoka</b><br>
     <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg magenta/black/white/gray · <kbd>s</kbd> notes</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/white/gray/magenta · <kbd>s</kbd> notes</p>
   </div>
   <aside class="notes">
     <div class="lang-ja">タイトルのスピーカーノート。</div>
@@ -461,7 +461,7 @@
   }
 
   /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
-  const THEMES = ['theme-magenta', 'theme-black', 'theme-white', 'theme-gray'];
+  const THEMES = ['theme-black', 'theme-white', 'theme-gray', 'theme-magenta'];
   function setTheme(name) {
     document.body.classList.remove(...THEMES);
     document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
