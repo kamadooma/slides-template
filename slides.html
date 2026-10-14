@@ -42,8 +42,8 @@
     --c4: var(--cobalt);       --c4-ink: var(--pale-lilac);
     --c5: var(--pale-lilac);   --c5-ink: var(--cobalt);
     --c6: var(--hot-magenta);  --c6-ink: var(--pale-lilac);   /* 見出しだけ。小さい文字は載せない */
-    --impact: var(--neon-lime);        /* インパクト全面 = Neon Lime + Cobalt 文字 */
-    --impact-ink: var(--cobalt);
+    --impact: var(--cobalt);           /* インパクト全面 = Cobalt 地 + Neon Lime 文字(ライム地は激しすぎるので反転) */
+    --impact-ink: var(--neon-lime);
     --note-ink: var(--cobalt);
   }
 
@@ -84,7 +84,6 @@
   /* 白文字オプション(wキー / ?ink=white): 濃色地の文字を Pale Lilac → 白に。明るい地では無効 */
   body.ink-white:is(.theme-black, .theme-navy, .theme-cobalt, .theme-magenta) { --fg:#FFFFFF; --link:#FFFFFF; --acc5:#FFFFFF; --c4-ink:#FFFFFF; --c6-ink:#FFFFFF; }
   body.ink-white.theme-magenta { --active-fg:#FFFFFF; }
-  body.ink-white { --impact-ink:#FFFFFF; }
 
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
   .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
@@ -172,7 +171,7 @@
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
 
   /* ---------- インパクトスライド ---------- */
-  /* 背景は --impact(Neon Lime)、文字は --impact-ink(Cobalt) */
+  /* 背景は --impact(Cobalt)、文字は --impact-ink(Neon Lime) */
   section.impact h1 { color: var(--impact-ink, #fff); font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
   section.impact p  { color: var(--impact-ink, #fff); opacity: 0.9; }
 
@@ -426,8 +425,8 @@
     <p class="small">Impact slide — at most one or two per deck</p>
   </div>
   <aside class="notes">
-    <div class="lang-ja">data-background-color="var(--impact)" で全面色(Neon Lime + Cobalt 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
-    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (Neon Lime with Cobalt text); data-chrome="off" hides the app chrome.</div>
+    <div class="lang-ja">data-background-color="var(--impact)" で全面色(Cobalt 地 + Neon Lime 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
+    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (Cobalt with Neon Lime text); data-chrome="off" hides the app chrome.</div>
   </aside>
 </section>
 
@@ -510,7 +509,7 @@
     /* JOURNA ブランドのみ。旧ムードパレットは全て廃止(2026-10-14)。:root と同じ内容 */
     { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#DCD2FF','--c6':'#F0249B',
                                       '--c1-ink':'#FFFFFF','--c2-ink':'#3346F0','--c3-ink':'#FFFFFF','--c4-ink':'#DCD2FF','--c5-ink':'#3346F0','--c6-ink':'#DCD2FF',
-                                      '--impact':'#D4F73C','--impact-ink':'#3346F0'} }
+                                      '--impact':'#3346F0','--impact-ink':'#D4F73C'} }
   ];
   let palIdx = 0;
   const palToast = document.getElementById('pal-toast');

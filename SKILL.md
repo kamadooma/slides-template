@@ -32,13 +32,13 @@ description: >-
 | Secondary | Cobalt | `#3346F0` | **明るい地の文字色**・リンク、カード `.n4`、黒地・Navy地のセル、地 `theme-cobalt` |
 | Secondary | Teal | `#18B7A0` | 小さなハイライト、カード `.n3`(白文字) |
 | Secondary | Navy | `#141B4D` | 地 `theme-navy` **のみ**。文字・箱には絶対使わない |
-| 追加 | Neon Lime | `#D4F73C` | **見せ場の色**。濃色地の強調語・巨大数字(`.a1`/`.num`)、インパクト背景、カード `.n7` |
+| 追加 | Neon Lime | `#D4F73C` | **見せ場の色**。濃色地の強調語・巨大数字(`.a1`/`.num`)、インパクトの文字、カード `.n7` |
 
 - 変数: `--hot-magenta --blaze --pale-lilac --lilac --cobalt --teal --navy --neon-lime`(`:root`)。クリーム色(Warm Cream)は不採用、使わない
 - 背景は7テーマ `black`(既定) / `pale-lilac` / `lilac` / `cobalt` / `magenta` / `white` / `navy` を `t`キー or `?theme=` で選ぶ。デッキごとに変えてよい
 - 文字・セル・強調色はテーマごとに自動で読める色になる(`--fg --card --card-fg --acc1〜5 --cacc1〜5`)。手で色指定しない
 - 白文字オプション: `w`キー / `?ink=white` で濃色地の文字を白に(既定は Pale Lilac。白は選択肢として必ず残す)
-- インパクト: `data-background-color="var(--impact)"` = Neon Lime + Cobalt 文字
+- インパクト: `data-background-color="var(--impact)"` = Cobalt 地 + Neon Lime 文字
 
 ### 絶対ルール(まどか指定)
 - **Navy の文字・Navy の箱は禁止**(地にだけ使う)。明るい地の文字は Cobalt
@@ -49,7 +49,7 @@ description: >-
 - **読ませる本文は Pale Lilac か白**(濃色地)/ **Cobalt**(明るい地)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
 - 濃い地 → Pale Lilac(または白)文字 / 明るい地 → Cobalt 文字。強調色はテーマごとに自動で読める色へ切り替わる
 - **カラーカードはブランド色そのまま(混色なし)**。文字・アイコンは Blaze・Teal は白、Lilac・Pale Lilac は Cobalt、Cobalt・Magenta は Pale Lilac(`--cN-ink` で自動)
-- **インパクトスライドは Neon Lime 背景 + Cobalt 文字**
+- **インパクトスライドは Cobalt 背景 + Neon Lime 文字**
 
 ## 2. 配色
 - JOURNA の7色 + Neon Lime だけ。他の色・混色・くすみは禁止
@@ -89,7 +89,7 @@ description: >-
 - キー: `l`日英 / `t`背景テーマ / `w`白文字 / `c`サイドバー開閉 / `s`ノート / `f`全画面 / `esc`一覧
 
 ## 9. インパクトスライド
-- 言い切りの一文を Neon Lime 全面 + Cobalt の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
+- 言い切りの一文を Cobalt 全面 + Neon Lime の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
 
 ## クラス早見
 `.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Pale Lilac / Magenta カード)/ `.n7`(Neon Lime の見せ場カード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /

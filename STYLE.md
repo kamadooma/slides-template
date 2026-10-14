@@ -18,7 +18,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | SECONDARY | Cobalt | `#3346F0` | `--cobalt` | **明るい地の文字色**・リンク。カード `.n4`。黒地・Navy地のセル。地 `theme-cobalt` |
 | SECONDARY | Teal | `#18B7A0` | `--teal` | 小さなハイライト。カード `.n3` |
 | SECONDARY | Navy | `#141B4D` | `--navy` | 地 `theme-navy` **のみ**。文字・箱には使わない |
-| 追加 | Neon Lime | `#D4F73C` | `--neon-lime` | **見せ場の色**(まどか指定でガイドに追加)。濃色地の強調語・巨大数字、インパクト背景、カード `.n7` |
+| 追加 | Neon Lime | `#D4F73C` | `--neon-lime` | **見せ場の色**(まどか指定でガイドに追加)。濃色地の強調語・巨大数字、インパクトの文字、カード `.n7` |
 
 > Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or Lilac. Navy carries all text and is the dark ground.
 > Cobalt is kept for links, Teal for small highlights. No magenta behind small text.
@@ -45,7 +45,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 - カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta(混色なし)。文字は Blaze・Teal は白、Lilac・Pale Lilac は Cobalt、Cobalt・Magenta は Pale Lilac(`--cN-ink`)
 - `.n6`(Hot Magenta)は見出しだけ。本文を載せない(ブランドルール "No magenta behind small text")
-- インパクトスライドは **Neon Lime 全面 + Cobalt 文字**。`data-background-color="var(--impact)"`
+- インパクトスライドは **Cobalt 全面 + Neon Lime 文字**(ライム全面は激しすぎるので反転)。`data-background-color="var(--impact)"`
 - サイドバーの現在地は Cobalt(黒・Cobalt・Navy 地では Hot Magenta)+ Pale Lilac 文字
 
 ## 制作フロー
@@ -85,7 +85,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - 装飾しない。1カードに1つまで
 
 ### インパクトスライド
-- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Neon Lime (`--impact`)**、文字は Cobalt (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
+- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Cobalt (`--impact`)**、文字は Neon Lime (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
 - `data-chrome="off"` でNotes風UIを消して全画面に
 - **1デッキ1〜2枚まで**
 
@@ -157,7 +157,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **ボックスと隣接要素、図と文字が接触するのは絶対禁止**。上下に必ず十分な間(最低 1.25em)を空ける
 - 実装上の注意: 中身は `.lang-ja`/`.lang-en` ラッパーの内側にあるため、`section > *` だけに余白を付けても効かない。
   必ず `.lang-ja > * + *` / `.lang-en > * + *`(隣接兄弟)にも上マージンを付与すること。これを怠るとカードや箱が接触する
-- インパクトスライドは Neon Lime 背景 + Cobalt 文字
+- インパクトスライドは Cobalt 背景 + Neon Lime 文字
 
 ### 箱(ボックス)の使用可否
 - **中身をただ囲うだけの、透明/枠だけの「座布団」ボックスは禁止**(ダサい)。情報整理は**余白と字間**で行う
