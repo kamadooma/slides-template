@@ -4,35 +4,48 @@ slides-template (祥平くん版のフォーク) をベースに、参考デッ�
 (Apple Notes風 / Bento Keynote風 / Apple Watch風) から抽出したデザインルール。
 Claudeにスライドを作らせるときは、このファイルを読ませること。
 
-## ブランドカラー(標準・全デッキ共通で固定)
+## ブランドカラー(JOURNA · 標準・全デッキ共通で固定)
 
-まどかの個性としてテンプレートに焼き込んである標準カラー。`slides.html` の `:root` 先頭にトークンとして定義済み。
-デッキごとに変えない。ムードを試したいときだけ `p`キーで別パレットに切替え、最後は `?palette=madoka`(既定)に戻す。
+出典: `JOURNA_BrandGuide.pdf` p.06 COLOUR。この7色**だけ**を使う。混色・暗色化・他の色の追加は禁止。
+`slides.html` の `:root` にトークンとして定義済み。旧パレット(ポップ等21種・Neon Lime・Deep Plum・Warm Cream)は全て廃止。
 
 | 役割 | 名前 | HEX | 変数 | 使い方 |
 |---|---|---|---|---|
-| PRIMARY | Hot Magenta | `#F0249B` | `--hot-magenta` | ブランドの地色。カード `.n5` と見せ場に使う。**ページ背景にはしない**(読みにくい) |
-| PRIMARY | Neon Lime | `#D4F73C` | `--neon-lime` | **キーカラー・ロゴ・見せ場**。強調文字・巨大数字・インパクト背景・サイドバー現在地 |
-| PRIMARY | Deep Plum | `#241029` | `--deep-plum` | 淡色カード上の文字、ダークカード `.n6` |
-| SECONDARY | Cobalt | `#3346F0` | `--cobalt` | 代替グラウンド(カード `.n1`) |
-| SECONDARY | Blaze | `#FF7A00` | `--blaze` | アクセント・代替グラウンド(カード `.n2`) |
-| SECONDARY | Teal | `#18B7A0` | `--teal` | ハイライト。**小さく使う**(カード `.n3`) |
-| SECONDARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 穏やかな面。**明るい背景テーマ `theme-lilac`**、長文カード `.n7` |
-| SECONDARY | Warm Cream | `#F4E9D8` | `--warm-cream` | 読ませる面。長文カード `.n8` |
+| PRIMARY | Hot Magenta | `#F0249B` | `--hot-magenta` | キーカラー。見出しの強調語・巨大数字・インパクト全面。**小さい文字の背景にはしない** |
+| PRIMARY | Blaze | `#FF7A00` | `--blaze` | 第2キー。カード `.n1`、強調語(濃色地) |
+| PRIMARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 明るい地(`theme-pale-lilac`)。濃色地では文字色。長文カード `.n7` |
+| SECONDARY | Lilac | `#B7A3F5` | `--lilac` | 穏やかな地(`theme-lilac`)。カード `.n2` |
+| SECONDARY | Cobalt | `#3346F0` | `--cobalt` | リンク・強調(明るい地)。カード `.n4`。地 `theme-cobalt` |
+| SECONDARY | Teal | `#18B7A0` | `--teal` | 小さなハイライト。カード `.n3` |
+| SECONDARY | Navy | `#141B4D` | `--navy` | 明るい地での文字色。濃い地(`theme-navy`)。カード `.n5` |
 
-> Hot Magenta is the ground and Deep Plum carries every word. Neon Lime is for the logo and big moments.
-> Cobalt and Blaze take turns as grounds for posts. Pale Lilac and Warm Cream hold long reading. Teal stays small.
+> Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or Lilac. Navy carries all text and is the dark ground.
+> Cobalt is kept for links, Teal for small highlights. No magenta behind small text.
 
-- **背景は黒(既定)か薄紫(`theme-lilac`)**。黒地では文字は白・強調は `.a1`〜`.a5` の各色。薄紫地では文字は Deep Plum・強調は自動で Cobalt に統一・セルは Warm Cream。Hot Magenta の全面背景(`theme-magenta`)は読みにくいので使わない(`t`キーの最後に残してあるだけ)
-- 既定パレット `madoka`: `--c1` Cobalt / `--c2` Blaze / `--c3` Teal / `--c4` Neon Lime / `--c5` Hot Magenta / `--c6` Deep Plum
-- 淡色カード(Neon Lime `.n4` / Pale Lilac `.n7` / Warm Cream `.n8`)は黒を混ぜず(`--nc-mix:100%`)、文字は Deep Plum(`--nc-ink`)。濃色カード(`.n1`〜`.n3`, `.n5`, `.n6`)は従来どおり白文字
-- インパクトスライドは `data-background-color="var(--impact)"` = Neon Lime 全面 + Deep Plum 文字(`--impact-ink`)
-- 背景テーマは `t`キーで 黒(既定) → 薄紫 → 白 → グレー → マゼンタ。`?theme=lilac` でも指定可
+### 背景バリエーション(`t`キーで循環 / `?theme=` で指定)
+デッキごとに背景を変えてよい。文字色・セル色・強調色はテーマごとに自動で読める組合せになる。
+
+| theme | 地 | 文字 | セル(`.cell`/`.step`) | 強調(`.a1`〜`.a5`/`.num`) |
+|---|---|---|---|---|
+| `black`(既定) | #0B0B0D | Pale Lilac | 濃灰 | Magenta / Blaze / Lilac / Teal / Pale Lilac |
+| `pale-lilac` | Pale Lilac | Navy | Lilac | Magenta(a1) / 他は Cobalt |
+| `lilac` | Lilac | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
+| `navy` | Navy | Pale Lilac | Cobalt | Magenta / Blaze / Lilac / Teal(セル内は Pale Lilac) |
+| `cobalt` | Cobalt | Pale Lilac | Navy | Pale Lilac(セル内は Magenta / Blaze / Lilac / Teal) |
+| `magenta` | Hot Magenta | Pale Lilac | Navy | Pale Lilac(セル内は各色) |
+| `blaze` | Blaze | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
+| `white` | #FAFAF8 | Navy | 白 | Magenta(a1) / 他は Cobalt |
+
+- カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Navy / Hot Magenta(混色なし)。文字は明るい色なら Navy、暗い色なら Pale Lilac(`--cN-ink`)
+- `.n6`(Hot Magenta)は見出しだけ。本文を載せない(ブランドルール "No magenta behind small text")
+- 地と同じ色のカードはテーマごとに自動で別色に置き換わる(例: `theme-cobalt` の `.n4` は Navy になる)
+- インパクトスライドは Hot Magenta 全面 + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ)。`data-background-color="var(--impact)"`
+- サイドバーの現在地は Navy(濃色地では Cobalt)+ Pale Lilac 文字
 
 ## 制作フロー
 
 1. **ヒアリング** — Claudeがまずテーマ・ムード・(あれば)風景写真を聞く
-2. **パレットは標準(ブランド)を使う** — 既定の `madoka` パレット + 黒背景。ムード違いが必要なときだけ `p`キーのプリセットを使う(`:root` のブランドトークンは書き換えない)
+2. **色は JOURNA の7色のみ** — 背景を `t`キー / `?theme=` で選ぶだけ。`:root` のブランドトークンは書き換えない
 3. **概要を日本語で渡す** — まどかが日本語で内容を伝える
 4. **スライド化** — Claudeが日本語スライドを作り、**正確な英訳**を `lang-en` 側に並置する(`l`キーで切替)
 
@@ -51,16 +64,12 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **キーワードを色で囲む加工(蛍光マーカー等)は禁止**。強調は太字か、限定的に `.a1`〜`.a5`(アクセント色文字)のみ
 
 ### コントラスト(最重要)
-- 黒背景(既定) → 文字は白抜き。薄紫背景 → 文字は Deep Plum、強調は Cobalt。白/グレー背景 → 文字は黒。常にはっきり読めること
-- 淡いアクセント色文字(.a4/.a5等)は白背景で見えにくいので、白・グレーテーマでは自動的に本文色(黒)へ落ちる。色はカード背景側(暗い文字×明るい塗り=高コントラスト)で使うのが基本
-
-### カラーパレット切替 (pキー)
-- `p`キーで11テーマを循環: ポップ / シリアス / テック / エデュケーション / 成長 / フィンテック / クリーン / セイフティ / オカルト / 陰謀 / 愛
-- `?palette=tech` のようにURLでも指定可。JSの `PALETTES` 配列に追加すれば増やせる
+- 濃い地(黒/Navy/Cobalt/Magenta) → 文字は Pale Lilac。明るい地(Pale Lilac/Lilac/Blaze/白) → 文字は Navy。常にはっきり読めること
+- 強調文字(.a1〜.a5/.num)はテーマごとに読める色へ自動で切り替わる(明るい地では Magenta/Cobalt/Navy、濃い地では Magenta/Blaze/Lilac/Teal/Pale Lilac)。色はカード背景側で使うのが基本
 
 ### 色
-- 背景は **黒(既定)/ 薄紫 / 白 / グレー**(マゼンタは非推奨) — `t`キーまたは `?theme=lilac` で切替
-- 現行パレットは上記ブランドカラー(`madoka`)。旧ポップ / 旧Apple Notes基準パレットは slides.html 内にコメントで保存
+- 背景は上記8テーマ — `t`キーまたは `?theme=navy` などで切替
+- 色は JOURNA の7色のみ。旧パレットは廃止
 - カード上の文字は常に黒 (`--note-ink`)。背景テーマに関係なく変えない
 - ブランドカラーはデッキごとに変えない。別ムードが必要なときは `p`キーのプリセットを使う
 
@@ -70,13 +79,13 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - 装飾しない。1カードに1つまで
 
 ### インパクトスライド
-- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Neon Lime `#D4F73C` (`--impact`)**、文字は Deep Plum (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
+- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Hot Magenta (`--impact`)**、文字は Pale Lilac (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
 - `data-chrome="off"` でNotes風UIを消して全画面に
 - **1デッキ1〜2枚まで**
 
 ### Notes風クローム
 - 上部バー(トラフィックライト) + 左サイドバー(目次)
-- サイドバーは `data-section-ja` / `data-section-en` を持つスライドから自動生成、現在地が Hot Magenta(`--c5`)でハイライト
+- サイドバーは `data-section-ja` / `data-section-en` を持つスライドから自動生成、現在地が Navy(濃色地では Cobalt)でハイライト
 - `data-meta="July 2026"` で日付等の小さいメタ行を追加できる
 - PDFエクスポート時は自動で非表示(全面スライドのみ出力)
 
@@ -84,8 +93,8 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 | クラス | 用途 |
 |---|---|
-| `.note .n1`〜`.n6` | カラー付箋カード(`.n4` Neon Lime は Deep Plum 文字) |
-| `.note .n7` / `.n8` | 淡色の読ませるカード: Pale Lilac / Warm Cream(Deep Plum 文字・パレット不変) |
+| `.note .n1`〜`.n6` | カラー付箋カード: Blaze / Lilac / Teal / Cobalt / Navy / Hot Magenta |
+| `.note .n7` | 長文を読ませるカード: Pale Lilac + Navy 文字 |
 | `.cell` | ダーク/ライトのベントセル |
 | `.bento` / `.bento2` | 3列 / 2列グリッド (`.wide`で2列分) |
 | `.big` | 巨大数字 (+`.a1`〜`.a5`で着色) |
@@ -102,7 +111,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | キー | 動作 |
 |---|---|
 | `l` | 日英切替 |
-| `t` | 背景テーマ切替 (黒→白→グレー) |
+| `t` | 背景テーマ切替 (黒→Pale Lilac→Lilac→Navy→Cobalt→Magenta→Blaze→白) |
 | `s` | スピーカーノート |
 | `f` | フルスクリーン |
 | `esc` | 一覧 |
@@ -118,21 +127,18 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 ## 更新ルール (v2)
 
 ### 文字色
-- **読ませる本文は白**(黒背景時)。色をつけてよいのは**タイトルと強調語、巨大数字だけ**
-- 白/グレー背景では本文は黒。淡いアクセント色文字は自動で本文色に落ちる(コントラスト保証)
+- **読ませる本文は Pale Lilac**(黒・濃色地)/ **Navy**(明るい地)。色をつけてよいのは**タイトルと強調語、巨大数字だけ**
+- 明るい地では本文は Navy。強調色はテーマごとに自動で読める色になる(コントラスト保証)
 
 ### カラーカード
-- **一色の深いベタ塗り(不透明)+ 白文字 + 白ピクトグラム**。`<div class="note n2">`
-- 白文字がくっきり乗るよう、アクセント色に黒を混ぜて濃くした不透明ベタ塗り(`color-mix(nc 65%, #000)`)。半透明・タイントの「座布団」は禁止
+- **ブランド色そのままのベタ塗り(混色なし)+ Navy または Pale Lilac の文字・ピクトグラム**。`<div class="note n2">`
+- 半透明・タイントの「座布団」は禁止
 
 ### 余白
 - 要素同士を近づけすぎない。section直下マージン 0.95em、グリッド gap 1.05em、二段組 gap 2em を基準に、窮屈にしない
 
 ### コールアウト箱
 - `.takeaway` / `.insight` は左バーや塗りをやめ、**角丸の枠線のみ**のシンプルな箱
-
-### カラーパレット (pキーで循環・各ムード明確)
-- ポップ(鮮やか/エネルギッシュ・既定) / シリアス / テック / エデュケーション / 成長 / フィンテック / クリーン / セイフティ / オカルト / 陰謀 / 愛
 
 ### グラフ
 - 自作が崩れる場合は元レポートの図をそのまま引用してよい(`figs/figN_*.png`)。白背景の図は白い `.fig-card` で縁取る
@@ -141,7 +147,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **ボックスと隣接要素、図と文字が接触するのは絶対禁止**。上下に必ず十分な間(最低 1.25em)を空ける
 - 実装上の注意: 中身は `.lang-ja`/`.lang-en` ラッパーの内側にあるため、`section > *` だけに余白を付けても効かない。
   必ず `.lang-ja > * + *` / `.lang-en > * + *`(隣接兄弟)にも上マージンを付与すること。これを怠るとカードや箱が接触する
-- インパクトスライドは Neon Lime 背景 + Deep Plum 文字(ブランド既定)。他パレットでは `--impact` 背景 + 白文字
+- インパクトスライドは Hot Magenta 背景 + Pale Lilac 文字
 
 ### 箱(ボックス)の使用可否
 - **中身をただ囲うだけの、透明/枠だけの「座布団」ボックスは禁止**(ダサい)。情報整理は**余白と字間**で行う

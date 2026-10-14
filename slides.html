@@ -10,57 +10,74 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
 <style>
   /* ============================================================
-     MADOKA BRAND COLOURS — まどかの標準カラー(全デッキ共通・変えない)
+     JOURNA BRAND COLOURS — ブランドガイド(JOURNA_BrandGuide.pdf p.06)の7色を
+     そのまま使う。混色・暗色化はしない。全デッキ共通で固定。
      ------------------------------------------------------------
-     PRIMARY   Hot Magenta #F0249B  brand ground (cards / impact), not the page bg
-               Neon Lime   #D4F73C  key colour, logo, big moments
-               Deep Plum   #241029  text, dark ground
-     SECONDARY Cobalt      #3346F0  alternate ground (cards)
-               Blaze       #FF7A00  accents, alternate ground
-               Teal        #18B7A0  highlights — stays small
-               Pale Lilac  #DCD2FF  calm surfaces
-               Warm Cream  #F4E9D8  reading surfaces
-     Hot Magenta is the ground and Deep Plum carries every word.
-     Neon Lime is for the logo and big moments. Cobalt and Blaze take
-     turns as grounds for posts. Pale Lilac and Warm Cream hold long
-     reading. Teal stays small.
+     PRIMARY   Hot Magenta #F0249B  key colour, wordmark
+               Blaze       #FF7A00  second key, patterns
+               Pale Lilac  #DCD2FF  base, page background
+     SECONDARY Lilac       #B7A3F5  calm backgrounds
+               Cobalt      #3346F0  accents, links
+               Teal        #18B7A0  highlights
+               Navy        #141B4D  text, dark ground
+     Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or
+     Lilac. Navy carries all text and is the dark ground. Cobalt is kept
+     for links, Teal for small highlights. No magenta behind small text.
      ============================================================ */
   :root {
     --hot-magenta: #F0249B;
-    --neon-lime:   #D4F73C;
-    --deep-plum:   #241029;
-    --cobalt:      #3346F0;
     --blaze:       #FF7A00;
-    --teal:        #18B7A0;
     --pale-lilac:  #DCD2FF;
-    --warm-cream:  #F4E9D8;
+    --lilac:       #B7A3F5;
+    --cobalt:      #3346F0;
+    --teal:        #18B7A0;
+    --navy:        #141B4D;
 
-    /* ---- 既定パレット = ブランド(pキーで他ムードへ切替可、?palette=madoka で戻る) ---- */
-    --c1: var(--cobalt);       /* カード・代替グラウンド */
-    --c2: var(--blaze);        /* アクセント・代替グラウンド */
-    --c3: var(--teal);         /* ハイライト(小さく) */
-    --c4: var(--neon-lime);    /* キーカラー・大きな見せ場 (淡色: 文字はDeep Plum) */
-    --c5: var(--hot-magenta);  /* カード・見せ場の地色 */
-    --c6: var(--deep-plum);    /* 文字色・ダークグラウンド */
-    --c4-ink: var(--deep-plum); --c4-mix: 100%;   /* 淡色カードは黒を混ぜず、文字を濃色に */
-    --c6-mix: 100%;
-    --impact: var(--neon-lime);        /* インパクト全面背景 = Neon Lime(big moments) */
-    --impact-ink: var(--deep-plum);    /* インパクト文字色 */
-    --note-ink: var(--deep-plum);      /* 淡色カード上の文字色 */
+    /* カード色 .n1〜.n6 (順番は「小さい文字を載せてよい色」から) */
+    --c1: var(--blaze);        --c1-ink: var(--navy);
+    --c2: var(--lilac);        --c2-ink: var(--navy);
+    --c3: var(--teal);         --c3-ink: var(--navy);
+    --c4: var(--cobalt);       --c4-ink: var(--pale-lilac);
+    --c5: var(--navy);         --c5-ink: var(--pale-lilac);
+    --c6: var(--hot-magenta);  --c6-ink: var(--pale-lilac);   /* 見出しだけ。小さい文字は載せない */
+    --impact: var(--hot-magenta);      /* インパクト全面 = Hot Magenta + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ) */
+    --impact-ink: var(--pale-lilac);
+    --note-ink: var(--navy);
   }
-  /* 旧: ポップ既定パレット (pキーの "pop" に残してある)
-     --c1:#F26419; --c2:#1E6FE8; --c3:#8B2FE0; --c4:#12B36A; --c5:#EF2D3C; --c6:#E84393; --impact:#D62E86;
-     旧: Apple Notes基準パレット
-     --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
 
-  /* ---------- 背景テーマ: black(既定) / lilac / white / gray / magenta — tキーで切替 ---------- */
-  /* lilac = Pale Lilac 地 + Deep Plum 文字 + Warm Cream セル。明るいデッキ向けのブランド版(白テーマの代わりに使う) */
-  body.theme-lilac { --bg:var(--pale-lilac); --fg:var(--deep-plum); --muted:#5E4F8A; --card:var(--warm-cream); --border:rgba(36,16,41,.28); --chrome:#CFC3FA; --shadow:rgba(36,16,41,.22); }
-  /* magenta は Hot Magenta 地 + Deep Plum 文字の全面ブランド版。読みにくいので既定にはしない(見せ場の数枚だけ) */
-  body.theme-magenta { --bg:var(--hot-magenta); --fg:var(--deep-plum); --muted:#5C1C4E; --card:var(--warm-cream); --border:rgba(36,16,41,.45); --chrome:#D81F8A; --shadow:rgba(36,16,41,.35); }
-  body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
-  body.theme-white { --bg:#FAFAF8; --fg:#161616; --muted:#71717A; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14); }
-  body.theme-gray  { --bg:#232327; --fg:#F0F0F0; --muted:#A2A2AA; --card:#2C2C31; --border:#3B3B42; --chrome:#1C1C20; --shadow:rgba(0,0,0,.35); }
+  /* ---------- 背景テーマ(tキーで循環 / ?theme=navy 等) ----------
+     各テーマで「地・文字・セル・強調色」をブランド7色だけで組む。
+     --acc1〜5 = 地の上の強調文字(.a1〜.a5 / .num)、--cacc1〜5 = セル(.cell/.step)の中の強調文字 */
+  body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45);
+                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac); }
+  body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--navy); --muted:#4B4F8C; --card:var(--lilac); --border:rgba(20,27,77,.25); --chrome:#CFC3FA; --shadow:rgba(20,27,77,.2);
+                          --link:var(--cobalt); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy);
+                          --cacc1:var(--navy); --cacc2:var(--navy); --cacc3:var(--navy); --cacc4:var(--navy); --cacc5:var(--navy); }
+  body.theme-lilac      { --bg:var(--lilac); --fg:var(--navy); --muted:#3B3F7A; --card:var(--pale-lilac); --border:rgba(20,27,77,.25); --chrome:#A994EE; --shadow:rgba(20,27,77,.25);
+                          --link:var(--navy); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
+  body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:#0F1440; --shadow:rgba(0,0,0,.45);
+                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
+                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--navy); --border:rgba(220,210,255,.3); --chrome:var(--cobalt); --shadow:rgba(0,0,40,.4);
+                          --link:var(--pale-lilac); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--lilac); --cacc4:var(--teal); --cacc5:var(--pale-lilac); }
+  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--navy); --border:rgba(220,210,255,.35); --chrome:var(--hot-magenta); --shadow:rgba(20,27,77,.35);
+                          --link:var(--pale-lilac); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--lilac); --cacc4:var(--teal); --cacc5:var(--pale-lilac); }
+  body.theme-blaze      { --bg:var(--blaze); --fg:var(--navy); --muted:var(--navy); --card:var(--pale-lilac); --border:rgba(20,27,77,.3); --chrome:var(--blaze); --shadow:rgba(20,27,77,.3);
+                          --link:var(--navy); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
+  body.theme-white      { --bg:#FAFAF8; --fg:var(--navy); --muted:#6B6E99; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14);
+                          --link:var(--cobalt); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy); }
 
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
   .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
@@ -76,48 +93,42 @@
   .reveal h3 { font-size: 1em; color: var(--muted); font-weight: 500; margin-top: 0; }
   .reveal .title h1 { font-size: 2.1em; line-height: 1.15; }
   .reveal section.center, .reveal section.center * { text-align: center; }
-  .reveal a { color: var(--c2); }
+  .reveal a { color: var(--link); text-decoration: underline; }
   .reveal b, .reveal strong { color: var(--fg); }
 
-  /* アクセント文字色 */
-  .a1{color:var(--c1)} .a2{color:var(--c2)} .a3{color:var(--c3)} .a4{color:var(--c4)} .a5{color:var(--c5)}
-  /* コントラスト保証: 白/グレー背景では淡いアクセント文字を本文色(黒)に落とす */
-  body.theme-white .a1, body.theme-white .a2, body.theme-white .a3, body.theme-white .a4, body.theme-white .a5,
-  body.theme-white .num, body.theme-gray .a1, body.theme-gray .a2, body.theme-gray .a3,
-  body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
-  body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
-  /* 薄紫地では強調文字・巨大数字は Cobalt(薄紫上でマゼンタ・ライム・ティールは読めない)、リンクは Deep Plum 下線 */
-  body.theme-lilac .a1, body.theme-lilac .a2, body.theme-lilac .a3, body.theme-lilac .a4, body.theme-lilac .a5,
-  body.theme-lilac .num { color: var(--cobalt); }
-  body.theme-lilac .reveal a { color: var(--fg); text-decoration: underline; }
-  /* マゼンタ地では強調文字・巨大数字は Neon Lime(big moments)、リンクは Deep Plum 下線 */
-  body.theme-magenta .a1, body.theme-magenta .a2, body.theme-magenta .a3, body.theme-magenta .a4, body.theme-magenta .a5,
-  body.theme-magenta .num { color: var(--neon-lime); }
-  /* Warm Cream の読ませる面(.cell / .step / .eq-block)の上では Neon Lime が沈むので、強調は Hot Magenta に */
-  body.theme-magenta :is(.cell, .flow .step, .eq-block) :is(.a1, .a2, .a3, .a4, .a5, .num) { color: var(--hot-magenta); }
-  body.theme-magenta .reveal a { color: var(--fg); text-decoration: underline; }
-  body.theme-magenta .reveal h3, body.theme-magenta .kicker, body.theme-magenta .tiny { color: var(--muted); }
+  /* アクセント文字色(テーマごとに読める色へ自動で切替) */
+  .a1{color:var(--acc1)} .a2{color:var(--acc2)} .a3{color:var(--acc3)} .a4{color:var(--acc4)} .a5{color:var(--acc5)} .num{color:var(--acc1); font-weight:800}
+  :is(.cell, .flow .step, .eq-block) .a1 { color: var(--cacc1, var(--acc1)); }
+  :is(.cell, .flow .step, .eq-block) .a2 { color: var(--cacc2, var(--acc2)); }
+  :is(.cell, .flow .step, .eq-block) .a3 { color: var(--cacc3, var(--acc3)); }
+  :is(.cell, .flow .step, .eq-block) .a4 { color: var(--cacc4, var(--acc4)); }
+  :is(.cell, .flow .step, .eq-block) .a5 { color: var(--cacc5, var(--acc5)); }
+  :is(.cell, .flow .step, .eq-block) .num { color: var(--cacc1, var(--acc1)); }
 
   .tiny  { font-size: 0.7em; color: var(--muted); }
   .small { font-size: 0.95em; }
   .kicker { color: var(--muted); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
 
   /* ---------- Notes風カラーカード(付箋) ---------- */
-  /* カラーカード = 一色の深いベタ塗り(不透明)+ 白文字/白アイコン。白がくっきり乗るよう黒を混ぜて濃くする */
-  /* 淡色(Neon Lime / Pale Lilac / Warm Cream)のカードだけは黒を混ぜず(--nc-mix:100%)、文字を Deep Plum にする(--nc-ink) */
-  .note { --nc: var(--c1); --nc-ink: #fff; --nc-mix: 88%; background: color-mix(in srgb, var(--nc) var(--nc-mix), #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: var(--nc-ink); }
+  /* カラーカード = ブランド色そのまま(混色なし)。文字色は色ごとに固定(--cN-ink): 明るい色は Navy、暗い色は Pale Lilac */
+  .note { --nc: var(--c1); --nc-ink: var(--c1-ink); background: var(--nc); border: 0; border-radius: 18px; padding: 1em 1.15em; color: var(--nc-ink); }
   .note h4 { color: inherit; font-size: 0.95em; font-weight: 800; margin: 0 0 0.5em 0; }
   .note p  { color: inherit; font-size: 0.8em; font-weight: 600; margin: 0; line-height: 1.65; }
   .note .picto { color: inherit; }
-  .n1{--nc:var(--c1); --nc-ink:var(--c1-ink,#fff); --nc-mix:var(--c1-mix,88%)}
-  .n2{--nc:var(--c2); --nc-ink:var(--c2-ink,#fff); --nc-mix:var(--c2-mix,88%)}
-  .n3{--nc:var(--c3); --nc-ink:var(--c3-ink,#fff); --nc-mix:var(--c3-mix,88%)}
-  .n4{--nc:var(--c4); --nc-ink:var(--c4-ink,#fff); --nc-mix:var(--c4-mix,88%)}
-  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink,#fff); --nc-mix:var(--c5-mix,88%)}
-  .n6{--nc:var(--c6); --nc-ink:var(--c6-ink,#fff); --nc-mix:var(--c6-mix,88%)}
-  /* ブランド固定の読ませるカード: Pale Lilac(calm) / Warm Cream(reading)。パレットを変えても変わらない */
-  .n7{--nc:var(--pale-lilac); --nc-ink:var(--deep-plum); --nc-mix:100%}
-  .n8{--nc:var(--warm-cream); --nc-ink:var(--deep-plum); --nc-mix:100%}
+  .n1{--nc:var(--c1); --nc-ink:var(--c1-ink)}   /* Blaze */
+  .n2{--nc:var(--c2); --nc-ink:var(--c2-ink)}   /* Lilac */
+  .n3{--nc:var(--c3); --nc-ink:var(--c3-ink)}   /* Teal */
+  .n4{--nc:var(--c4); --nc-ink:var(--c4-ink)}   /* Cobalt */
+  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink)}   /* Navy */
+  .n6{--nc:var(--c6); --nc-ink:var(--c6-ink)}   /* Hot Magenta — 見出しだけ、小さい文字は載せない */
+  .n7{--nc:var(--pale-lilac); --nc-ink:var(--navy)}   /* Pale Lilac — 長文を読ませるカード */
+  /* 地と同じ色のカードは溶けるので、テーマごとに自動で別色へ置き換える */
+  body.theme-pale-lilac .n7 { --nc: var(--lilac);      --nc-ink: var(--navy); }
+  body.theme-lilac      .n2 { --nc: var(--pale-lilac); --nc-ink: var(--navy); }
+  body.theme-navy       .n5 { --nc: var(--cobalt);     --nc-ink: var(--pale-lilac); }
+  body.theme-cobalt     .n4 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
+  body.theme-magenta    .n6 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
+  body.theme-blaze      .n1 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
 
   /* ---------- ダークセル(ベント) ---------- */
   .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
@@ -154,7 +165,7 @@
   .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
   .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
   .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-  .label { display: inline-block; background: var(--c1); color: #fff; font-size: 0.65em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
+  .label { display: inline-block; background: var(--active); color: var(--active-fg); font-size: 0.65em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
   .reveal ul li, .reveal ol li { margin: 0.25em 0; }
   .reveal ul { font-size: 0.9em; }
 
@@ -184,10 +195,8 @@
   #sidebar ul { list-style: none; margin: 0; padding: 0; }
   #sidebar li { color: var(--fg); background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
   #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
-  #sidebar li.active { background: var(--c5); border-color: var(--c5); color: #fff; }
-  #sidebar li.active .meta { color: rgba(255,255,255,0.8); }
-  body.theme-magenta #sidebar li.active { background: var(--neon-lime); border-color: var(--neon-lime); color: var(--deep-plum); }
-  body.theme-magenta #sidebar li.active .meta { color: rgba(36,16,41,0.75); }
+  #sidebar li.active { background: var(--active); border-color: var(--active); color: var(--active-fg); }
+  #sidebar li.active .meta { color: var(--active-fg); opacity: .8; }
 
   .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
   body.no-chrome #chrome { display: none; }
@@ -225,7 +234,7 @@
   </div>
 </div>
 
-<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>p</kbd> palette &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
 <div class="lang-badge"></div>
 <div id="pal-toast"></div>
 
@@ -237,13 +246,13 @@
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
     <p style="margin-top:1.2em;"><b>まどか</b><br>
     <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/薄紫/白/グレー · <kbd>s</kbd> ノート</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 8色を切替 · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
     <h1>Presentation Title<br>Subtitle</h1>
     <p style="margin-top:1.2em;"><b>Madoka</b><br>
     <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/lilac/white/gray · <kbd>s</kbd> notes</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> cycle 8 backgrounds · <kbd>s</kbd> notes</p>
   </div>
   <aside class="notes">
     <div class="lang-ja">タイトルのスピーカーノート。</div>
@@ -400,8 +409,8 @@
     <p class="small">Impact slide — at most one or two per deck</p>
   </div>
   <aside class="notes">
-    <div class="lang-ja">data-background-color="var(--impact)" で全面色(ブランド既定は Neon Lime + Deep Plum 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
-    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (brand default: Neon Lime with Deep Plum text); data-chrome="off" hides the app chrome.</div>
+    <div class="lang-ja">data-background-color="var(--impact)" で全面色(Hot Magenta + Pale Lilac 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
+    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (Hot Magenta with Pale Lilac text); data-chrome="off" hides the app chrome.</div>
   </aside>
 </section>
 
@@ -467,7 +476,7 @@
   }
 
   /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
-  const THEMES = ['theme-black', 'theme-lilac', 'theme-white', 'theme-gray', 'theme-magenta'];
+  const THEMES = ['theme-black', 'theme-pale-lilac', 'theme-lilac', 'theme-navy', 'theme-cobalt', 'theme-magenta', 'theme-blaze', 'theme-white'];
   function setTheme(name) {
     document.body.classList.remove(...THEMES);
     document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
@@ -480,30 +489,10 @@
 
   /* ---------- カラーパレット切替 (pキー) ---------- */
   const PALETTES=[
-    /* まどか標準(ブランド)。:root と同じ内容。pキーで他ムードを試しても ?palette=madoka / 一周で戻る */
-    { id:'madoka',     ja:'まどか(標準)',     vars:{'--c1':'#3346F0','--c2':'#FF7A00','--c3':'#18B7A0','--c4':'#D4F73C','--c5':'#F0249B','--c6':'#241029',
-                                               '--c4-ink':'#241029','--c4-mix':'100%','--c6-mix':'100%','--impact':'#D4F73C','--impact-ink':'#241029'} },
-    { id:'pop',        ja:'ポップ',          vars:{'--c1':'#F26419','--c2':'#1E6FE8','--c3':'#8B2FE0','--c4':'#12B36A','--c5':'#EF2D3C','--c6':'#E84393','--impact':'#D62E86'} },
-    { id:'tech',       ja:'テック',          vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#0D9488','--c5':'#4F46E5','--c6':'#C026D3','--impact':'#2563EB'} },
-    { id:'ai',         ja:'AI',             vars:{'--c1':'#6D28D9','--c2':'#2563EB','--c3':'#0891B2','--c4':'#DB2777','--c5':'#4F46E5','--c6':'#0D9488','--impact':'#6D28D9'} },
-    { id:'cyberpunk',  ja:'サイバーパンク',   vars:{'--c1':'#D6006E','--c2':'#7C3AED','--c3':'#0891B2','--c4':'#C026D3','--c5':'#2563EB','--c6':'#DB2777','--impact':'#D6006E'} },
-    { id:'minimal',    ja:'ミニマル',        vars:{'--c1':'#1D4ED8','--c2':'#2563EB','--c3':'#4338CA','--c4':'#0E7490','--c5':'#3730A3','--c6':'#0891B2','--impact':'#1D4ED8'} },
-    { id:'education',  ja:'教育',            vars:{'--c1':'#EA580C','--c2':'#2563EB','--c3':'#16A34A','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#2563EB'} },
-    { id:'academic',   ja:'アカデミック',     vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#065F46','--c4':'#78350F','--c5':'#3730A3','--c6':'#831843','--impact':'#1E3A8A'} },
-    { id:'science',    ja:'サイエンス',       vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#059669','--c5':'#DB2777','--c6':'#EA580C','--impact':'#0891B2'} },
-    { id:'corporate',  ja:'コーポレート',     vars:{'--c1':'#1D4ED8','--c2':'#0F766E','--c3':'#4338CA','--c4':'#0E7490','--c5':'#1E3A8A','--c6':'#0369A1','--impact':'#1D4ED8'} },
-    { id:'executive',  ja:'エグゼクティブ',   vars:{'--c1':'#1E3A8A','--c2':'#7F1D1D','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#78350F','--impact':'#7F1D1D'} },
-    { id:'growth',     ja:'成長',            vars:{'--c1':'#16A34A','--c2':'#059669','--c3':'#4D7C0F','--c4':'#0D9488','--c5':'#15803D','--c6':'#65A30D','--impact':'#15803D'} },
-    { id:'positive',   ja:'ポジティブ',       vars:{'--c1':'#EA580C','--c2':'#16A34A','--c3':'#2563EB','--c4':'#DB2777','--c5':'#CA8A04','--c6':'#7C3AED','--impact':'#EA580C'} },
-    { id:'nature',     ja:'自然・グリーン',   vars:{'--c1':'#16A34A','--c2':'#0D9488','--c3':'#4D7C0F','--c4':'#059669','--c5':'#65A30D','--c6':'#15803D','--impact':'#15803D'} },
-    { id:'ocean',      ja:'海洋',            vars:{'--c1':'#0891B2','--c2':'#0E7490','--c3':'#2563EB','--c4':'#0369A1','--c5':'#0D9488','--c6':'#1D4ED8','--impact':'#0E7490'} },
-    { id:'bio',        ja:'生き物・生命',     vars:{'--c1':'#16A34A','--c2':'#EA580C','--c3':'#2563EB','--c4':'#CA8A04','--c5':'#7C3AED','--c6':'#0D9488','--impact':'#16A34A'} },
-    { id:'community',  ja:'人・コミュニティ',  vars:{'--c1':'#EA580C','--c2':'#DB2777','--c3':'#2563EB','--c4':'#16A34A','--c5':'#7C3AED','--c6':'#CA8A04','--impact':'#DB2777'} },
-    { id:'art',        ja:'アート・クリエイティブ', vars:{'--c1':'#E11D48','--c2':'#7C3AED','--c3':'#2563EB','--c4':'#EA580C','--c5':'#16A34A','--c6':'#DB2777','--impact':'#E11D48'} },
-    { id:'retro',      ja:'レトロ',          vars:{'--c1':'#B45309','--c2':'#C2410C','--c3':'#A16207','--c4':'#15803D','--c5':'#9D174D','--c6':'#1E3A8A','--impact':'#9D174D'} },
-    { id:'cinematic',  ja:'シネマティック',   vars:{'--c1':'#7F1D1D','--c2':'#1E3A8A','--c3':'#B45309','--c4':'#065F46','--c5':'#3730A3','--c6':'#831843','--impact':'#7F1D1D'} },
-    { id:'fantasy',    ja:'幻想的',          vars:{'--c1':'#7C3AED','--c2':'#C026D3','--c3':'#2563EB','--c4':'#DB2777','--c5':'#6D28D9','--c6':'#0891B2','--impact':'#7C3AED'} },
-    { id:'love',       ja:'愛',             vars:{'--c1':'#E11D48','--c2':'#DB2777','--c3':'#BE185D','--c4':'#EC4899','--c5':'#9D174D','--c6':'#DC2626','--impact':'#E11D48'} }
+    /* JOURNA ブランドのみ。旧ムードパレットは全て廃止(2026-10-14)。:root と同じ内容 */
+    { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#141B4D','--c6':'#F0249B',
+                                      '--c1-ink':'#141B4D','--c2-ink':'#141B4D','--c3-ink':'#141B4D','--c4-ink':'#DCD2FF','--c5-ink':'#DCD2FF','--c6-ink':'#DCD2FF',
+                                      '--impact':'#F0249B','--impact-ink':'#DCD2FF'} }
   ];
   let palIdx = 0;
   const palToast = document.getElementById('pal-toast');
@@ -529,7 +518,7 @@
 
   const params = new URLSearchParams(location.search);
   if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
-  if (['black','lilac','white','gray','magenta'].includes(params.get('theme'))) setTheme(params.get('theme'));
+  if (THEMES.includes('theme-' + params.get('theme'))) setTheme(params.get('theme'));
   if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
   const pQ = params.get('palette');
   if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }

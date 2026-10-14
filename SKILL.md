@@ -2,7 +2,7 @@
 name: madoka-slides
 description: >-
   まどか式のプレゼンスライドを HTML(reveal.js 単一ファイル)で作るためのスキル。
-  黒背景 + ブランド配色(Cobalt / Blaze / Teal / Neon Lime / Hot Magenta / Deep Plum)・サンセリフ・日英併記・Notes風UIのデッキを、
+  JOURNA ブランド7色(Hot Magenta / Blaze / Pale Lilac / Lilac / Cobalt / Teal / Navy)・8種の背景・サンセリフ・日英併記・Notes風UIのデッキを、
   文字だけにせず図/カード/数字で構成する。ユーザーが日本語で概要を渡し、Claudeが
   日本語スライド+正確な英訳を作る運用。スライド作成・テンプレート編集・配色変更の
   依頼で使う。
@@ -16,42 +16,38 @@ description: >-
 
 ## 0. 制作フロー
 1. **ヒアリング**: テーマ・ムード(鮮やか/彩度)・(あれば)写真を先に聞く
-2. **パレットは標準(ブランド)**: 既定 `madoka` + 黒背景をそのまま使う。別ムードが要るときだけ `p`キー/`?palette=`。`:root` のブランドトークンは書き換えない
+2. **色は JOURNA 7色のみ**: 背景テーマを `t`キー/`?theme=` で選ぶだけ。`:root` のブランドトークンは書き換えない
 3. **概要は日本語で受け取る**: まどかが日本語で内容を渡す
 4. **スライド化**: 日本語スライドを作り、**正確な英訳**を `lang-en` に並置(`l`キーで切替)
 
-## 0.5 ブランドカラー(固定・変えない)
+## 0.5 ブランドカラー(JOURNA · 固定・この7色だけ)
+出典 `JOURNA_BrandGuide.pdf` p.06。混色・暗色化・他色の追加は禁止。旧パレットは全廃。
+
 | 役割 | 色 | HEX | 用途 |
 |---|---|---|---|
-| Primary | Hot Magenta | `#F0249B` | カード `.n5`・見せ場。**ページ背景にはしない**(読みにくい) |
-| Primary | Neon Lime | `#D4F73C` | キーカラー・ロゴ・見せ場(強調文字・巨大数字・インパクト背景) |
-| Primary | Deep Plum | `#241029` | 淡色カード上の文字・ダークカード `.n6` |
-| Secondary | Cobalt | `#3346F0` | カード `.n1`(代替グラウンド) |
-| Secondary | Blaze | `#FF7A00` | カード `.n2`(アクセント・代替グラウンド) |
-| Secondary | Teal | `#18B7A0` | カード `.n3`。小さく使う |
-| Secondary | Pale Lilac | `#DCD2FF` | 明るい背景テーマ `theme-lilac`(文字 Deep Plum・強調 Cobalt)、長文カード `.n7` |
-| Secondary | Warm Cream | `#F4E9D8` | 長文カード `.n8`(reading) |
+| Primary | Hot Magenta | `#F0249B` | 強調語・巨大数字・インパクト全面・カード `.n6`(見出しのみ)。小さい文字の背景にしない |
+| Primary | Blaze | `#FF7A00` | カード `.n1`、濃色地の強調 |
+| Primary | Pale Lilac | `#DCD2FF` | 明るい地 `theme-pale-lilac`、濃色地の文字色、長文カード `.n7` |
+| Secondary | Lilac | `#B7A3F5` | 地 `theme-lilac`、カード `.n2` |
+| Secondary | Cobalt | `#3346F0` | リンク、明るい地の強調、カード `.n4`、地 `theme-cobalt` |
+| Secondary | Teal | `#18B7A0` | 小さなハイライト、カード `.n3` |
+| Secondary | Navy | `#141B4D` | 明るい地の文字色、地 `theme-navy`、カード `.n5` |
 
-- 変数: `--hot-magenta --neon-lime --deep-plum --cobalt --blaze --teal --pale-lilac --warm-cream`(`:root`)
-- 既定パレット `madoka`: `--c1` Cobalt / `--c2` Blaze / `--c3` Teal / `--c4` Neon Lime / `--c5` Hot Magenta / `--c6` Deep Plum
-- 淡色カード(`.n4` `.n7` `.n8`)は黒を混ぜず Deep Plum 文字。濃色カードは白文字
-- インパクト: `data-background-color="var(--impact)"` = Neon Lime + Deep Plum 文字
+- 変数: `--hot-magenta --blaze --pale-lilac --lilac --cobalt --teal --navy`(`:root`)
+- 背景は8テーマ `black`(既定) / `pale-lilac` / `lilac` / `navy` / `cobalt` / `magenta` / `blaze` / `white` を `t`キー or `?theme=` で選ぶ。デッキごとに変えてよい
+- 文字・セル・強調色はテーマごとに自動で読める色になる(`--fg --card --acc1〜5 --cacc1〜5`)。手で色指定しない
+- 地と同色のカードは自動で別色に置き換わる
+- インパクト: `data-background-color="var(--impact)"` = Hot Magenta + Pale Lilac 文字
 
 ## 1. コントラスト(最優先・破ると即NG)
-- **読ませる本文は必ず白**(黒背景時)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
-- 黒背景 → 白文字 / 薄紫背景 → Deep Plum 文字(強調は自動で Cobalt)/ 白・グレー背景 → 黒文字。淡い色文字は明るいテーマで自動的に読める色へ落ちる
-- **カラーカードの文字・アイコンは白**。カード背景は「一色の深いベタ塗り(不透明)」にして白を乗せる
-  - 実装: `background: color-mix(in srgb, var(--nc) 88%, #000)`(黒を少しだけ混ぜて白が読める深さに。混ぜすぎると鈍くなるので12%まで)
-- **インパクトスライドは Neon Lime 背景 + Deep Plum 文字**(他パレットでは白文字)
+- **読ませる本文は Pale Lilac**(濃色地)/ **Navy**(明るい地)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
+- 濃い地 → Pale Lilac 文字 / 明るい地 → Navy 文字。強調色はテーマごとに自動で読める色へ切り替わる
+- **カラーカードはブランド色そのまま(混色なし)**。文字・アイコンは明るい色なら Navy、暗い色なら Pale Lilac(`--cN-ink` で自動)
+- **インパクトスライドは Hot Magenta 背景 + Pale Lilac 文字**
 
-## 2. 配色(高彩度・鈍い色は禁止)
-- **はっきりした高彩度**を使う。くすみ・パステル・鈍色は禁止(白文字が乗らない/ダサい)
-- `p`キーで多数のムードを循環。URLは `?palette=tech` 等。ムード例:
-  ポップ / テック / AI / サイバーパンク / ミニマル / 教育 / アカデミック / サイエンス /
-  コーポレート / エグゼクティブ / 成長 / ポジティブ / 自然 / 海洋 / 生き物 / コミュニティ /
-  アート / レトロ / シネマティック / 幻想的 / 愛
-- 全プリセットは「白文字が乗る中〜深トーンの高彩度色」で構成(Tailwind 600〜800相当)
-- 背景は 黒(既定)/ 薄紫 / 白 / グレー を `t`キーで切替(マゼンタ全面は読みにくいので使わない)。明るくしたいときは白より薄紫 `?theme=lilac`
+## 2. 配色
+- JOURNA の7色だけ。他の色・混色・くすみは禁止
+- 背景8テーマは `t`キーで循環(`black` が既定)。`p`キー(旧ムードパレット)は廃止済み
 
 ## 3. タイポグラフィ
 - **欧文 Inter / 和文 Zen Kaku Gothic New**(ヒラギノ角ゴにフォールバック)。サンセリフのみ
@@ -87,10 +83,10 @@ description: >-
 - キー: `l`日英 / `t`背景テーマ / `p`パレット / `c`サイドバー開閉 / `s`ノート / `f`全画面 / `esc`一覧
 
 ## 9. インパクトスライド
-- 言い切りの一文を Neon Lime 全面 + Deep Plum の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
+- 言い切りの一文を Hot Magenta 全面 + Pale Lilac の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
 
 ## クラス早見
-`.note .n1〜.n6`(色分けカード)/ `.n7` `.n8`(Pale Lilac / Warm Cream の読ませるカード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
+`.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Navy / Magenta カード)/ `.n7`(Pale Lilac の読ませるカード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
 `.twocol`(二段組) / `.big`(巨大数字) / `.flow`+`.step`+`.arrow`(3ステップ図) /
 `.takeaway`・`.insight`(枠なし要点テキスト) / `.picto`・`.picto-lg` / `.fig-card` /
 `table.compare` / `.kicker`(セクション表示)
