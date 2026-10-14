@@ -31,54 +31,58 @@
     --lilac:       #B7A3F5;
     --cobalt:      #3346F0;
     --teal:        #18B7A0;
-    --navy:        #141B4D;
+    --navy:        #141B4D;   /* 地(theme-navy)専用。文字・箱には使わない(まどかルール) */
 
-    /* カード色 .n1〜.n6 (順番は「小さい文字を載せてよい色」から) */
-    --c1: var(--blaze);        --c1-ink: var(--navy);
-    --c2: var(--lilac);        --c2-ink: var(--navy);
-    --c3: var(--teal);         --c3-ink: var(--navy);
+    /* カード色 .n1〜.n6。文字は明るい色なら Cobalt、濃い色なら Pale Lilac(白文字オプションで白) */
+    --c1: var(--blaze);        --c1-ink: #FFFFFF;
+    --c2: var(--lilac);        --c2-ink: var(--cobalt);
+    --c3: var(--teal);         --c3-ink: #FFFFFF;
     --c4: var(--cobalt);       --c4-ink: var(--pale-lilac);
-    --c5: var(--navy);         --c5-ink: var(--pale-lilac);
+    --c5: var(--pale-lilac);   --c5-ink: var(--cobalt);
     --c6: var(--hot-magenta);  --c6-ink: var(--pale-lilac);   /* 見出しだけ。小さい文字は載せない */
-    --impact: var(--hot-magenta);      /* インパクト全面 = Hot Magenta + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ) */
+    --impact: var(--hot-magenta);      /* インパクト全面 = Hot Magenta + Pale Lilac 文字 */
     --impact-ink: var(--pale-lilac);
-    --note-ink: var(--navy);
+    --note-ink: var(--cobalt);
   }
 
-  /* ---------- 背景テーマ(tキーで循環 / ?theme=navy 等) ----------
-     各テーマで「地・文字・セル・強調色」をブランド7色だけで組む。
+  /* ---------- 背景テーマ(tキーで循環 / ?theme=cobalt 等) ----------
+     各テーマで「地・文字・セル・強調色」をブランド色だけで組む。Navy は地にしか使わない。
      --acc1〜5 = 地の上の強調文字(.a1〜.a5 / .num)、--cacc1〜5 = セル(.cell/.step)の中の強調文字
-     --card-fg = セルの中の文字色(地の文字色と違うときだけ指定)。Navy は小さい面(セル・サイドバー・現在地)には使わない */
-  body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45);
-                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac); }
-  body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--navy); --muted:#4B4F8C; --card:var(--lilac); --border:rgba(20,27,77,.25); --chrome:#CFC3FA; --shadow:rgba(20,27,77,.2);
-                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy);
-                          --cacc1:var(--navy); --cacc2:var(--navy); --cacc3:var(--navy); --cacc4:var(--navy); --cacc5:var(--navy); }
-  body.theme-lilac      { --bg:var(--lilac); --fg:var(--navy); --muted:#3B3F7A; --card:var(--pale-lilac); --border:rgba(20,27,77,.25); --chrome:#A994EE; --shadow:rgba(20,27,77,.25);
-                          --link:var(--navy); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
-  body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:#0F1440; --shadow:rgba(0,0,0,.45);
-                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+     --card-fg = セルの中の文字色(地の文字色と違うときだけ指定)。--chrome は常に地と同色(帯を作らない)
+     絶対ルール: 地と同じ色・ほぼ同じ色の箱を作らない(黒地に黒灰の箱、紺地に黒い箱、橙地に橙の箱は禁止)。箱は必ず別のブランド色 */
+  body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:#2A2A30; --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
                           --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
-  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--navy); --border:rgba(220,210,255,.3); --chrome:var(--cobalt); --shadow:rgba(0,0,40,.4);
-                          --link:var(--pale-lilac); --active:var(--teal); --active-fg:var(--navy);
+  body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--lilac); --border:rgba(51,70,240,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--teal); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-lilac      { --bg:var(--lilac); --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--pale-lilac); --border:rgba(51,70,240,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.3); --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
                           --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
-  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--navy); --border:rgba(220,210,255,.35); --chrome:var(--hot-magenta); --shadow:rgba(20,27,77,.35);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.35); --chrome:var(--bg); --shadow:none;
                           --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
-  body.theme-blaze      { --bg:var(--blaze); --fg:var(--navy); --muted:var(--navy); --card:var(--pale-lilac); --border:rgba(20,27,77,.3); --chrome:var(--blaze); --shadow:rgba(20,27,77,.3);
-                          --link:var(--navy); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
-  body.theme-white      { --bg:#FAFAF8; --fg:var(--navy); --muted:#6B6E99; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-white      { --bg:#FAFAF8; --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--pale-lilac); --border:#E4E4E7; --chrome:var(--bg); --shadow:none;
                           --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy); }
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--teal); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
+                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+
+  /* 白文字オプション(wキー / ?ink=white): 濃色地の文字を Pale Lilac → 白に。明るい地では無効 */
+  body.ink-white:is(.theme-black, .theme-navy, .theme-cobalt, .theme-magenta) { --fg:#FFFFFF; --link:#FFFFFF; --acc5:#FFFFFF; --c4-ink:#FFFFFF; --c6-ink:#FFFFFF; }
+  body.ink-white.theme-magenta { --active-fg:#FFFFFF; }
+  body.ink-white { --impact-ink:#FFFFFF; }
 
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
   .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
@@ -120,21 +124,20 @@
   .n2{--nc:var(--c2); --nc-ink:var(--c2-ink)}   /* Lilac */
   .n3{--nc:var(--c3); --nc-ink:var(--c3-ink)}   /* Teal */
   .n4{--nc:var(--c4); --nc-ink:var(--c4-ink)}   /* Cobalt */
-  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink)}   /* Navy */
+  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink)}   /* Pale Lilac */
   .n6{--nc:var(--c6); --nc-ink:var(--c6-ink)}   /* Hot Magenta — 見出しだけ、小さい文字は載せない */
-  .n7{--nc:var(--pale-lilac); --nc-ink:var(--navy)}   /* Pale Lilac — 長文を読ませるカード */
-  /* 地と同じ色のカードは溶けるので、テーマごとに自動で別色へ置き換える */
-  body.theme-pale-lilac .n7 { --nc: var(--lilac);      --nc-ink: var(--navy); }
-  body.theme-lilac      .n2 { --nc: var(--pale-lilac); --nc-ink: var(--navy); }
-  body.theme-navy       .n5 { --nc: var(--cobalt);     --nc-ink: var(--pale-lilac); }
-  body.theme-cobalt     .n4 { --nc: var(--pale-lilac); --nc-ink: var(--navy); }
-  body.theme-magenta    .n6 { --nc: var(--blaze);      --nc-ink: var(--navy); }   /* Magenta + Blaze のペア */
-  body.theme-blaze      .n1 { --nc: var(--cobalt);     --nc-ink: var(--pale-lilac); }
+  .n7{--nc:var(--pale-lilac); --nc-ink:var(--cobalt)}   /* Pale Lilac — 長文を読ませるカード(.n5 と同じ) */
+  /* 地と同じ色のカードは溶けるので、テーマごとに自動で別色へ置き換える(Navy には置き換えない) */
+  body.theme-pale-lilac :is(.n5, .n7) { --nc: var(--lilac);      --nc-ink: var(--cobalt); }
+  body.theme-lilac      .n2          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
+  body.theme-cobalt     .n4          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
+  body.theme-magenta    .n6          { --nc: var(--blaze);      --nc-ink: #FFFFFF; }   /* Magenta + Blaze のペア */
 
   /* ---------- ダークセル(ベント) ---------- */
   .cell, .flow .step, .eq-block, table.compare th, #sidebar li, .reveal kbd { color: var(--card-fg, var(--fg)); }
   .cell h4, .cell p, .flow .step h4, .flow .step p { color: inherit; }
-  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
+  /* 箱は塗りだけ。縁線・影・地と僅かに違う帯は一切付けない(まどかルール) */
+  .cell { background: var(--card); border: 0; border-radius: 16px; padding: 1em 1.15em; }
   .cell h4 { font-size: 0.95em; margin: 0 0 0.45em 0; }
   .cell p  { font-size: 0.8em; font-weight: 500; margin: 0; line-height: 1.6; }
 
@@ -153,7 +156,7 @@
 
   /* ---------- フロー図 ---------- */
   .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
-  .flow .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 0.65em 0.5em; }
+  .flow .step { background: var(--card); border: 0; border-radius: 16px; padding: 0.65em 0.5em; }
   .flow .step h4 { font-size: 0.9em; margin: 0.3em 0 0.15em 0; }
   .flow .step p { font-size: 0.7em; margin: 0; }
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
@@ -167,7 +170,7 @@
   /* 意味のない座布団ボックスは禁止。持ち帰り/気づきは枠なしのテキストで、余白と字間だけで整理する */
   .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
   .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
-  .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+  .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 0; }
   .label { display: inline-block; background: var(--active); color: var(--active-fg); font-size: 0.65em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
   .reveal ul li, .reveal ol li { margin: 0.25em 0; }
   .reveal ul { font-size: 0.9em; }
@@ -176,29 +179,30 @@
   table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 16px; text-align: left; }
   table.compare th { background: var(--card); }
 
-  .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; box-shadow: 0 8px 24px var(--shadow); }
+  .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; }
+  body.theme-white .fig-card { background: var(--pale-lilac); }   /* 白地に白い箱は禁止 */
   .fig-card img { display: block; max-width: 100%; max-height: 360px; border-radius: 6px; }
   .fig-row { text-align: center; }
   .fig-caption { font-size: 0.78em; color: var(--muted); margin-top: 0.7em; }
 
   .reveal .katex { color: var(--fg); }
-  .reveal kbd { background: var(--card); border: 1px solid var(--border); color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
+  .reveal kbd { background: var(--card); border: 0; color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
   .num { color: var(--c1); font-weight: 800; }
 
   /* ============================================================
      Notes風アプリ・クローム(上バー + サイドバー目次)
      ============================================================ */
   #chrome { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
-  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 44px; background: var(--chrome); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 44px; background: var(--chrome); border-bottom: 0; display: flex; align-items: center; padding: 0 14px; gap: 14px; }
   .tl { width: 12px; height: 12px; border-radius: 50%; }
   .tl-r { background:#FF5F57; } .tl-y { background:#FEBC2E; } .tl-g { background:#28C840; }
   #topbar .tools { margin-left: auto; color: var(--muted); font-size: 13px; letter-spacing: 0.35em; }
-  #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 1px solid var(--border); padding: 14px 12px; box-sizing: border-box; }
+  #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 0; padding: 14px 12px; box-sizing: border-box; }
   #sidebar .side-title { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin: 2px 4px 10px 4px; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
   #sidebar ul { list-style: none; margin: 0; padding: 0; }
-  #sidebar li { background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
+  #sidebar li { background: var(--card); border: 0; font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
   #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
-  #sidebar li.active { background: var(--active); border-color: var(--active); color: var(--active-fg); }
+  #sidebar li.active { background: var(--active); color: var(--active-fg); }
   #sidebar li.active .meta { color: var(--active-fg); opacity: .8; }
 
   .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
@@ -209,7 +213,7 @@
 
   .nav-hint { position: fixed; bottom: 8px; right: 12px; font-size: 11px; color: var(--muted); z-index: 100; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
   #pal-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 120;
-    background: var(--card); border: 1px solid var(--border); color: var(--fg); font-family: 'Inter','Zen Kaku Gothic New',sans-serif;
+    background: var(--card); border: 0; color: var(--fg); font-family: 'Inter','Zen Kaku Gothic New',sans-serif;
     font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .25s; pointer-events: none; }
   #pal-toast .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px -1px 0; }
   #pal-toast.show { opacity: 1; }
@@ -237,7 +241,7 @@
   </div>
 </div>
 
-<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>w</kbd> white ink &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
 <div class="lang-badge"></div>
 <div id="pal-toast"></div>
 
@@ -249,13 +253,13 @@
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
     <p style="margin-top:1.2em;"><b>まどか</b><br>
     <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 8色を切替 · <kbd>s</kbd> ノート</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 7色 · <kbd>w</kbd> 白文字 · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
     <h1>Presentation Title<br>Subtitle</h1>
     <p style="margin-top:1.2em;"><b>Madoka</b><br>
     <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> cycle 8 backgrounds · <kbd>s</kbd> notes</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> 7 backgrounds · <kbd>w</kbd> white ink · <kbd>s</kbd> notes</p>
   </div>
   <aside class="notes">
     <div class="lang-ja">タイトルのスピーカーノート。</div>
@@ -479,11 +483,12 @@
   }
 
   /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
-  const THEMES = ['theme-black', 'theme-pale-lilac', 'theme-lilac', 'theme-navy', 'theme-cobalt', 'theme-magenta', 'theme-blaze', 'theme-white'];
+  const THEMES = ['theme-black', 'theme-pale-lilac', 'theme-lilac', 'theme-cobalt', 'theme-magenta', 'theme-white', 'theme-navy'];
   function setTheme(name) {
     document.body.classList.remove(...THEMES);
     document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
   }
+  function toggleInk() { document.body.classList.toggle('ink-white'); }
   function cycleTheme() {
     const i = THEMES.findIndex(t => document.body.classList.contains(t));
     document.body.classList.remove(...THEMES);
@@ -493,8 +498,8 @@
   /* ---------- カラーパレット切替 (pキー) ---------- */
   const PALETTES=[
     /* JOURNA ブランドのみ。旧ムードパレットは全て廃止(2026-10-14)。:root と同じ内容 */
-    { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#141B4D','--c6':'#F0249B',
-                                      '--c1-ink':'#141B4D','--c2-ink':'#141B4D','--c3-ink':'#141B4D','--c4-ink':'#DCD2FF','--c5-ink':'#DCD2FF','--c6-ink':'#DCD2FF',
+    { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#DCD2FF','--c6':'#F0249B',
+                                      '--c1-ink':'#FFFFFF','--c2-ink':'#3346F0','--c3-ink':'#FFFFFF','--c4-ink':'#DCD2FF','--c5-ink':'#3346F0','--c6-ink':'#DCD2FF',
                                       '--impact':'#F0249B','--impact-ink':'#DCD2FF'} }
   ];
   let palIdx = 0;
@@ -522,6 +527,7 @@
   const params = new URLSearchParams(location.search);
   if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
   if (THEMES.includes('theme-' + params.get('theme'))) setTheme(params.get('theme'));
+  if (params.get('ink') === 'white') document.body.classList.add('ink-white');
   if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
   const pQ = params.get('palette');
   if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }
@@ -568,7 +574,7 @@
     keyboard: {
       76: toggleLanguage,  // l
       84: cycleTheme,      // t
-      80: cyclePalette,    // p
+      87: toggleInk,       // w
       67: toggleSidebar    // c
     }
   });

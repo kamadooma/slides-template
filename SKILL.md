@@ -26,29 +26,33 @@ description: >-
 | 役割 | 色 | HEX | 用途 |
 |---|---|---|---|
 | Primary | Hot Magenta | `#F0249B` | 強調語・巨大数字・インパクト全面・カード `.n6`(見出しのみ)。小さい文字の背景にしない |
-| Primary | Blaze | `#FF7A00` | カード `.n1`、濃色地の強調 |
-| Primary | Pale Lilac | `#DCD2FF` | 明るい地 `theme-pale-lilac`、濃色地の文字色、長文カード `.n7` |
-| Secondary | Lilac | `#B7A3F5` | 地 `theme-lilac`、カード `.n2` |
-| Secondary | Cobalt | `#3346F0` | リンク、明るい地の強調、カード `.n4`、地 `theme-cobalt` |
-| Secondary | Teal | `#18B7A0` | 小さなハイライト、カード `.n3` |
-| Secondary | Navy | `#141B4D` | 明るい地の文字色、地 `theme-navy`、カード `.n5` |
+| Primary | Blaze | `#FF7A00` | カード `.n1`(白文字)、強調語。地にはしない |
+| Primary | Pale Lilac | `#DCD2FF` | 明るい地 `theme-pale-lilac`、濃色地の文字色、カード `.n5`/`.n7`、濃色地のセル |
+| Secondary | Lilac | `#B7A3F5` | 地 `theme-lilac`、カード `.n2`(Cobalt 文字) |
+| Secondary | Cobalt | `#3346F0` | **明るい地の文字色**・リンク、カード `.n4`、黒地・Navy地のセル、地 `theme-cobalt` |
+| Secondary | Teal | `#18B7A0` | 小さなハイライト、カード `.n3`(白文字) |
+| Secondary | Navy | `#141B4D` | 地 `theme-navy` **のみ**。文字・箱には絶対使わない |
 
 - 変数: `--hot-magenta --blaze --pale-lilac --lilac --cobalt --teal --navy`(`:root`)
-- 背景は8テーマ `black`(既定) / `pale-lilac` / `lilac` / `navy` / `cobalt` / `magenta` / `blaze` / `white` を `t`キー or `?theme=` で選ぶ。デッキごとに変えてよい
-- 文字・セル・強調色はテーマごとに自動で読める色になる(`--fg --card --acc1〜5 --cacc1〜5`)。手で色指定しない
-- 地と同色のカードは自動で別色に置き換わる
-- **Navy を小さい面(セル・サイドバー・現在地)に使わない**。Navy の面は大きなカード `.n5` と `theme-navy` の地だけ
+- 背景は7テーマ `black`(既定) / `pale-lilac` / `lilac` / `cobalt` / `magenta` / `white` / `navy` を `t`キー or `?theme=` で選ぶ。デッキごとに変えてよい
+- 文字・セル・強調色はテーマごとに自動で読める色になる(`--fg --card --card-fg --acc1〜5 --cacc1〜5`)。手で色指定しない
+- 白文字オプション: `w`キー / `?ink=white` で濃色地の文字を白に(既定は Pale Lilac。白は選択肢として必ず残す)
 - インパクト: `data-background-color="var(--impact)"` = Hot Magenta + Pale Lilac 文字
 
+### 絶対ルール(まどか指定)
+- **Navy の文字・Navy の箱は禁止**(地にだけ使う)。明るい地の文字は Cobalt
+- **地と同じ色・ほぼ同じ色の箱は禁止**(黒地に黒灰、紺地に黒、橙地に橙、白地に白)。地と同色のカードは自動で別色に置き換わるが、作るときも避ける
+- **箱に縁線・影・地と僅かに違う帯を付けない**。塗りだけ。クロームも地と同色
+
 ## 1. コントラスト(最優先・破ると即NG)
-- **読ませる本文は Pale Lilac**(濃色地)/ **Navy**(明るい地)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
-- 濃い地 → Pale Lilac 文字 / 明るい地 → Navy 文字。強調色はテーマごとに自動で読める色へ切り替わる
-- **カラーカードはブランド色そのまま(混色なし)**。文字・アイコンは明るい色なら Navy、暗い色なら Pale Lilac(`--cN-ink` で自動)
+- **読ませる本文は Pale Lilac か白**(濃色地)/ **Cobalt**(明るい地)。色をつけてよいのは**タイトル・強調語・巨大数字だけ**
+- 濃い地 → Pale Lilac(または白)文字 / 明るい地 → Cobalt 文字。強調色はテーマごとに自動で読める色へ切り替わる
+- **カラーカードはブランド色そのまま(混色なし)**。文字・アイコンは Blaze・Teal は白、Lilac・Pale Lilac は Cobalt、Cobalt・Magenta は Pale Lilac(`--cN-ink` で自動)
 - **インパクトスライドは Hot Magenta 背景 + Pale Lilac 文字**
 
 ## 2. 配色
 - JOURNA の7色だけ。他の色・混色・くすみは禁止
-- 背景8テーマは `t`キーで循環(`black` が既定)。`p`キー(旧ムードパレット)は廃止済み
+- 背景7テーマは `t`キーで循環(`black` が既定)。`p`キー(旧ムードパレット)は廃止済み
 
 ## 3. タイポグラフィ
 - **欧文 Inter / 和文 Zen Kaku Gothic New**(ヒラギノ角ゴにフォールバック)。サンセリフのみ
@@ -81,13 +85,13 @@ description: >-
 ## 8. Notes風クローム / 操作
 - 上部バー(トラフィックライト)+ 左サイドバー目次(`data-section-ja/-en` から自動生成、現在地ハイライト)
 - `data-meta="…"` で日付等の小メタ行。PDF出力時はクローム自動非表示
-- キー: `l`日英 / `t`背景テーマ / `p`パレット / `c`サイドバー開閉 / `s`ノート / `f`全画面 / `esc`一覧
+- キー: `l`日英 / `t`背景テーマ / `w`白文字 / `c`サイドバー開閉 / `s`ノート / `f`全画面 / `esc`一覧
 
 ## 9. インパクトスライド
 - 言い切りの一文を Hot Magenta 全面 + Pale Lilac の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
 
 ## クラス早見
-`.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Navy / Magenta カード)/ `.n7`(Pale Lilac の読ませるカード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
+`.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Pale Lilac / Magenta カード)/ `.n7`(Pale Lilac の読ませるカード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
 `.twocol`(二段組) / `.big`(巨大数字) / `.flow`+`.step`+`.arrow`(3ステップ図) /
 `.takeaway`・`.insight`(枠なし要点テキスト) / `.picto`・`.picto-lg` / `.fig-card` /
 `table.compare` / `.kicker`(セクション表示)

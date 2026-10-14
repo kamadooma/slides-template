@@ -12,12 +12,12 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | 役割 | 名前 | HEX | 変数 | 使い方 |
 |---|---|---|---|---|
 | PRIMARY | Hot Magenta | `#F0249B` | `--hot-magenta` | キーカラー。見出しの強調語・巨大数字・インパクト全面。**小さい文字の背景にはしない** |
-| PRIMARY | Blaze | `#FF7A00` | `--blaze` | 第2キー。カード `.n1`、強調語(濃色地) |
-| PRIMARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 明るい地(`theme-pale-lilac`)。濃色地では文字色。長文カード `.n7` |
+| PRIMARY | Blaze | `#FF7A00` | `--blaze` | 第2キー。カード `.n1`(白文字)、強調語。地にはしない |
+| PRIMARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 明るい地(`theme-pale-lilac`)。濃色地の文字色。カード `.n5`/`.n7`、濃色地のセル |
 | SECONDARY | Lilac | `#B7A3F5` | `--lilac` | 穏やかな地(`theme-lilac`)。カード `.n2` |
-| SECONDARY | Cobalt | `#3346F0` | `--cobalt` | リンク・強調(明るい地)。カード `.n4`。地 `theme-cobalt` |
+| SECONDARY | Cobalt | `#3346F0` | `--cobalt` | **明るい地の文字色**・リンク。カード `.n4`。黒地・Navy地のセル。地 `theme-cobalt` |
 | SECONDARY | Teal | `#18B7A0` | `--teal` | 小さなハイライト。カード `.n3` |
-| SECONDARY | Navy | `#141B4D` | `--navy` | 明るい地での文字色。濃い地(`theme-navy`)。カード `.n5` |
+| SECONDARY | Navy | `#141B4D` | `--navy` | 地 `theme-navy` **のみ**。文字・箱には使わない |
 
 > Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or Lilac. Navy carries all text and is the dark ground.
 > Cobalt is kept for links, Teal for small highlights. No magenta behind small text.
@@ -25,23 +25,27 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 ### 背景バリエーション(`t`キーで循環 / `?theme=` で指定)
 デッキごとに背景を変えてよい。文字色・セル色・強調色はテーマごとに自動で読める組合せになる。
 
-| theme | 地 | 文字 | セル(`.cell`/`.step`) | 強調(`.a1`〜`.a5`/`.num`) |
+| theme | 地 | 文字 | セル(`.cell`/`.step`/サイドバー) | 強調(`.a1`〜`.a5`/`.num`) |
 |---|---|---|---|---|
-| `black`(既定) | #0B0B0D | Pale Lilac | 濃灰 | Magenta / Blaze / Lilac / Teal / Pale Lilac |
-| `pale-lilac` | Pale Lilac | Navy | Lilac | Magenta(a1) / 他は Cobalt |
-| `lilac` | Lilac | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
-| `navy` | Navy | Pale Lilac | Cobalt | Magenta / Blaze / Lilac / Teal(セル内は Pale Lilac) |
-| `cobalt` | Cobalt | Pale Lilac | Pale Lilac(文字 Navy) | Pale Lilac(セル内は Magenta / Cobalt) |
-| `magenta` | Hot Magenta | Pale Lilac | Pale Lilac(文字 Navy) | Pale Lilac(セル内は Magenta / Cobalt) |
-| `blaze` | Blaze | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
-| `white` | #FAFAF8 | Navy | 白 | Magenta(a1) / 他は Cobalt |
+| `black`(既定) | #0B0B0D | Pale Lilac(`w`で白) | Cobalt | Magenta / Blaze / Lilac / Teal / Pale Lilac |
+| `pale-lilac` | Pale Lilac | Cobalt | Lilac | Magenta / Blaze / Teal / Cobalt |
+| `lilac` | Lilac | Cobalt | Pale Lilac | Magenta / Cobalt |
+| `cobalt` | Cobalt | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | Pale Lilac(セル内は Magenta / Blaze / Teal / Cobalt) |
+| `magenta` | Hot Magenta | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | Pale Lilac(セル内は各色) |
+| `white` | #FAFAF8 | Cobalt | Pale Lilac | Magenta / Blaze / Teal / Cobalt |
+| `navy` | Navy | Pale Lilac(`w`で白) | Cobalt | Magenta / Blaze / Lilac / Teal(セル内は Pale Lilac) |
 
-- カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Navy / Hot Magenta(混色なし)。文字は明るい色なら Navy、暗い色なら Pale Lilac(`--cN-ink`)
+### 絶対ルール(まどか指定・破ると即NG)
+- **Navy は地(`theme-navy`)にしか使わない。Navy の文字・Navy の箱は禁止**。明るい地の文字は Cobalt
+- **地と同じ色・ほぼ同じ色の箱は禁止**(黒地に黒灰の箱、紺地に黒い箱、橙地に橙の箱、白地に白い箱)。地と同色のカードは自動で別色に置き換わるが、作るときも避ける
+- **箱の縁に線・影・地と僅かに違う帯を付けない**。箱は塗りだけ(`border:0`、`box-shadow:none`)。クローム(上バー・サイドバー)も地と同色
+- Blaze は地にしない(Navy 文字なしでは読めない)。Blaze はカード `.n1` と強調語で使う
+- Pale Lilac 文字が既定。**白文字は選択肢として残す**: `w`キー / `?ink=white` で濃色地の文字を白に
+
+- カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta(混色なし)。文字は Blaze・Teal は白、Lilac・Pale Lilac は Cobalt、Cobalt・Magenta は Pale Lilac(`--cN-ink`)
 - `.n6`(Hot Magenta)は見出しだけ。本文を載せない(ブランドルール "No magenta behind small text")
-- 地と同じ色のカードはテーマごとに自動で別色に置き換わる(例: `theme-cobalt` の `.n4` は Pale Lilac、`theme-magenta` の `.n6` は Blaze になる)
-- **Navy は小さい面(セル・サイドバー項目・現在地・置き換えカード)には使わない**。Navy の面は大きなカード `.n5` と `theme-navy` の地だけ
 - インパクトスライドは Hot Magenta 全面 + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ)。`data-background-color="var(--impact)"`
-- サイドバーの現在地は Cobalt + Pale Lilac 文字(Cobalt 地では Teal + Navy 文字)
+- サイドバーの現在地は Cobalt(黒・Cobalt・Navy 地では Hot Magenta)+ Pale Lilac 文字
 
 ## 制作フロー
 
@@ -65,11 +69,11 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **キーワードを色で囲む加工(蛍光マーカー等)は禁止**。強調は太字か、限定的に `.a1`〜`.a5`(アクセント色文字)のみ
 
 ### コントラスト(最重要)
-- 濃い地(黒/Navy/Cobalt/Magenta) → 文字は Pale Lilac。明るい地(Pale Lilac/Lilac/Blaze/白) → 文字は Navy。常にはっきり読めること
-- 強調文字(.a1〜.a5/.num)はテーマごとに読める色へ自動で切り替わる(明るい地では Magenta/Cobalt/Navy、濃い地では Magenta/Blaze/Lilac/Teal/Pale Lilac)。色はカード背景側で使うのが基本
+- 濃い地(黒/Cobalt/Magenta/Navy) → 文字は Pale Lilac(または白)。明るい地(Pale Lilac/Lilac/白) → 文字は Cobalt。常にはっきり読めること
+- 強調文字(.a1〜.a5/.num)はテーマごとに読める色へ自動で切り替わる(明るい地では Magenta/Blaze/Teal/Cobalt、濃い地では Magenta/Blaze/Lilac/Teal/Pale Lilac)。色はカード背景側で使うのが基本
 
 ### 色
-- 背景は上記8テーマ — `t`キーまたは `?theme=navy` などで切替
+- 背景は上記7テーマ — `t`キーまたは `?theme=cobalt` などで切替
 - 色は JOURNA の7色のみ。旧パレットは廃止
 - カード上の文字は常に黒 (`--note-ink`)。背景テーマに関係なく変えない
 - ブランドカラーはデッキごとに変えない。別ムードが必要なときは `p`キーのプリセットを使う
@@ -94,8 +98,8 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 | クラス | 用途 |
 |---|---|
-| `.note .n1`〜`.n6` | カラー付箋カード: Blaze / Lilac / Teal / Cobalt / Navy / Hot Magenta |
-| `.note .n7` | 長文を読ませるカード: Pale Lilac + Navy 文字 |
+| `.note .n1`〜`.n6` | カラー付箋カード: Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta |
+| `.note .n7` | 長文を読ませるカード: Pale Lilac + Cobalt 文字 |
 | `.cell` | ダーク/ライトのベントセル |
 | `.bento` / `.bento2` | 3列 / 2列グリッド (`.wide`で2列分) |
 | `.big` | 巨大数字 (+`.a1`〜`.a5`で着色) |
@@ -112,7 +116,8 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | キー | 動作 |
 |---|---|
 | `l` | 日英切替 |
-| `t` | 背景テーマ切替 (黒→Pale Lilac→Lilac→Navy→Cobalt→Magenta→Blaze→白) |
+| `t` | 背景テーマ切替 (黒→Pale Lilac→Lilac→Cobalt→Magenta→白→Navy) |
+| `w` | 濃色地の文字を Pale Lilac ⇄ 白 |
 | `s` | スピーカーノート |
 | `f` | フルスクリーン |
 | `esc` | 一覧 |
@@ -128,11 +133,11 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 ## 更新ルール (v2)
 
 ### 文字色
-- **読ませる本文は Pale Lilac**(黒・濃色地)/ **Navy**(明るい地)。色をつけてよいのは**タイトルと強調語、巨大数字だけ**
-- 明るい地では本文は Navy。強調色はテーマごとに自動で読める色になる(コントラスト保証)
+- **読ませる本文は Pale Lilac か白**(濃色地)/ **Cobalt**(明るい地)。色をつけてよいのは**タイトルと強調語、巨大数字だけ**
+- 明るい地では本文は Cobalt。強調色はテーマごとに自動で読める色になる(コントラスト保証)
 
 ### カラーカード
-- **ブランド色そのままのベタ塗り(混色なし)+ Navy または Pale Lilac の文字・ピクトグラム**。`<div class="note n2">`
+- **ブランド色そのままのベタ塗り(混色なし)+ 白 / Cobalt / Pale Lilac の文字・ピクトグラム**。`<div class="note n2">`
 - 半透明・タイントの「座布団」は禁止
 
 ### 余白
