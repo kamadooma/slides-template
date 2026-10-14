@@ -10,24 +10,52 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
 <style>
   /* ============================================================
-     PALETTE — デッキごとにここだけ差し替える(ヒアリング→自動生成)
-     mood: ポップ・エネルギッシュ (default)
+     MADOKA BRAND COLOURS — まどかの標準カラー(全デッキ共通・変えない)
+     ------------------------------------------------------------
+     PRIMARY   Hot Magenta #F0249B  ground / page background
+               Neon Lime   #D4F73C  key colour, logo, big moments
+               Deep Plum   #241029  text, dark ground
+     SECONDARY Cobalt      #3346F0  alternate ground (cards)
+               Blaze       #FF7A00  accents, alternate ground
+               Teal        #18B7A0  highlights — stays small
+               Pale Lilac  #DCD2FF  calm surfaces
+               Warm Cream  #F4E9D8  reading surfaces
+     Hot Magenta is the ground and Deep Plum carries every word.
+     Neon Lime is for the logo and big moments. Cobalt and Blaze take
+     turns as grounds for posts. Pale Lilac and Warm Cream hold long
+     reading. Teal stays small.
      ============================================================ */
   :root {
-    /* ポップ・高彩度 (vivid) — 既定ムード */
-    --c1: #F26419;   /* orange */
-    --c2: #1E6FE8;   /* blue   */
-    --c3: #8B2FE0;   /* violet */
-    --c4: #12B36A;   /* green  */
-    --c5: #EF2D3C;   /* red    */
-    --c6: #E84393;   /* pink   */
-    --impact: #D62E86;      /* インパクト全面背景 (高彩度マゼンタ・白文字) */
-    --note-ink: #111111;    /* カラーカード上の文字色 */
+    --hot-magenta: #F0249B;
+    --neon-lime:   #D4F73C;
+    --deep-plum:   #241029;
+    --cobalt:      #3346F0;
+    --blaze:       #FF7A00;
+    --teal:        #18B7A0;
+    --pale-lilac:  #DCD2FF;
+    --warm-cream:  #F4E9D8;
+
+    /* ---- 既定パレット = ブランド(pキーで他ムードへ切替可、?palette=madoka で戻る) ---- */
+    --c1: var(--cobalt);       /* カード・代替グラウンド */
+    --c2: var(--blaze);        /* アクセント・代替グラウンド */
+    --c3: var(--teal);         /* ハイライト(小さく) */
+    --c4: var(--neon-lime);    /* キーカラー・大きな見せ場 (淡色: 文字はDeep Plum) */
+    --c5: var(--hot-magenta);  /* グラウンド色 */
+    --c6: var(--deep-plum);    /* 文字色・ダークグラウンド */
+    --c4-ink: var(--deep-plum); --c4-mix: 100%;   /* 淡色カードは黒を混ぜず、文字を濃色に */
+    --c6-mix: 100%;
+    --impact: var(--neon-lime);        /* インパクト全面背景 = Neon Lime(big moments) */
+    --impact-ink: var(--deep-plum);    /* インパクト文字色 */
+    --note-ink: var(--deep-plum);      /* 淡色カード上の文字色 */
   }
-  /* 旧: Apple Notes基準パレット (戻す場合はこちら)
+  /* 旧: ポップ既定パレット (pキーの "pop" に残してある)
+     --c1:#F26419; --c2:#1E6FE8; --c3:#8B2FE0; --c4:#12B36A; --c5:#EF2D3C; --c6:#E84393; --impact:#D62E86;
+     旧: Apple Notes基準パレット
      --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
 
-  /* ---------- 背景テーマ: black(既定) / white / gray — tキーで切替 ---------- */
+  /* ---------- 背景テーマ: magenta(既定・ブランド) / black / white / gray — tキーで切替 ---------- */
+  /* Hot Magenta がグラウンド、Deep Plum が全ての文字。セル(読ませる面)は Warm Cream */
+  body.theme-magenta { --bg:var(--hot-magenta); --fg:var(--deep-plum); --muted:#5C1C4E; --card:var(--warm-cream); --border:rgba(36,16,41,.45); --chrome:#D81F8A; --shadow:rgba(36,16,41,.35); }
   body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
   body.theme-white { --bg:#FAFAF8; --fg:#161616; --muted:#71717A; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14); }
   body.theme-gray  { --bg:#232327; --fg:#F0F0F0; --muted:#A2A2AA; --card:#2C2C31; --border:#3B3B42; --chrome:#1C1C20; --shadow:rgba(0,0,0,.35); }
@@ -56,6 +84,13 @@
   body.theme-white .num, body.theme-gray .a1, body.theme-gray .a2, body.theme-gray .a3,
   body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
   body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
+  /* マゼンタ地では強調文字・巨大数字は Neon Lime(big moments)、リンクは Deep Plum 下線 */
+  body.theme-magenta .a1, body.theme-magenta .a2, body.theme-magenta .a3, body.theme-magenta .a4, body.theme-magenta .a5,
+  body.theme-magenta .num { color: var(--neon-lime); }
+  /* Warm Cream の読ませる面(.cell / .step / .eq-block)の上では Neon Lime が沈むので、強調は Hot Magenta に */
+  body.theme-magenta :is(.cell, .flow .step, .eq-block) :is(.a1, .a2, .a3, .a4, .a5, .num) { color: var(--hot-magenta); }
+  body.theme-magenta .reveal a { color: var(--fg); text-decoration: underline; }
+  body.theme-magenta .reveal h3, body.theme-magenta .kicker, body.theme-magenta .tiny { color: var(--muted); }
 
   .tiny  { font-size: 0.7em; color: var(--muted); }
   .small { font-size: 0.95em; }
@@ -63,11 +98,20 @@
 
   /* ---------- Notes風カラーカード(付箋) ---------- */
   /* カラーカード = 一色の深いベタ塗り(不透明)+ 白文字/白アイコン。白がくっきり乗るよう黒を混ぜて濃くする */
-  .note { --nc: var(--c1); background: color-mix(in srgb, var(--nc) 88%, #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: #fff; }
-  .note h4 { color: #fff; font-size: 0.95em; font-weight: 800; margin: 0 0 0.5em 0; }
-  .note p  { color: #fff; font-size: 0.8em; font-weight: 600; margin: 0; line-height: 1.65; }
-  .note .picto { color: #fff; }
-  .n1{--nc:var(--c1)} .n2{--nc:var(--c2)} .n3{--nc:var(--c3)} .n4{--nc:var(--c4)} .n5{--nc:var(--c5)} .n6{--nc:var(--c6)}
+  /* 淡色(Neon Lime / Pale Lilac / Warm Cream)のカードだけは黒を混ぜず(--nc-mix:100%)、文字を Deep Plum にする(--nc-ink) */
+  .note { --nc: var(--c1); --nc-ink: #fff; --nc-mix: 88%; background: color-mix(in srgb, var(--nc) var(--nc-mix), #000); border: 0; border-radius: 18px; padding: 1em 1.15em; color: var(--nc-ink); }
+  .note h4 { color: inherit; font-size: 0.95em; font-weight: 800; margin: 0 0 0.5em 0; }
+  .note p  { color: inherit; font-size: 0.8em; font-weight: 600; margin: 0; line-height: 1.65; }
+  .note .picto { color: inherit; }
+  .n1{--nc:var(--c1); --nc-ink:var(--c1-ink,#fff); --nc-mix:var(--c1-mix,88%)}
+  .n2{--nc:var(--c2); --nc-ink:var(--c2-ink,#fff); --nc-mix:var(--c2-mix,88%)}
+  .n3{--nc:var(--c3); --nc-ink:var(--c3-ink,#fff); --nc-mix:var(--c3-mix,88%)}
+  .n4{--nc:var(--c4); --nc-ink:var(--c4-ink,#fff); --nc-mix:var(--c4-mix,88%)}
+  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink,#fff); --nc-mix:var(--c5-mix,88%)}
+  .n6{--nc:var(--c6); --nc-ink:var(--c6-ink,#fff); --nc-mix:var(--c6-mix,88%)}
+  /* ブランド固定の読ませるカード: Pale Lilac(calm) / Warm Cream(reading)。パレットを変えても変わらない */
+  .n7{--nc:var(--pale-lilac); --nc-ink:var(--deep-plum); --nc-mix:100%}
+  .n8{--nc:var(--warm-cream); --nc-ink:var(--deep-plum); --nc-mix:100%}
 
   /* ---------- ダークセル(ベント) ---------- */
   .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
@@ -95,8 +139,9 @@
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
 
   /* ---------- インパクトスライド ---------- */
-  section.impact h1 { color: #fff; font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
-  section.impact p  { color: rgba(255,255,255,0.9); }
+  /* 背景は --impact(ブランド既定: Neon Lime)、文字は --impact-ink(既定: Deep Plum)。他パレットでは白文字 */
+  section.impact h1 { color: var(--impact-ink, #fff); font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
+  section.impact p  { color: var(--impact-ink, #fff); opacity: 0.9; }
 
   /* ---------- 既存互換パーツ ---------- */
   /* 意味のない座布団ボックスは禁止。持ち帰り/気づきは枠なしのテキストで、余白と字間だけで整理する */
@@ -135,6 +180,8 @@
   #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
   #sidebar li.active { background: var(--c5); border-color: var(--c5); color: #fff; }
   #sidebar li.active .meta { color: rgba(255,255,255,0.8); }
+  body.theme-magenta #sidebar li.active { background: var(--neon-lime); border-color: var(--neon-lime); color: var(--deep-plum); }
+  body.theme-magenta #sidebar li.active .meta { color: rgba(36,16,41,0.75); }
 
   .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
   body.no-chrome #chrome { display: none; }
@@ -159,7 +206,7 @@
   html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
 </style>
 </head>
-<body class="lang-ja theme-black">
+<body class="lang-ja theme-magenta">
 
 <div id="chrome">
   <div id="topbar">
@@ -184,13 +231,13 @@
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
     <p style="margin-top:1.2em;"><b>まどか</b><br>
     <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/白/グレー · <kbd>s</kbd> ノート</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 マゼンタ/黒/白/グレー · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
     <h1>Presentation Title<br>Subtitle</h1>
     <p style="margin-top:1.2em;"><b>Madoka</b><br>
     <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/white/gray · <kbd>s</kbd> notes</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg magenta/black/white/gray · <kbd>s</kbd> notes</p>
   </div>
   <aside class="notes">
     <div class="lang-ja">タイトルのスピーカーノート。</div>
@@ -337,7 +384,7 @@
 </section>
 
 <!-- =================== 5. IMPACT (全面アクセント背景) =================== -->
-<section class="impact center" data-background-color="#D62E86" data-chrome="off">
+<section class="impact center" data-background-color="var(--impact)" data-chrome="off">
   <div class="lang-ja">
     <h1>言い切りたい一文は、<br>背景ごと塗る。</h1>
     <p class="small">インパクトスライド — 1デッキに1〜2枚まで</p>
@@ -347,8 +394,8 @@
     <p class="small">Impact slide — at most one or two per deck</p>
   </div>
   <aside class="notes">
-    <div class="lang-ja">data-background-color で全面色。data-chrome="off" でサイドバーを消して全画面に。</div>
-    <div class="lang-en">Full-bleed color via data-background-color; data-chrome="off" hides the app chrome.</div>
+    <div class="lang-ja">data-background-color="var(--impact)" で全面色(ブランド既定は Neon Lime + Deep Plum 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
+    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (brand default: Neon Lime with Deep Plum text); data-chrome="off" hides the app chrome.</div>
   </aside>
 </section>
 
@@ -414,7 +461,7 @@
   }
 
   /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
-  const THEMES = ['theme-black', 'theme-white', 'theme-gray'];
+  const THEMES = ['theme-magenta', 'theme-black', 'theme-white', 'theme-gray'];
   function setTheme(name) {
     document.body.classList.remove(...THEMES);
     document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
@@ -427,6 +474,9 @@
 
   /* ---------- カラーパレット切替 (pキー) ---------- */
   const PALETTES=[
+    /* まどか標準(ブランド)。:root と同じ内容。pキーで他ムードを試しても ?palette=madoka / 一周で戻る */
+    { id:'madoka',     ja:'まどか(標準)',     vars:{'--c1':'#3346F0','--c2':'#FF7A00','--c3':'#18B7A0','--c4':'#D4F73C','--c5':'#F0249B','--c6':'#241029',
+                                               '--c4-ink':'#241029','--c4-mix':'100%','--c6-mix':'100%','--impact':'#D4F73C','--impact-ink':'#241029'} },
     { id:'pop',        ja:'ポップ',          vars:{'--c1':'#F26419','--c2':'#1E6FE8','--c3':'#8B2FE0','--c4':'#12B36A','--c5':'#EF2D3C','--c6':'#E84393','--impact':'#D62E86'} },
     { id:'tech',       ja:'テック',          vars:{'--c1':'#0891B2','--c2':'#2563EB','--c3':'#7C3AED','--c4':'#0D9488','--c5':'#4F46E5','--c6':'#C026D3','--impact':'#2563EB'} },
     { id:'ai',         ja:'AI',             vars:{'--c1':'#6D28D9','--c2':'#2563EB','--c3':'#0891B2','--c4':'#DB2777','--c5':'#4F46E5','--c6':'#0D9488','--impact':'#6D28D9'} },
@@ -451,9 +501,12 @@
   ];
   let palIdx = 0;
   const palToast = document.getElementById('pal-toast');
+  const PAL_KEYS = [...new Set(PALETTES.flatMap(p => Object.keys(p.vars)))];
   function applyPalette(i) {
     palIdx = (i % PALETTES.length + PALETTES.length) % PALETTES.length;
     const p = PALETTES[palIdx];
+    // 前のパレットが設定した ink/mix 等を一旦消してから上書き(ブランドの淡色カード設定が他ムードに残らないように)
+    for (const k of PAL_KEYS) document.documentElement.style.removeProperty(k);
     for (const k in p.vars) document.documentElement.style.setProperty(k, p.vars[k]);
     palToast.innerHTML = '<span class="sw" style="background:' + p.vars['--c6'] + '"></span>パレット: ' + p.ja +
       ' <span style="color:var(--muted);font-weight:400">(' + (palIdx+1) + '/' + PALETTES.length + ')</span>';
@@ -470,7 +523,7 @@
 
   const params = new URLSearchParams(location.search);
   if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
-  if (['black','white','gray'].includes(params.get('theme'))) setTheme(params.get('theme'));
+  if (['magenta','black','white','gray'].includes(params.get('theme'))) setTheme(params.get('theme'));
   if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
   const pQ = params.get('palette');
   if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }
