@@ -98,5 +98,5 @@ description: >-
 
 ## 運用
 - `npm run dev` プレビュー / `npm run pdf` PDF出力(元リポジトリのスクリプト)
-- 新デッキ = `slides.html` を複製 → パレット選択 → 中身を日英ペアで差し替え
+- 新デッキ = `slides.html` を複製 → 背景テーマ選択 → 中身を日英ペアで差し替え。**お手本は `examples/fairness/slides.html`**(15枚・日英・ノートに話す原稿)。4枚カードのスライドは `<section class="dense">`
 - 図は `figs/` に置く。ピクトグラムはインラインSVGで直接書く

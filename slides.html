@@ -88,6 +88,13 @@
   .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
   .reveal .slides section { text-align: left; padding: 0; }
   .reveal .lang-ja { word-break: auto-phrase; }   /* 日本語は文節で折り返す(単語の途中で切らない) */
+  /* 4枚カード(2×2)のスライドは縦が足りないので <section class="dense"> で少し詰める(PDFで次ページに落ちないように) */
+  section.dense .bento2 { gap: 1em; }
+  section.dense .note { padding: .75em 1em; }
+  section.dense .note h4 { font-size: .85em; margin-bottom: .35em; }
+  section.dense .note p { font-size: .7em; line-height: 1.5; }
+  section.dense .lang-ja > * + *, section.dense .lang-en > * + * { margin-top: .9em; }
+  section.dense .takeaway { font-size: .8em; }
   .reveal .slides section > * { margin-top: 1.35em; margin-bottom: 1.35em; }
   /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
      これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */

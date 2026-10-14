@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>From Fair to Fairness: the idea of fairness in the West — Technology and Values</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
+<style>
+  /* ============================================================
+     JOURNA BRAND COLOURS — ブランドガイド(JOURNA_BrandGuide.pdf p.06)の7色を
+     そのまま使う。混色・暗色化はしない。全デッキ共通で固定。
+     ------------------------------------------------------------
+     PRIMARY   Hot Magenta #F0249B  key colour, wordmark
+               Blaze       #FF7A00  second key, patterns
+               Pale Lilac  #DCD2FF  base, page background
+     SECONDARY Lilac       #B7A3F5  calm backgrounds
+               Cobalt      #3346F0  accents, links
+               Teal        #18B7A0  highlights
+               Navy        #141B4D  text, dark ground
+     Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or
+     Lilac. Navy carries all text and is the dark ground. Cobalt is kept
+     for links, Teal for small highlights. No magenta behind small text.
+     ============================================================ */
+  :root {
+    --hot-magenta: #F0249B;
+    --blaze:       #FF7A00;
+    --pale-lilac:  #DCD2FF;
+    --lilac:       #B7A3F5;
+    --cobalt:      #3346F0;
+    --teal:        #18B7A0;
+    --navy:        #141B4D;   /* 地(theme-navy)専用。文字・箱には使わない(まどかルール) */
+
+    /* カード色 .n1〜.n6。文字は明るい色なら Cobalt、濃い色なら Pale Lilac(白文字オプションで白) */
+    --c1: var(--blaze);        --c1-ink: #FFFFFF;
+    --c2: var(--lilac);        --c2-ink: var(--cobalt);
+    --c3: var(--teal);         --c3-ink: #FFFFFF;
+    --c4: var(--cobalt);       --c4-ink: var(--pale-lilac);
+    --c5: var(--pale-lilac);   --c5-ink: var(--cobalt);
+    --c6: var(--hot-magenta);  --c6-ink: var(--pale-lilac);   /* 見出しだけ。小さい文字は載せない */
+    --impact: var(--hot-magenta);      /* インパクト全面 = Hot Magenta + Pale Lilac 文字 */
+    --impact-ink: var(--pale-lilac);
+    --note-ink: var(--cobalt);
+  }
+
+  /* ---------- 背景テーマ(tキーで循環 / ?theme=cobalt 等) ----------
+     各テーマで「地・文字・セル・強調色」をブランド色だけで組む。Navy は地にしか使わない。
+     --acc1〜5 = 地の上の強調文字(.a1〜.a5 / .num)、--cacc1〜5 = セル(.cell/.step)の中の強調文字
+     --card-fg = セルの中の文字色(地の文字色と違うときだけ指定)。--chrome は常に地と同色(帯を作らない)
+     絶対ルール: 地と同じ色・ほぼ同じ色の箱を作らない(黒地に黒灰の箱、紺地に黒い箱、橙地に橙の箱は禁止)。箱は必ず別のブランド色 */
+  body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:#2A2A30; --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
+                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+  body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--lilac); --border:rgba(51,70,240,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--teal); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-lilac      { --bg:var(--lilac); --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--pale-lilac); --border:rgba(51,70,240,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.3); --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
+                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.35); --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-white      { --bg:#FAFAF8; --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--pale-lilac); --border:#E4E4E7; --chrome:var(--bg); --shadow:none;
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--teal); --acc4:var(--cobalt); --acc5:var(--cobalt);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
+  body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:var(--bg); --shadow:none;
+                          --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
+                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
+                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+
+  /* 白文字オプション(wキー / ?ink=white): 濃色地の文字を Pale Lilac → 白に。明るい地では無効 */
+  body.ink-white:is(.theme-black, .theme-navy, .theme-cobalt, .theme-magenta) { --fg:#FFFFFF; --link:#FFFFFF; --acc5:#FFFFFF; --c4-ink:#FFFFFF; --c6-ink:#FFFFFF; }
+  body.ink-white.theme-magenta { --active-fg:#FFFFFF; }
+  body.ink-white { --impact-ink:#FFFFFF; }
+
+  html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
+  .reveal { font-family: 'Inter', 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif; font-size: 30px; font-weight: 500; }
+  .reveal .slides section { text-align: left; padding: 0; }
+  .reveal .lang-ja { word-break: auto-phrase; }   /* 日本語は文節で折り返す(単語の途中で切らない) */
+  /* 4枚カードのスライドは縦が足りないので少し詰める(PDFで次ページに落ちないように) */
+  section.dense .bento2 { gap: 1em; }
+  section.dense .note { padding: .75em 1em; }
+  section.dense .note h4 { font-size: .85em; margin-bottom: .35em; }
+  section.dense .note p { font-size: .7em; line-height: 1.5; }
+  section.dense .lang-ja > * + *, section.dense .lang-en > * + * { margin-top: .9em; }
+  section.dense .takeaway { font-size: .8em; }
+  .reveal .slides section > * { margin-top: 1.35em; margin-bottom: 1.35em; }
+  /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
+     これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */
+  .reveal .lang-ja > * + *, .reveal .lang-en > * + * { margin-top: 1.25em; }
+  .reveal .lang-ja > .kicker + h2, .reveal .lang-en > .kicker + h2 { margin-top: 0.15em; }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--fg); font-weight: 900; letter-spacing: -0.02em; text-transform: none; }
+  .reveal h2 { font-size: 1.5em; margin: 0 0 0.6em 0; }
+  .reveal h3 { font-size: 1em; color: var(--muted); font-weight: 500; margin-top: 0; }
+  .reveal .title h1 { font-size: 2.1em; line-height: 1.15; }
+  .reveal section.center, .reveal section.center * { text-align: center; }
+  .reveal a { color: var(--link); text-decoration: underline; }
+  .reveal b, .reveal strong { color: var(--fg); }
+
+  /* アクセント文字色(テーマごとに読める色へ自動で切替) */
+  .a1{color:var(--acc1)} .a2{color:var(--acc2)} .a3{color:var(--acc3)} .a4{color:var(--acc4)} .a5{color:var(--acc5)} .num{color:var(--acc1); font-weight:800}
+  :is(.cell, .flow .step, .eq-block) .a1 { color: var(--cacc1, var(--acc1)); }
+  :is(.cell, .flow .step, .eq-block) .a2 { color: var(--cacc2, var(--acc2)); }
+  :is(.cell, .flow .step, .eq-block) .a3 { color: var(--cacc3, var(--acc3)); }
+  :is(.cell, .flow .step, .eq-block) .a4 { color: var(--cacc4, var(--acc4)); }
+  :is(.cell, .flow .step, .eq-block) .a5 { color: var(--cacc5, var(--acc5)); }
+  :is(.cell, .flow .step, .eq-block) .num { color: var(--cacc1, var(--acc1)); }
+
+  .tiny  { font-size: 0.7em; color: var(--muted); }
+  .small { font-size: 0.95em; }
+  .kicker { color: var(--muted); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
+
+  /* ---------- Notes風カラーカード(付箋) ---------- */
+  /* カラーカード = ブランド色そのまま(混色なし)。文字色は色ごとに固定(--cN-ink): 明るい色は Navy、暗い色は Pale Lilac */
+  .note { --nc: var(--c1); --nc-ink: var(--c1-ink); background: var(--nc); border: 0; border-radius: 18px; padding: 1em 1.15em; color: var(--nc-ink); }
+  .note h4 { color: inherit; font-size: 0.95em; font-weight: 800; margin: 0 0 0.5em 0; }
+  .note p  { color: inherit; font-size: 0.8em; font-weight: 600; margin: 0; line-height: 1.65; }
+  .note .picto { color: inherit; }
+  .n1{--nc:var(--c1); --nc-ink:var(--c1-ink)}   /* Blaze */
+  .n2{--nc:var(--c2); --nc-ink:var(--c2-ink)}   /* Lilac */
+  .n3{--nc:var(--c3); --nc-ink:var(--c3-ink)}   /* Teal */
+  .n4{--nc:var(--c4); --nc-ink:var(--c4-ink)}   /* Cobalt */
+  .n5{--nc:var(--c5); --nc-ink:var(--c5-ink)}   /* Pale Lilac */
+  .n6{--nc:var(--c6); --nc-ink:var(--c6-ink)}   /* Hot Magenta — 見出しだけ、小さい文字は載せない */
+  .n7{--nc:var(--pale-lilac); --nc-ink:var(--cobalt)}   /* Pale Lilac — 長文を読ませるカード(.n5 と同じ) */
+  /* 地と同じ色のカードは溶けるので、テーマごとに自動で別色へ置き換える(Navy には置き換えない) */
+  body.theme-pale-lilac :is(.n5, .n7) { --nc: var(--lilac);      --nc-ink: var(--cobalt); }
+  body.theme-lilac      .n2          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
+  body.theme-cobalt     .n4          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
+  body.theme-magenta    .n6          { --nc: var(--blaze);      --nc-ink: #FFFFFF; }   /* Magenta + Blaze のペア */
+
+  /* ---------- ダークセル(ベント) ---------- */
+  .cell, .flow .step, .eq-block, table.compare th, #sidebar li, .reveal kbd { color: var(--card-fg, var(--fg)); }
+  .cell h4, .cell p, .flow .step h4, .flow .step p { color: inherit; }
+  /* 箱は塗りだけ。縁線・影・地と僅かに違う帯は一切付けない(まどかルール) */
+  .cell { background: var(--card); border: 0; border-radius: 16px; padding: 1em 1.15em; }
+  .cell h4 { font-size: 0.95em; margin: 0 0 0.45em 0; }
+  .cell p  { font-size: 0.8em; font-weight: 500; margin: 0; line-height: 1.6; }
+
+  .bento  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5em; align-items: stretch; }
+  .bento2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5em; align-items: stretch; }
+  .wide   { grid-column: span 2; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; align-items: start; }
+
+  /* 巨大数字 */
+  .big  { font-size: 2.3em; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; }
+
+  /* ---------- ピクトグラム(黒地に白 / currentColorで自動反転) ---------- */
+  .picto { width: 1.7em; height: 1.7em; display: inline-block; vertical-align: middle; }
+  .picto svg, svg.picto { stroke: currentColor; fill: none; stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
+  .picto-lg { width: 2.15em; height: 2.15em; }
+
+  /* ---------- フロー図 ---------- */
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
+  .flow .step { background: var(--card); border: 0; border-radius: 16px; padding: 0.65em 0.5em; }
+  .flow .step h4 { font-size: 0.9em; margin: 0.3em 0 0.15em 0; }
+  .flow .step p { font-size: 0.7em; margin: 0; }
+  .flow .arrow { color: var(--muted); font-size: 1.1em; }
+
+  /* ---------- インパクトスライド ---------- */
+  /* 背景は --impact(ブランド既定: Neon Lime)、文字は --impact-ink(既定: Deep Plum)。他パレットでは白文字 */
+  section.impact h1 { color: var(--impact-ink, #fff); font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
+  section.impact p  { color: var(--impact-ink, #fff); opacity: 0.9; }
+
+  /* ---------- 既存互換パーツ ---------- */
+  /* 意味のない座布団ボックスは禁止。持ち帰り/気づきは枠なしのテキストで、余白と字間だけで整理する */
+  .takeaway, .insight { background: transparent; border: 0; padding: 0; font-size: 0.9em; line-height: 1.7; }
+  .quote { font-style: italic; color: var(--muted); border-left: 3px solid var(--border); padding-left: 1em; font-size: 0.9em; }
+  .eq-block { background: var(--card); padding: 0.5em 1em; border-radius: 12px; text-align: center; border: 0; }
+  .label { display: inline-block; background: var(--active); color: var(--active-fg); font-size: 0.65em; padding: 0.15em 0.6em; border-radius: 999px; vertical-align: middle; margin-left: 0.4em; letter-spacing: 0.05em; font-weight: 800; }
+  .reveal ul li, .reveal ol li { margin: 0.25em 0; }
+  .reveal ul { font-size: 0.9em; }
+
+  table.compare { border-collapse: collapse; font-size: 0.95em; margin-top: 0.4em; color: var(--fg); }
+  table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 16px; text-align: left; }
+  table.compare th { background: var(--card); }
+
+  .fig-card { background: #fff; padding: 14px 14px 10px; border-radius: 12px; display: inline-block; }
+  body.theme-white .fig-card { background: var(--pale-lilac); }   /* 白地に白い箱は禁止 */
+  .fig-card img { display: block; max-width: 100%; max-height: 360px; border-radius: 6px; }
+  .fig-row { text-align: center; }
+  .fig-caption { font-size: 0.78em; color: var(--muted); margin-top: 0.7em; }
+
+  .reveal .katex { color: var(--fg); }
+  .reveal kbd { background: var(--card); border: 0; color: var(--fg); padding: 0.1em 0.4em; border-radius: 5px; font-size: 0.85em; }
+  .num { color: var(--c1); font-weight: 800; }
+
+  /* ============================================================
+     Notes風アプリ・クローム(上バー + サイドバー目次)
+     ============================================================ */
+  #chrome { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 44px; background: var(--chrome); border-bottom: 0; display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+  .tl { width: 12px; height: 12px; border-radius: 50%; }
+  .tl-r { background:#FF5F57; } .tl-y { background:#FEBC2E; } .tl-g { background:#28C840; }
+  #topbar .tools { margin-left: auto; color: var(--muted); font-size: 13px; letter-spacing: 0.35em; }
+  #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 0; padding: 14px 12px; box-sizing: border-box; }
+  #sidebar .side-title { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin: 2px 4px 10px 4px; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #sidebar ul { list-style: none; margin: 0; padding: 0; }
+  #sidebar li { background: var(--card); border: 0; font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
+  #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
+  #sidebar li.active { background: var(--active); color: var(--active-fg); }
+  #sidebar li.active .meta { color: var(--active-fg); opacity: .8; }
+
+  .reveal { position: absolute; top: 44px; left: 206px; right: 0; bottom: 0; width: auto; height: auto; }
+  body.no-chrome #chrome { display: none; }
+  body.no-chrome .reveal { inset: 0; }
+  body.no-sidebar #sidebar { display: none; }
+  body.no-sidebar .reveal { left: 0; }
+
+  .nav-hint { position: fixed; bottom: 8px; right: 12px; font-size: 11px; color: var(--muted); z-index: 100; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
+  #pal-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 120;
+    background: var(--card); border: 0; color: var(--fg); font-family: 'Inter','Zen Kaku Gothic New',sans-serif;
+    font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  #pal-toast .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px -1px 0; }
+  #pal-toast.show { opacity: 1; }
+  .lang-badge { position: fixed; top: 14px; right: 14px; font-size: 11px; color: var(--muted); z-index: 100; letter-spacing: 0.1em; font-weight: 700; font-family: Inter, sans-serif; }
+  .lang-badge::before { content: 'JA'; }
+  body.lang-en .lang-badge::before { content: 'EN'; }
+  body.lang-ja .lang-en { display: none; }
+  body.lang-en .lang-ja { display: none; }
+
+  /* PDFエクスポート時はクロームを外して全面に */
+  html.print-pdf #chrome, html.print-pdf .nav-hint, html.print-pdf .lang-badge { display: none; }
+  html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
+</style>
+</head>
+<body class="lang-ja theme-black">
+
+<div id="chrome">
+  <div id="topbar">
+    <span class="tl tl-r"></span><span class="tl tl-y"></span><span class="tl tl-g"></span>
+    <span class="tools">Aa &nbsp;☰ &nbsp;⊞ &nbsp;⌂</span>
+  </div>
+  <div id="sidebar">
+    <div class="side-title">Contents</div>
+    <ul id="toc"></ul>
+  </div>
+</div>
+
+<div class="nav-hint">← → &nbsp;·&nbsp; <kbd>l</kbd> lang &nbsp;·&nbsp; <kbd>t</kbd> theme &nbsp;·&nbsp; <kbd>w</kbd> white ink &nbsp;·&nbsp; <kbd>c</kbd> sidebar &nbsp;·&nbsp; <kbd>s</kbd> notes &nbsp;·&nbsp; <kbd>f</kbd> full &nbsp;·&nbsp; <kbd>esc</kbd> overview</div>
+<div class="lang-badge"></div>
+<div id="pal-toast"></div>
+
+<div class="reveal"><div class="slides">
+
+<!-- =================== 1. TITLE =================== -->
+<section class="center title" data-section-ja="タイトル" data-section-en="Title">
+  <div class="lang-ja">
+    <h1>Fair から Fairness へ<br><span class="a1">公平</span>という概念の西洋における歴史</h1>
+    <p style="margin-top:1.2em;"><b>まどか</b><br>
+    <span class="small" style="color: var(--muted);">Technology and Values · Professor Catharina · October 2026</span></p>
+  </div>
+  <div class="lang-en">
+    <h1>From <em>Fair</em> to <em>Fairness</em><br>A history of the idea of <span class="a1">fairness</span> in the West</h1>
+    <p style="margin-top:1.2em;"><b>Madoka</b><br>
+    <span class="small" style="color: var(--muted);">Technology and Values · Professor Catharina · October 2026</span></p>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">今日は、英語の fair という言葉が、どうやって fairness「公平」という考え方につながったのかを話します。そして、今の私たちが「公平」と呼んでいるものが、どのように作られてきたのかを見ていきます。</div>
+    <div class="lang-en">Today I will talk about how the English word "fair" became the idea of "fairness", and how the fairness we talk about today was built up over time.</div>
+  </aside>
+</section>
+
+<!-- =================== 2. 導入: fair の語史 =================== -->
+<section data-section-ja="導入 · fair の歴史" data-section-en="Intro · the word fair">
+  <div class="lang-ja">
+    <div class="kicker">導入</div>
+    <h2>fair は最初から<span class="a1">公平</span>だったのか？</h2>
+    <div class="bento">
+      <div class="cell"><div class="big a5">fæger</div><p>古英語。「美しい」「目に心地よい」。天気なら「晴れた」</p></div>
+      <div class="cell"><div class="big a2">1200<span style="font-size:0.5em">年代</span></div><p>13世紀初頭に「正義にかなった」という意味が現れる</p></div>
+      <div class="cell"><div class="big a1">1350<span style="font-size:0.5em">年頃</span></div><p>14世紀半ばに「公平な」「偏りのない」という意味</p></div>
+    </div>
+    <div class="takeaway"><b>そして15世紀半ば</b> — 名詞 fairness に「公平さ」「不偏」の意味が現れる。美しさの言葉が、正しさの言葉にもなった。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Intro</div>
+    <h2>Was <em>fair</em> always about <span class="a1">fairness</span>?</h2>
+    <div class="bento">
+      <div class="cell"><div class="big a5">fæger</div><p>Old English: "beautiful", "pleasing to the eye". Of weather: "fine, sunny"</p></div>
+      <div class="cell"><div class="big a2">1200<span style="font-size:0.5em">s</span></div><p>Early 13th century: the sense "just, in line with justice" appears</p></div>
+      <div class="cell"><div class="big a1">1350<span style="font-size:0.5em">ca.</span></div><p>Mid-14th century: "equitable", "impartial", "unbiased"</p></div>
+    </div>
+    <div class="takeaway"><b>Then, mid-15th century</b> — the noun <em>fairness</em> takes on "impartiality". A word for beauty became a word for rightness.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">まず、英語の fair には少し意外な歴史があります。古い英語の fæger は、もともと「美しい」「見ていて気持ちがいい」という意味でした。天気の話なら「晴れている」です。1200年代の初めに「正しい」という意味が出てきます。1300年代の半ばには「公平な」「かたよりのない」という意味が確認できます。名詞の fairness に「公平さ」という意味が出るのは1400年代の半ばです。つまり、言葉の歴史だけを見ると、fair はもともと倫理の専門用語ではありませんでした。美しさや好ましさを表す言葉が、正しさや公平さも表すようになったのです。</div>
+    <div class="lang-en">First, the English word "fair" has a slightly surprising history. The Old English word fæger originally meant "beautiful" or "pleasing to look at". For weather, it meant "sunny". In the early 1200s the meaning "just" appears. By the mid-1300s we find "fair" meaning "impartial" or "unbiased". The noun "fairness" gets the meaning "impartiality" in the mid-1400s. So if we look only at the word, "fair" was not originally a technical term in ethics. A word for beauty and pleasantness came to express rightness and fairness too.</div>
+  </aside>
+</section>
+
+<!-- =================== 3. 二つの歴史 =================== -->
+<section data-section-ja="二つの歴史" data-section-en="Two histories">
+  <div class="lang-ja">
+    <div class="kicker">導入</div>
+    <h2><span class="a1">二つの歴史</span>を分けて考える</h2>
+    <div class="bento2">
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 24h56M20 40h40M20 56h56M20 72h32"/></svg></span>
+        <h4>語の歴史</h4>
+        <p>英語の fair という言葉が、どう意味を変えてきたか。</p>
+      </div>
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M48 14v68M20 34h56M30 34l-12 26h24ZM66 34l-12 26h24Z"/></svg></span>
+        <h4>思想の歴史</h4>
+        <p>何を正義とし、何を公平とみなすか。ギリシャやローマには、もう豊かな議論があった。</p>
+      </div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Intro</div>
+    <h2>We keep <span class="a1">two histories</span> apart</h2>
+    <div class="bento2">
+      <div class="note n4">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 24h56M20 40h40M20 56h56M20 72h32"/></svg></span>
+        <h4>The history of the word</h4>
+        <p>How the English word <em>fair</em> changed its meaning.</p>
+      </div>
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M48 14v68M20 34h56M30 34l-12 26h24ZM66 34l-12 26h24Z"/></svg></span>
+        <h4>The history of the idea</h4>
+        <p>What counts as justice, what counts as fair. Greece and Rome already had rich debates.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">ただし、ここで注意が必要です。この言葉の歴史は、「公平という考え方そのものが、美しさの考え方から生まれた」ことを証明するものではありません。古代ギリシャやローマには、すでに正義についてのたくさんの議論がありました。なので今日は、二つの歴史を分けて考えます。一つは fair という英語の言葉の歴史。もう一つは、何を正しいとし、何を公平とみなすかという、考え方の歴史です。この二つが、現代でどのように結びついたのか。それが今日の中心の問いです。</div>
+    <div class="lang-en">But here we need to be careful. This word history does not prove that the idea of fairness itself was born from the idea of beauty. Ancient Greece and Rome already had rich discussions about justice. So today I will keep two histories apart. One is the history of the English word "fair". The other is the history of ideas: what we call just, and what we call fair. How did these two come together in the modern world? That is the central question today.</div>
+  </aside>
+</section>
+
+<!-- =================== 4. アリストテレス =================== -->
+<section data-section-ja="アリストテレス" data-section-en="Aristotle">
+  <div class="lang-ja">
+    <div class="kicker">古代から中世</div>
+    <h2>アリストテレス: 正義は<span class="a1">一種類ではない</span></h2>
+    <div class="bento2">
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="30"/><path d="M48 18v60M18 48h60"/></svg></span>
+        <h4>分配的正義</h4>
+        <p>名誉や財産を、どんな基準で分けるか。全員に同じ量ではない。何を基準に、どんな割合で分けるかが問題。</p>
+      </div>
+      <div class="note n3">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M16 60h64M24 60l8-28h32l8 28"/><path d="M40 32v-8h16v8"/></svg></span>
+        <h4>矯正的正義</h4>
+        <p>取引や損害で崩れたバランスを、どう直すか。</p>
+      </div>
+    </div>
+    <div class="bento2">
+      <div class="cell"><h4>Equality · 平等</h4><p>全員に同じものを与える。</p></div>
+      <div class="cell"><h4>Equity · 公平</h4><p>状況・貢献・必要に応じて、違うものを与える。</p></div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Antiquity to the Middle Ages</div>
+    <h2>Aristotle: justice is <span class="a1">not one thing</span></h2>
+    <div class="bento2">
+      <div class="note n1">
+        <span class="picto"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="30"/><path d="M48 18v60M18 48h60"/></svg></span>
+        <h4>Distributive justice</h4>
+        <p>By what standard do we share out honour and wealth? Not the same amount for everyone. The question is the standard and the ratio.</p>
+      </div>
+      <div class="note n3">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M16 60h64M24 60l8-28h32l8 28"/><path d="M40 32v-8h16v8"/></svg></span>
+        <h4>Corrective justice</h4>
+        <p>How do we repair a balance broken by a deal or by harm?</p>
+      </div>
+    </div>
+    <div class="bento2">
+      <div class="cell"><h4>Equality</h4><p>Give everyone the same thing.</p></div>
+      <div class="cell"><h4>Equity</h4><p>Give different things according to situation, contribution and need.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">まず古代ギリシャに戻りましょう。アリストテレスは『ニコマコス倫理学』の第5巻で正義を論じています。大事なのは、正義を「全員を同じように扱うこと」とは考えていない点です。彼は少なくとも二つの正義を分けました。一つは分配的正義。名誉や財産などを、どんな基準で分けるべきかという問題です。公平な分配は、全員に同じ量を配ることではありません。何を基準に、どんな割合で分けるかが問題になります。もう一つは矯正的正義。取引や損害で崩れたバランスを、どう直すかという問題です。ここに、今も続く大事な問いがあります。公平とは、全員に同じものを与えることでしょうか。それとも、状況や貢献、必要に応じて、違うものを与えることでしょうか。今の言葉で言えば、前者が Equality(平等)、後者が Equity(公平)です。この二つは同じではありません。</div>
+    <div class="lang-en">Let's go back to ancient Greece. Aristotle discusses justice in Book 5 of the Nicomachean Ethics. The important point is that he does not think of justice as simply "treating everyone the same". He separates at least two kinds of justice. One is distributive justice: by what standard should we share out things like honour and wealth? A fair share is not the same amount for everyone. The question is the standard and the ratio. The other is corrective justice: how do we repair a balance that was broken by a deal or by harm? Here we find a question that is still with us. Is fairness giving everyone the same thing? Or giving different things, according to situation, contribution and need? In today's words, the first is equality and the second is equity. They are not the same thing.</div>
+  </aside>
+</section>
+
+<!-- =================== 5. 衡平 =================== -->
+<section data-section-ja="衡平 epieikeia" data-section-en="Equity · epieikeia">
+  <div class="lang-ja">
+    <div class="kicker">古代から中世</div>
+    <h2>ルールをそのまま当てはめると、<span class="a1">不公平</span>になることがある</h2>
+    <div class="flow">
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><rect x="22" y="14" width="52" height="68" rx="6"/><path d="M34 34h28M34 48h28M34 62h18"/></svg></span>
+        <h4>ルールは全員向け</h4><p>いろいろな場面に使えるように、ざっくり書かれる</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M48 16 84 78H12Z"/><path d="M48 38v18M48 64v4"/></svg></span>
+        <h4>でも例外の人がいる</h4><p>その人にそのまま当てはめると、かえって不公平になる</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M16 56h64M26 56l10-30h24l10 30"/><circle cx="48" cy="70" r="8"/></svg></span>
+        <h4>ルールの目的に戻る</h4><p>「このルールは何のためか」を考えて、その人に合わせて判断する。これが衡平(epieikeia)</p>
+      </div>
+    </div>
+    <div class="insight">「同じルール」が、そのまま「公平」になるとは限らない。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Antiquity to the Middle Ages</div>
+    <h2>Applying a rule as written can be <span class="a1">unfair</span></h2>
+    <div class="flow">
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><rect x="22" y="14" width="52" height="68" rx="6"/><path d="M34 34h28M34 48h28M34 62h18"/></svg></span>
+        <h4>Rules are written for everyone</h4><p>Kept general so they fit many situations</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M48 16 84 78H12Z"/><path d="M48 38v18M48 64v4"/></svg></span>
+        <h4>But some people are exceptions</h4><p>Applied to them as written, the rule becomes unfair</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="picto picto-lg"><svg viewBox="0 0 96 96"><path d="M16 56h64M26 56l10-30h24l10 30"/><circle cx="48" cy="70" r="8"/></svg></span>
+        <h4>Go back to the rule's purpose</h4><p>Ask "what is this rule for?" and judge the case accordingly. This is equity (epieikeia)</p>
+      </div>
+    </div>
+    <div class="insight">"The same rule" does not automatically mean "fair".</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">アリストテレスはもう一つ、「衡平」と訳される考え方を話しています。ルールは、いろいろな場面で使えるように、全員向けにざっくり書かれます。でも現実には、例外の人がいます。その人にルールをそのまま当てはめると、かえって不公平になることがあります。そういうときは、「このルールは何のためにあるのか」に戻って、その人に合わせて判断する。これが衡平です。これは今の AI の問題とそっくりです。機械はルールを例外なく当てはめます。だから、同じルールを全員に当てはめることが、そのまま公平になるとは限らないのです。</div>
+    <div class="lang-en">Aristotle also talks about an idea usually translated as "equity". Rules are written for everyone, in a general way, so that they fit many situations. But in real life, some people are exceptions. If we apply the rule to them exactly as written, the result can actually be unfair. In that case we go back to the question "what is this rule for?" and judge the case accordingly. That is equity. This looks a lot like today's AI problem. A machine applies the rule with no exceptions. So applying the same rule to everyone does not automatically mean treating everyone fairly.</div>
+  </aside>
+</section>
+
+<!-- =================== 6. ローマ法・中世 =================== -->
+<section data-section-ja="ローマ法と中世" data-section-en="Rome and the Middle Ages">
+  <div class="lang-ja">
+    <div class="kicker">古代から中世</div>
+    <h2>「各人に、その人のものを」</h2>
+    <div class="bento2">
+      <div class="note n2">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 78h56M26 78V40M40 78V40M56 78V40M70 78V40M16 40h64L48 18Z"/></svg></span>
+        <h4>ローマ法</h4>
+        <p>ユスティニアヌス法典『法学提要』: 正義とは「各人にその権利を与えようとする、変わらない意志」。</p>
+      </div>
+      <div class="note n5">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M48 14v68M28 36h40"/><path d="M30 82h36"/></svg></span>
+        <h4>トマス・アクィナス(中世)</h4>
+        <p>アリストテレスの哲学とキリスト教神学を結び、正義を「他者との関係における徳」として体系化。</p>
+      </div>
+    </div>
+    <div class="takeaway">fairness という言葉が生まれる前から、「何が正しい分け方か」「ルールをどう当てはめるか」は議論されていた。fairness の概念のほうが、その言葉がその意味で使われるようになるより古い。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Antiquity to the Middle Ages</div>
+    <h2>"To each what is theirs"</h2>
+    <div class="bento2">
+      <div class="note n2">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M20 78h56M26 78V40M40 78V40M56 78V40M70 78V40M16 40h64L48 18Z"/></svg></span>
+        <h4>Roman law</h4>
+        <p>Justinian's <em>Institutes</em>: justice is "the constant and perpetual will to give each person their right".</p>
+      </div>
+      <div class="note n5">
+        <span class="picto"><svg viewBox="0 0 96 96"><path d="M48 14v68M28 36h40"/><path d="M30 82h36"/></svg></span>
+        <h4>Thomas Aquinas (Middle Ages)</h4>
+        <p>Joined Aristotle's philosophy with Christian theology and systematised justice as a virtue in our relations with others.</p>
+      </div>
+    </div>
+    <div class="takeaway">Long before the word <em>fairness</em> existed, people were already arguing about what a right share is and how rules should be applied. The concept of fairness is older than the use of the word in that sense.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">その後、ローマ法では「各人に、その人に属するものを与える」という正義の決まり文句が大事になります。ユスティニアヌス法典の『法学提要』には、正義を「各人にその権利を与えようとする、変わらない意志」とする定義があります。中世には、トマス・アクィナスがアリストテレスの哲学とキリスト教の神学を結びつけ、正義を「他の人との関係の中の徳」として整理しました。fairness という英語の言葉が生まれる前から、人は「何が正しい分け方か」「ルールをどう当てはめるか」を議論していました。fairness の概念のほうが、その言葉がその意味で使われるようになるより古いのです。だから、現代の公平という考え方は、一つの言葉や一つの思想から生まれたわけではありません。</div>
+    <div class="lang-en">Later, in Roman law, a formula for justice became important: "give each person what belongs to them". Justinian's Institutes define justice as "the constant and perpetual will to give each person their right". In the Middle Ages, Thomas Aquinas joined Aristotle's philosophy with Christian theology, and organised justice as a virtue in our relations with other people. Long before the English word "fairness" existed, people were already arguing about what a right share is and how rules should be applied. The concept of fairness is older than the use of the word in that sense. That is why the modern idea of fairness did not come from a single word or a single school of thought.</div>
+  </aside>
+</section>
+
+<!-- =================== 8. 近代 =================== -->
+<section data-section-ja="近代 · 社会のルールへ" data-section-en="Modern age · rules of society">
+  <div class="lang-ja">
+    <div class="kicker">中世英語から近代へ</div>
+    <h2>近代: 公平は<span class="a1">社会のルール</span>の問題へ</h2>
+    <div class="bento">
+      <div class="cell"><h4>誰が、何を所有できるのか</h4><p>個人の徳や裁判の判断だけでなく、社会の仕組みをどう正当化するかへ</p></div>
+      <div class="cell"><h4>法律は誰に、どう適用されるべきか</h4><p>自然権論・社会契約論・政治哲学の中心的な問い</p></div>
+      <div class="cell"><h4>権利と義務は何を根拠に決めるのか</h4><p>一つの答えではなく、複数の伝統が並行して発展</p></div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">From Middle English to the modern age</div>
+    <h2>Modern age: fairness becomes a question about <span class="a1">the rules of society</span></h2>
+    <div class="bento">
+      <div class="cell"><h4>Who may own what?</h4><p>Beyond personal virtue and court judgements: how do we justify the structure of society?</p></div>
+      <div class="cell"><h4>To whom, and how, should the law apply?</h4><p>Central questions of natural-rights theory, social-contract theory and political philosophy</p></div>
+      <div class="cell"><h4>On what basis are rights and duties set?</h4><p>Not one answer, but several traditions developing side by side</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">近代に入ると、正義や公平は、個人の徳や裁判での判断だけでなく、社会のルールをどう正当化するかという問題にも広がっていきます。誰が何を持てるのか。法律は誰に、どのように当てはめるべきか。権利や義務は、何を根拠に決めるべきか。こうした問いは、近代の自然権論や社会契約論、政治哲学の中で大事な位置を占めました。ここで押さえておきたいのは、fairness が一人で正義の歴史を引っ張ってきたわけではない、ということです。justice、equity、権利、平等、自由といった別々の概念が、それぞれの歴史を持ちながら、現代の公平という問題に集まってきたのです。</div>
+    <div class="lang-en">In the modern age, justice and fairness widen out. They are no longer only about personal virtue or decisions in court. They become a question of how to justify the rules of society. Who may own what? To whom, and how, should the law apply? On what basis should rights and duties be set? These questions had an important place in modern natural-rights theory, social-contract theory and political philosophy. The thing to remember here is that "fairness" did not pull the history of justice along by itself. Different concepts, each with its own history, converged on the modern problem of fairness: justice, equity, rights, equality and liberty.</div>
+  </aside>
+</section>
+
+<!-- =================== 9. ロールズ =================== -->
+<section data-section-ja="ロールズ · 公正としての正義" data-section-en="Rawls · justice as fairness">
+  <div class="lang-ja">
+    <div class="kicker">20世紀</div>
+    <h2>ロールズ『正義論』: <span class="a1">公正としての正義</span></h2>
+    <div class="bento">
+      <div class="cell"><div class="big a1">1971</div><p>ジョン・ロールズ『正義論』。justice as fairness を体系化</p></div>
+      <div class="note n4">
+        <h4>原初状態</h4>
+        <p>社会の中で自分がどんな立場になるかを知らないと仮定して、ルールを選ぶ思考実験。</p>
+      </div>
+      <div class="note n1">
+        <h4>無知のヴェール</h4>
+        <p>自分の階級・才能・性別・人種・社会的地位を知らない、という条件。</p>
+      </div>
+    </div>
+    <div class="takeaway">自分に都合のよいルールを選ぶのを防ぎ、自由で平等な市民の誰もが受け入れられる正義の原理を考える。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">20th century</div>
+    <h2>Rawls, <em>A Theory of Justice</em>: <span class="a1">justice as fairness</span></h2>
+    <div class="bento">
+      <div class="cell"><div class="big a1">1971</div><p>John Rawls, <em>A Theory of Justice</em>. The theory of "justice as fairness"</p></div>
+      <div class="note n4">
+        <h4>The original position</h4>
+        <p>A thought experiment: choose the rules of society without knowing which place in it you will hold.</p>
+      </div>
+      <div class="note n1">
+        <h4>The veil of ignorance</h4>
+        <p>The condition that you do not know your class, talents, gender, race or social position.</p>
+      </div>
+    </div>
+    <div class="takeaway">Stop people in a particular position from choosing rules that suit them, and find principles of justice that every free and equal citizen can accept.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">この歴史の大事な転換点として、20世紀の政治哲学者ジョン・ロールズを紹介します。ロールズは1971年の『正義論』で、justice as fairness、日本語では「公正としての正義」と訳される理論をまとめました。ここでの fairness は、単に「人をかたよりなく扱うこと」ではありません。社会の基本的な制度やルールを、自由で平等な市民にとって公正なものとして正当化できるか、という問題です。ロールズは、社会のルールを考えるときに、自分が社会の中でどんな立場になるかを知らないと仮定する思考実験を使います。これが「原初状態」です。そこで、自分の階級、才能、性別、人種、社会的な地位などを知らない、という条件が「無知のヴェール」です。もし自分が裕福な家に生まれるのか、貧しい家に生まれるのか、有利な立場になるのか、不利な立場になるのかがわからないとしたら、どんな社会のルールを選ぶでしょうか。ロールズの狙いは、特定の立場の人が自分に都合のいいルールを選ぶのを防ぎ、誰もが自由で平等な市民として受け入れられる正義の原理を考えることです。</div>
+    <div class="lang-en">As a key turning point in this history, I want to introduce the 20th-century political philosopher John Rawls. In his 1971 book A Theory of Justice, Rawls set out a theory called "justice as fairness". Here, fairness is not simply "treating people without bias". It is the question of whether the basic institutions and rules of society can be justified as fair to free and equal citizens. Rawls uses a thought experiment: when we think about the rules of society, we imagine that we do not know which position in society we will hold. This is the "original position". The condition that we do not know our class, talents, gender, race or social position is the "veil of ignorance". If you did not know whether you would be born into a rich family or a poor one, whether you would be in a strong position or a weak one, what rules would you choose? Rawls's aim is to stop people in a particular position from choosing rules that suit them, and to find principles of justice that everyone can accept as free and equal citizens.</div>
+  </aside>
+</section>
+
+<!-- =================== 10. ロールズの原理 =================== -->
+<section data-section-ja="ロールズの原理" data-section-en="Rawls's principles">
+  <div class="lang-ja">
+    <div class="kicker">20世紀</div>
+    <h2>同じ結果ではなく、<span class="a1">正当化できる制度</span>を求める</h2>
+    <div class="bento">
+      <div class="note n4">
+        <h4>基本的な自由の平等</h4>
+        <p>まず、誰もが同じ基本的な自由を持つ。</p>
+      </div>
+      <div class="note n1">
+        <h4>公正な機会均等</h4>
+        <p>不平等が認められる場合も、機会は公正に開かれていること。</p>
+      </div>
+      <div class="note n3">
+        <h4>最も不利な人の利益</h4>
+        <p>社会的・経済的な不平等は、最も不利な立場の人の利益になるときにだけ認められる。</p>
+      </div>
+    </div>
+    <div class="insight">差があること自体は、不公平ではない。問うべきなのは「その差を生むルールを、どの立場に生まれても受け入れられるか」。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">20th century</div>
+    <h2>Not the same outcome, but <span class="a1">institutions we can justify</span></h2>
+    <div class="bento">
+      <div class="note n4">
+        <h4>Equal basic liberties</h4>
+        <p>First, everyone has the same basic freedoms.</p>
+      </div>
+      <div class="note n1">
+        <h4>Fair equality of opportunity</h4>
+        <p>Where inequality is allowed, opportunities must be fairly open to all.</p>
+      </div>
+      <div class="note n3">
+        <h4>Benefit to the least advantaged</h4>
+        <p>Social and economic inequalities are allowed only if they work to the benefit of the worst-off.</p>
+      </div>
+    </div>
+    <div class="insight">Inequality by itself is not unfair. The question is whether you could accept the rules that create it, whatever position you were born into.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">その理論では、基本的な自由の平等が重視されます。また、社会的・経済的な不平等が認められる場合にも、公正な機会の平等が確保され、最も不利な立場にいる人の利益になることが求められます。ここで大事なのは、ロールズが「全員を同じにしろ」と言っているわけではない、という点です。お金持ちと貧しい人がいる、それだけで不公平な社会とは言えません。問うべきなのは、その差を生んでいるルールを、自分がどの立場に生まれても受け入れられるか、ということです。たとえば、医者の給料が高いという差は、それで医療が良くなり、一番弱い立場の人の暮らしも良くなるなら、受け入れられます。でも、親がお金持ちなら良い学校に入れるという差は、生まれる前の自分なら選ばないので、受け入れられません。つまりロールズの fairness は、一つ一つの行いの公正さから、社会全体の制度の公正さへと問題を広げます。公平とは「誰に対しても同じことをする」という単純な原則ではなく、社会のルールをどう正当化するかという、政治哲学の問題になるのです。</div>
+    <div class="lang-en">In his theory, equal basic liberties come first. And where social and economic inequalities are allowed, there must be fair equality of opportunity, and the inequalities must work to the benefit of the least advantaged. The important point is that Rawls is not saying "make everyone the same". The fact that some people are rich and some are poor does not by itself make a society unfair. The question is whether you could accept the rules that create that gap, whatever position you were born into. For example, a gap where doctors earn more is acceptable if it makes healthcare better and improves the lives of the worst-off. But a gap where rich parents buy a better school is not, because you would not choose it before knowing where you would be born. So Rawls's fairness widens the problem from the fairness of individual actions to the fairness of society's institutions as a whole. Fairness is no longer the simple principle "do the same to everyone". It becomes a question in political philosophy: how do we justify the rules of society?</div>
+  </aside>
+</section>
+
+<!-- =================== 11. IMPACT =================== -->
+<section class="impact center" data-background-color="var(--impact)" data-chrome="off">
+  <div class="lang-ja">
+    <h1 style="font-size:1.9em">全員に同じルールを当てはめることと、<br>全員を公平に扱うことは、<br>同じではない。</h1>
+  </div>
+  <div class="lang-en">
+    <h1 style="font-size:1.9em">Applying the same rule to everyone<br>is not the same as<br>treating everyone fairly.</h1>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">ここまでを一文にまとめると、こうなります。全員に同じルールを当てはめることと、全員を公平に扱うことは、同じではありません。この考えは、アリストテレスの衡平にも、ロールズの制度の公正さにも共通しています。そして、この問いは今、AIの分野で新しい形で現れています。</div>
+    <div class="lang-en">If I put everything so far into one sentence, it is this: applying the same rule to everyone is not the same as treating everyone fairly. This idea runs from Aristotle's equity to Rawls's fairness of institutions. And today this question appears in a new form, in the field of AI.</div>
+  </aside>
+</section>
+
+<!-- =================== 13. 21 definitions =================== -->
+<section data-section-ja="21の定義" data-section-en="21 definitions">
+  <div class="lang-ja">
+    <div class="kicker">現代</div>
+    <h2>定義が多いのは、<span class="a1">立場</span>が多いから</h2>
+    <div class="bento2">
+      <div class="cell"><div class="big a1">21</div><p>ナラヤナン「21 fairness definitions and their politics」(2018)。機械学習の公平性の定義は多数あり、それぞれ違う価値判断を含む</p></div>
+      <div class="note n5">
+        <h4>どれを重視する？</h4>
+        <p>集団間の結果をそろえること。個人を同じ基準で扱うこと。予測の正確さ。過去の差別や不利益を正すこと。</p>
+      </div>
+    </div>
+    <div class="insight">「何を配分し、何を平等にし、どの不均衡を正すか」は、形を変えて繰り返されている。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Today</div>
+    <h2>Many definitions, because there are many <span class="a1">positions</span></h2>
+    <div class="bento2">
+      <div class="cell"><div class="big a1">21</div><p>Narayanan, "21 fairness definitions and their politics" (2018). Machine learning has many definitions of fairness, each carrying a different value judgement</p></div>
+      <div class="note n5">
+        <h4>Which one matters most?</h4>
+        <p>Equal outcomes between groups. The same standard for every individual. Accuracy of prediction. Repairing past discrimination and disadvantage.</p>
+      </div>
+    </div>
+    <div class="insight">"What to distribute, what to equalise, which imbalance to repair" keeps returning in new forms.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">この問いは今、AIの分野でも新しい形で現れています。たとえば、採用する人を選ぶAIや、融資のリスクを評価するモデルです。2018年、コンピューター科学者のアルヴィンド・ナラヤナンは「21 fairness definitions and their politics」という講義で、機械学習にはたくさんの公平性の定義があり、それぞれに違う価値判断が含まれていることを説明しました。ここで起きているのは、技術者が公平性をうまく数字にできていない、という問題ではありません。そもそも、何を公平と呼ぶべきかについて、違う立場があるのです。集団の間の結果をそろえることを重視するのか。個人を同じ基準で扱うことを重視するのか。予測の正確さを重視するのか。それとも、過去の差別や不利益を正すことを重視するのか。こうした問いには、統計学だけでは答えられません。古代の正義論とAIの公平性は、歴史的に同じものではありません。でも、何を分け、何を平等にし、どんな不均衡を正すべきかという問題は、形を変えて繰り返されています。</div>
+    <div class="lang-en">Today this question appears in a new form in the field of AI, for example in systems that screen job applicants or score loan risk. In 2018, the computer scientist Arvind Narayanan gave a tutorial called "21 fairness definitions and their politics". He explained that machine learning has many definitions of fairness, and each one carries a different value judgement. What is happening here is not that engineers are failing to turn fairness into numbers. The point is that there are different positions on what we should call fair in the first place. Do we care most about equal outcomes between groups? About treating every individual by the same standard? About accurate predictions? Or about repairing past discrimination and disadvantage? Statistics alone cannot answer these questions. Ancient theories of justice and AI fairness are not historically the same thing. But the problem of what to distribute, what to equalise and which imbalance to repair keeps coming back in new forms.</div>
+  </aside>
+</section>
+
+<!-- =================== 14. 結論 =================== -->
+<section data-section-ja="結論" data-section-en="Conclusion">
+  <div class="lang-ja">
+    <div class="kicker">結論</div>
+    <h2>fairness についての<span class="a1">三つ</span>のまとめ</h2>
+    <div class="bento">
+      <div class="note n1">
+        <h4>1. 言葉</h4>
+        <p>fair は「美しい」「好ましい」から「正しい」「偏りのない」へ。fairness は公平さ・不偏を表す名詞に。</p>
+      </div>
+      <div class="note n2">
+        <h4>2. 理念の歴史は語源より広い</h4>
+        <p>ギリシャの正義論、ローマ法、中世神学、近代政治哲学。それぞれ違う問題を扱いながら議論を積み重ねた。</p>
+      </div>
+      <div class="note n3">
+        <h4>3. 公平 ≠ 単純な平等</h4>
+        <p>同じルールの適用、結果をそろえる、不利を改善する、制度を正当化する。別々の要求で、衝突することもある。</p>
+      </div>
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Conclusion</div>
+    <h2><span class="a1">Three</span> points about fairness</h2>
+    <div class="bento">
+      <div class="note n1">
+        <h4>1. The word</h4>
+        <p><em>Fair</em> moved from "beautiful, pleasing" to "just, unbiased". <em>Fairness</em> became the noun for impartiality.</p>
+      </div>
+      <div class="note n2">
+        <h4>2. The idea is wider than the word</h4>
+        <p>Greek theories of justice, Roman law, medieval theology, modern political philosophy. Different problems, one long debate.</p>
+      </div>
+      <div class="note n3">
+        <h4>3. Fairness ≠ simple equality</h4>
+        <p>Same rules, equal outcomes, helping the disadvantaged, justifying institutions. Different demands, and they can collide.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">最後に、今日の話をまとめます。第一に、fair は歴史的に「美しい」「好ましい」という意味から、「正しい」「かたよりのない」という意味へと広がりました。そして fairness は、公平さを表す名詞として発展しました。第二に、公平という理念の歴史は、英語の語源よりもずっと広いものです。古代ギリシャの正義論、ローマ法、中世の神学、近代の政治哲学、現代のAI倫理は、それぞれ違う問題を扱いながら、正義と公平についての議論を積み重ねてきました。第三に、現代の公平は、単純な平等とは違います。同じルールを当てはめること、結果をそろえること、不利な立場を良くすること、制度を公正に正当化することは、それぞれ違う要求です。ときには、これらがぶつかることもあります。だから、私たちが公平について話すときには、ただ「公平であるべきだ」と言うだけでは足りません。</div>
+    <div class="lang-en">Finally, let me sum up. First, "fair" widened historically from "beautiful, pleasing" to "just, unbiased", and "fairness" developed as the noun for impartiality. Second, the history of the idea of fairness is much wider than the English word. Greek theories of justice, Roman law, medieval theology, modern political philosophy and today's AI ethics each dealt with different problems, and together they built up a long debate about justice and fairness. Third, fairness today is not the same as simple equality. Applying the same rules, equalising outcomes, improving the position of the disadvantaged, and justifying institutions fairly are different demands. Sometimes they collide. So when we talk about fairness, just saying "we should be fair" is not enough.</div>
+  </aside>
+</section>
+
+<!-- =================== 14b. どこが西洋的か =================== -->
+<section class="dense" data-section-ja="どこが近代西洋的か" data-section-en="What is modern Western here">
+  <div class="lang-ja">
+    <div class="kicker">結論</div>
+    <h2>この歴史の、どこが<span class="a1">近代西洋的</span>なのか</h2>
+    <div class="bento2">
+      <div class="note n4"><h4>個人が単位</h4><p>公平を受け取るのは、家族や共同体ではなく一人ひとり。「各人にその人のものを」。</p></div>
+      <div class="note n1"><h4>ルールで考える</h4><p>人と人の関係や役割ではなく、「みんなに当てはまるルール」と「その当てはめ方」の問題として扱う。</p></div>
+      <div class="note n2"><h4>身内も他人も同じに扱う</h4><p>公平な人とは、自分の立場や家族を忘れて判断できる人。無知のヴェールはその極端な形。でも「家族をかばうのは正しい」とする伝統では、出発点が逆になる。</p></div>
+      <div class="note n5"><h4>正しさの理由は「みんなが同意するか」</h4><p>「なぜこのルールは正しいのか」への答えが「自由で平等な人なら同意するから」。「昔からそうだから」「神が決めたから」「全体がうまく回るから」ではない。</p></div>
+    </div>
+    <div class="takeaway">4つとも、前に出てくるのは近代から。古代・中世の正義は、むしろ共同体の中の話だった。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Conclusion</div>
+    <h2>What is <span class="a1">modern Western</span> about this history?</h2>
+    <div class="bento2">
+      <div class="note n4"><h4>The individual is the unit</h4><p>Fairness is owed to each person, not to a family or a community. "To each their own."</p></div>
+      <div class="note n1"><h4>Thinking in rules</h4><p>Fairness is treated as a question of general rules and how to apply them, not of relationships and roles.</p></div>
+      <div class="note n2"><h4>Treat your own people and strangers alike</h4><p>A fair person can judge while forgetting their own position and family. The veil of ignorance is the extreme form. But traditions that say "protecting your family is right" start from the opposite point.</p></div>
+      <div class="note n5"><h4>Rightness means "would everyone agree?"</h4><p>The answer to "why is this rule right?" is "because free and equal people would agree to it". Not "because it has always been so", "because God decided", or "because it keeps the whole working".</p></div>
+    </div>
+    <div class="takeaway">All four come to the front only in the modern age. Ancient and medieval justice was more about life inside a community.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">では、この歴史のどこが「近代西洋的」なのでしょうか。4つあると思います。一つ目、公平を受け取る単位が個人だということ。家族や共同体ではなく、一人ひとりです。二つ目、公平を「ルール」の問題として考えること。人と人の関係や役割ではなく、みんなに当てはまるルールと、その当てはめ方を問題にします。三つ目、身内も他人も同じに扱うのが公平だ、という考え方です。裁判官は家族の裁判を担当しない。先生は自分の子どもの点数を甘くつけない。無知のヴェールは、これを極端にしたもので、自分が誰かを全部忘れて考えなさい、という仕組みです。でも『論語』には、父が羊を盗んだら息子はそれを隠す、それが正しい、という話があります。家族をかばうのは不公平ではなく、正しいことだとされているのです。出発点が逆です。四つ目、正しさの理由が「みんなが同意するか」だということ。「なぜこのルールは正しいのか」と聞かれたら、「自由で平等な人なら同意するから」と答えます。「昔からそうだから」「神が決めたから」「全体がうまく回るから」ではありません。この4つは、どれも前に出てくるのは近代からです。社会契約論やロールズの時代です。アリストテレスの正義は都市国家の中の話で、アクィナスの正義は他の人との関係の中の徳でした。古代や中世は、むしろ共同体の話だったのです。だから「西洋的」というより「近代西洋的」と言うほうが正確です。</div>
+    <div class="lang-en">So what is "modern Western" about this history? I think there are four things. First, the unit that receives fairness is the individual, not the family or the community. Second, fairness is treated as a question of rules: general rules that apply to everyone, and how to apply them, rather than relationships and roles. Third, the idea that fairness means treating your own people and strangers alike. A judge does not sit on a case involving their family. A teacher does not grade their own child more kindly. The veil of ignorance is the extreme form of this: forget who you are, then think. But in the Analects there is a story: if a father steals a sheep, the son hides it, and that is uprightness. Protecting your family is not unfair; it is right. The starting point is the opposite. Fourth, the reason a rule is right is "would everyone agree?". If you ask "why is this rule right?", the answer is "because free and equal people would agree to it". Not "because it has always been so", "because God decided", or "because it keeps the whole working". All four of these come to the front only in the modern age, the age of social-contract theory and Rawls. Aristotle's justice was about life in the city-state, and Aquinas's justice was a virtue in our relations with others. In ancient and medieval times, it was more about the community. So it is more accurate to say "modern Western" than simply "Western".</div>
+  </aside>
+</section>
+
+<!-- =================== 15. 普遍ではないかも =================== -->
+<section class="dense" data-section-ja="普遍ではないかも" data-section-en="Maybe not universal">
+  <div class="lang-ja">
+    <div class="kicker">結論</div>
+    <h2>近代西洋の fairness は、<span class="a1">世界共通</span>ではないかもしれない</h2>
+    <div class="bento2">
+      <div class="note n4"><h4>個人 ↔ 関係</h4><p>ウブントゥ「人は、他の人を通して人になる」。儒教では家族の中の役割が出発点。単位は個人とは限らない。</p></div>
+      <div class="note n1"><h4>ルール ↔ 場にふさわしいこと</h4><p>同じルールを全員に当てはめるより、その場・その関係にふさわしい扱いを正しいとする考え方(礼、和)。</p></div>
+      <div class="note n2"><h4>偏りのなさ ↔ 身内への配慮</h4><p>儒教の「親親」: 親を優先するのは不公平ではなく徳。偏りのなさを最上位に置かない伝統がある。</p></div>
+      <div class="note n5"><h4>合意 ↔ 伝統・神の法・調和</h4><p>正しさの根拠が、人々の合意ではなく、神の法(イスラームのアドル)や伝統、全体の調和にある。</p></div>
+    </div>
+    <div class="takeaway">だから「公平であるべきだ」と言うとき、どの fairness の話をしているのかを決めないと、話がかみ合わない。</div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">Conclusion</div>
+    <h2>Modern Western fairness may not be <span class="a1">universal</span></h2>
+    <div class="bento2">
+      <div class="note n4"><h4>Individual ↔ relationship</h4><p>Ubuntu: "a person is a person through other people". In Confucian thought the starting point is one's role in the family. The unit is not always the individual.</p></div>
+      <div class="note n1"><h4>Rules ↔ what fits the situation</h4><p>Rather than the same rule for everyone, the right treatment is what fits this situation and this relationship (<em>li</em>, <em>wa</em>).</p></div>
+      <div class="note n2"><h4>Impartiality ↔ care for one's own</h4><p>Confucian "graded love": putting your parents first is a virtue, not unfairness. Some traditions do not rank impartiality highest.</p></div>
+      <div class="note n5"><h4>Agreement ↔ tradition, divine law, harmony</h4><p>The ground of rightness is not people's consent but divine law (Islamic <em>ʿadl</em>), tradition, or the harmony of the whole.</p></div>
+    </div>
+    <div class="takeaway">So when we say "we should be fair", unless we decide which fairness we mean, we will talk past each other.</div>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">こう見ると、近代西洋の fairness は、世界共通ではないかもしれません。さっきの4つの前提には、それぞれ別の考え方があります。個人が単位、という前提に対しては、アフリカのウブントゥの「人は、他の人を通して人になる」という考えや、儒教のように家族の中の役割から出発する考え方があります。ルールで考える、という前提に対しては、同じルールを全員に当てはめるより、その場やその関係にふさわしい扱いを正しいとする考え方があります。礼や和の考え方です。偏りのなさ、という前提に対しては、儒教の「親親」のように、親を優先することを不公平ではなく徳だとする伝統があります。合意で正当化する、という前提に対しては、正しさの根拠を神の法や伝統、全体の調和に置く考え方があります。イスラームのアドルは神の法に根拠があります。だから「公平であるべきだ」と言うとき、どの fairness の話をしているのかを決めないと、話がかみ合いません。</div>
+    <div class="lang-en">Seen this way, modern Western fairness may not be universal. Each of those four assumptions has an alternative somewhere. Against "the individual is the unit", there is the African idea of ubuntu, "a person is a person through other people", or Confucian thought, which starts from one's role in the family. Against "thinking in rules", there are views in which the right treatment is what fits this situation and this relationship, rather than the same rule for everyone: the ideas of li and wa. Against "impartiality", there are traditions like Confucian graded love, where putting your parents first is a virtue, not unfairness. Against "justified by agreement", there are views that ground rightness in divine law, tradition, or the harmony of the whole; Islamic ʿadl, for example, is grounded in divine law. So when we say "we should be fair", unless we decide which fairness we are talking about, we will talk past each other.</div>
+  </aside>
+</section>
+
+<!-- =================== 16. CLOSING IMPACT =================== -->
+<section class="impact center" data-background-color="var(--impact)" data-chrome="off" data-section-ja="おわりに" data-section-en="Closing">
+  <div class="lang-ja">
+    <h1 style="font-size:1.9em">公平とは、<br>完成した一つの定義ではなく、<br>問い続けるための言葉。</h1>
+  </div>
+  <div class="lang-en">
+    <h1 style="font-size:1.9em">Fairness is not one finished definition.<br>It is a word for keeping<br>the question open.</h1>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">最後に、「fairness は西洋的な概念なのか」という最初の問いに戻ります。fairness という英語の言葉には、固有の歴史があります。でも、公平や正義をめぐる問題そのものを、西洋に限定することはできません。むしろ大事なのは、特定の言語や哲学の中で作られた定義を、すべての社会に通用するただ一つの基準として扱わないことです。公平とは、完成済みの一つの定義ではなく、問い続けるための言葉なのだと思います。ありがとうございました。</div>
+    <div class="lang-en">Let me end by returning to the first question: is fairness a Western concept? The English word "fairness" has its own particular history. But the problems of fairness and justice themselves cannot be limited to the West. What matters more is that we do not treat a definition formed in one language or one philosophy as the single standard that applies to every society. Fairness, I think, is not one finished definition. It is a word for keeping the question open. Thank you.</div>
+  </aside>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+  /* ---------- 言語切替 ---------- */
+  function setLanguage(lang) {
+    document.body.classList.remove('lang-ja', 'lang-en');
+    document.body.classList.add(lang === 'en' ? 'lang-en' : 'lang-ja');
+    document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
+  }
+  function toggleLanguage() {
+    setLanguage(document.body.classList.contains('lang-en') ? 'ja' : 'en');
+  }
+
+  /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
+  const THEMES = ['theme-black', 'theme-pale-lilac', 'theme-lilac', 'theme-cobalt', 'theme-magenta', 'theme-white', 'theme-navy'];
+  function setTheme(name) {
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
+  }
+  function toggleInk() { document.body.classList.toggle('ink-white'); }
+  function cycleTheme() {
+    const i = THEMES.findIndex(t => document.body.classList.contains(t));
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(THEMES[(i + 1) % THEMES.length]);
+  }
+
+  /* ---------- カラーパレット切替 (pキー) ---------- */
+  const PALETTES=[
+    /* JOURNA ブランドのみ。旧ムードパレットは全て廃止(2026-10-14)。:root と同じ内容 */
+    { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#DCD2FF','--c6':'#F0249B',
+                                      '--c1-ink':'#FFFFFF','--c2-ink':'#3346F0','--c3-ink':'#FFFFFF','--c4-ink':'#DCD2FF','--c5-ink':'#3346F0','--c6-ink':'#DCD2FF',
+                                      '--impact':'#F0249B','--impact-ink':'#DCD2FF'} }
+  ];
+  let palIdx = 0;
+  const palToast = document.getElementById('pal-toast');
+  const PAL_KEYS = [...new Set(PALETTES.flatMap(p => Object.keys(p.vars)))];
+  function applyPalette(i) {
+    palIdx = (i % PALETTES.length + PALETTES.length) % PALETTES.length;
+    const p = PALETTES[palIdx];
+    // 前のパレットが設定した ink/mix 等を一旦消してから上書き(ブランドの淡色カード設定が他ムードに残らないように)
+    for (const k of PAL_KEYS) document.documentElement.style.removeProperty(k);
+    for (const k in p.vars) document.documentElement.style.setProperty(k, p.vars[k]);
+    palToast.innerHTML = '<span class="sw" style="background:' + p.vars['--c6'] + '"></span>パレット: ' + p.ja +
+      ' <span style="color:var(--muted);font-weight:400">(' + (palIdx+1) + '/' + PALETTES.length + ')</span>';
+    palToast.classList.add('show');
+    clearTimeout(applyPalette._t);
+    applyPalette._t = setTimeout(() => palToast.classList.remove('show'), 1400);
+  }
+  function cyclePalette() { applyPalette(palIdx + 1); }
+
+  function toggleSidebar() {
+    document.body.classList.toggle('no-sidebar');
+    Reveal.layout();
+  }
+
+  const params = new URLSearchParams(location.search);
+  if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
+  if (THEMES.includes('theme-' + params.get('theme'))) setTheme(params.get('theme'));
+  if (params.get('ink') === 'white') document.body.classList.add('ink-white');
+  if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
+  const pQ = params.get('palette');
+  if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }
+
+  /* ---------- サイドバー目次 (data-section-ja / -en を持つスライドから生成) ---------- */
+  const allSlides = Array.from(document.querySelectorAll('.slides section'));
+  const tocEl = document.getElementById('toc');
+  const entries = [];
+  allSlides.forEach((sec) => {
+    if (sec.dataset.sectionJa || sec.dataset.sectionEn) {
+      const li = document.createElement('li');
+      const meta = sec.dataset.meta ? '<span class="meta">' + sec.dataset.meta + '</span>' : '';
+      li.innerHTML = '<span class="lang-ja">' + (sec.dataset.sectionJa || sec.dataset.sectionEn) + '</span>' +
+                     '<span class="lang-en">' + (sec.dataset.sectionEn || sec.dataset.sectionJa) + '</span>' + meta;
+      tocEl.appendChild(li);
+      entries.push({ sec, li });
+    }
+  });
+  function updateChrome(slide) {
+    // サイドバーの現在位置ハイライト
+    const idx = allSlides.indexOf(slide);
+    let current = null;
+    for (const e of entries) { if (allSlides.indexOf(e.sec) <= idx) current = e; }
+    entries.forEach(e => e.li.classList.toggle('active', e === current));
+    // data-chrome="off" のスライドは全画面
+    const off = slide.dataset.chrome === 'off';
+    document.body.classList.toggle('no-chrome', off);
+    Reveal.layout();
+  }
+
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.05,
+    minScale: 0.2,
+    maxScale: 2.0,
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'none',
+    backgroundTransition: 'none',
+    controls: true,
+    progress: true,
+    plugins: [ RevealNotes ],
+    keyboard: {
+      76: toggleLanguage,  // l
+      84: cycleTheme,      // t
+      87: toggleInk,       // w
+      67: toggleSidebar    // c
+    }
+  });
+
+  function renderMath() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '$$', right: '$$', display: true}
+      ],
+      throwOnError: false
+    });
+  }
+  Reveal.on('ready', (e) => { renderMath(); updateChrome(e.currentSlide); });
+  Reveal.on('slidechanged', (e) => { renderMath(); updateChrome(e.currentSlide); });
+</script>
+</body>
+</html>

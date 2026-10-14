@@ -100,6 +100,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 |---|---|
 | `.note .n1`〜`.n6` | カラー付箋カード: Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta |
 | `.note .n7` | 長文を読ませるカード: Pale Lilac + Cobalt 文字 |
+| `section.dense` | 2×2 の4枚カードのスライドに付ける。カードの文字と余白を詰めてPDFで1ページに収める |
 | `.cell` | ダーク/ライトのベントセル |
 | `.bento` / `.bento2` | 3列 / 2列グリッド (`.wide`で2列分) |
 | `.big` | 巨大数字 (+`.a1`〜`.a5`で着色) |
@@ -123,6 +124,8 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | `esc` | 一覧 |
 
 ## 運用
+
+- **お手本デッキ**: `examples/fairness/slides.html`(「Fair から Fairness へ」15枚・日英・話す原稿付き)。新しいデッキはこれを参考にする
 
 - `npm run dev` でプレビュー、`npm run pdf` でPDF出力(元リポジトリのスクリプトをそのまま使用)
 - 図は `figs/` に置く。ピクトグラムはインラインSVGで直接書く
