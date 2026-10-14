@@ -20,6 +20,7 @@
                Cobalt      #3346F0  accents, links
                Teal        #18B7A0  highlights
                Navy        #141B4D  text, dark ground
+     + まどか追加  Neon Lime  #D4F73C  見せ場: 濃色地の強調語・巨大数字、インパクト背景、カード .n7
      Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or
      Lilac. Navy carries all text and is the dark ground. Cobalt is kept
      for links, Teal for small highlights. No magenta behind small text.
@@ -32,6 +33,7 @@
     --cobalt:      #3346F0;
     --teal:        #18B7A0;
     --navy:        #141B4D;   /* 地(theme-navy)専用。文字・箱には使わない(まどかルール) */
+    --neon-lime:   #D4F73C;   /* 見せ場の色。濃色地の強調・巨大数字・インパクト背景・カード .n7 */
 
     /* カード色 .n1〜.n6。文字は明るい色なら Cobalt、濃い色なら Pale Lilac(白文字オプションで白) */
     --c1: var(--blaze);        --c1-ink: #FFFFFF;
@@ -40,8 +42,8 @@
     --c4: var(--cobalt);       --c4-ink: var(--pale-lilac);
     --c5: var(--pale-lilac);   --c5-ink: var(--cobalt);
     --c6: var(--hot-magenta);  --c6-ink: var(--pale-lilac);   /* 見出しだけ。小さい文字は載せない */
-    --impact: var(--hot-magenta);      /* インパクト全面 = Hot Magenta + Pale Lilac 文字 */
-    --impact-ink: var(--pale-lilac);
+    --impact: var(--neon-lime);        /* インパクト全面 = Neon Lime + Cobalt 文字 */
+    --impact-ink: var(--cobalt);
     --note-ink: var(--cobalt);
   }
 
@@ -52,8 +54,8 @@
      絶対ルール: 地と同じ色・ほぼ同じ色の箱を作らない(黒地に黒灰の箱、紺地に黒い箱、橙地に橙の箱は禁止)。箱は必ず別のブランド色 */
   body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:#2A2A30; --chrome:var(--bg); --shadow:none;
                           --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
-                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
-                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+                          --acc1:var(--neon-lime); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--hot-magenta);
+                          --cacc1:var(--neon-lime); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
   body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--lilac); --border:rgba(51,70,240,.25); --chrome:var(--bg); --shadow:none;
                           --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--teal); --acc4:var(--cobalt); --acc5:var(--cobalt);
@@ -64,11 +66,11 @@
                           --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
   body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.3); --chrome:var(--bg); --shadow:none;
                           --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
-                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --acc1:var(--neon-lime); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
                           --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
   body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--cobalt); --border:rgba(220,210,255,.35); --chrome:var(--bg); --shadow:none;
                           --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
-                          --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
+                          --acc1:var(--neon-lime); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
                           --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
   body.theme-white      { --bg:#FAFAF8; --fg:var(--cobalt); --muted:var(--cobalt); --card:var(--pale-lilac); --border:#E4E4E7; --chrome:var(--bg); --shadow:none;
                           --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
@@ -76,8 +78,8 @@
                           --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--teal); --cacc4:var(--cobalt); --cacc5:var(--cobalt); }
   body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:var(--bg); --shadow:none;
                           --link:var(--pale-lilac); --active:var(--hot-magenta); --active-fg:var(--pale-lilac);
-                          --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
-                          --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
+                          --acc1:var(--neon-lime); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--hot-magenta);
+                          --cacc1:var(--neon-lime); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
 
   /* 白文字オプション(wキー / ?ink=white): 濃色地の文字を Pale Lilac → 白に。明るい地では無効 */
   body.ink-white:is(.theme-black, .theme-navy, .theme-cobalt, .theme-magenta) { --fg:#FFFFFF; --link:#FFFFFF; --acc5:#FFFFFF; --c4-ink:#FFFFFF; --c6-ink:#FFFFFF; }
@@ -134,9 +136,9 @@
   .n4{--nc:var(--c4); --nc-ink:var(--c4-ink)}   /* Cobalt */
   .n5{--nc:var(--c5); --nc-ink:var(--c5-ink)}   /* Pale Lilac */
   .n6{--nc:var(--c6); --nc-ink:var(--c6-ink)}   /* Hot Magenta — 見出しだけ、小さい文字は載せない */
-  .n7{--nc:var(--pale-lilac); --nc-ink:var(--cobalt)}   /* Pale Lilac — 長文を読ませるカード(.n5 と同じ) */
+  .n7{--nc:var(--neon-lime); --nc-ink:var(--cobalt)}    /* Neon Lime — 見せ場のカード */
   /* 地と同じ色のカードは溶けるので、テーマごとに自動で別色へ置き換える(Navy には置き換えない) */
-  body.theme-pale-lilac :is(.n5, .n7) { --nc: var(--lilac);      --nc-ink: var(--cobalt); }
+  body.theme-pale-lilac .n5          { --nc: var(--lilac);      --nc-ink: var(--cobalt); }
   body.theme-lilac      .n2          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
   body.theme-cobalt     .n4          { --nc: var(--pale-lilac); --nc-ink: var(--cobalt); }
   body.theme-magenta    .n6          { --nc: var(--blaze);      --nc-ink: #FFFFFF; }   /* Magenta + Blaze のペア */
@@ -170,7 +172,7 @@
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
 
   /* ---------- インパクトスライド ---------- */
-  /* 背景は --impact(ブランド既定: Neon Lime)、文字は --impact-ink(既定: Deep Plum)。他パレットでは白文字 */
+  /* 背景は --impact(Neon Lime)、文字は --impact-ink(Cobalt) */
   section.impact h1 { color: var(--impact-ink, #fff); font-size: 2.4em; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em; }
   section.impact p  { color: var(--impact-ink, #fff); opacity: 0.9; }
 
@@ -424,8 +426,8 @@
     <p class="small">Impact slide — at most one or two per deck</p>
   </div>
   <aside class="notes">
-    <div class="lang-ja">data-background-color="var(--impact)" で全面色(Hot Magenta + Pale Lilac 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
-    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (Hot Magenta with Pale Lilac text); data-chrome="off" hides the app chrome.</div>
+    <div class="lang-ja">data-background-color="var(--impact)" で全面色(Neon Lime + Cobalt 文字)。data-chrome="off" でサイドバーを消して全画面に。</div>
+    <div class="lang-en">Full-bleed colour via data-background-color="var(--impact)" (Neon Lime with Cobalt text); data-chrome="off" hides the app chrome.</div>
   </aside>
 </section>
 
@@ -508,7 +510,7 @@
     /* JOURNA ブランドのみ。旧ムードパレットは全て廃止(2026-10-14)。:root と同じ内容 */
     { id:'journa', ja:'JOURNA', vars:{'--c1':'#FF7A00','--c2':'#B7A3F5','--c3':'#18B7A0','--c4':'#3346F0','--c5':'#DCD2FF','--c6':'#F0249B',
                                       '--c1-ink':'#FFFFFF','--c2-ink':'#3346F0','--c3-ink':'#FFFFFF','--c4-ink':'#DCD2FF','--c5-ink':'#3346F0','--c6-ink':'#DCD2FF',
-                                      '--impact':'#F0249B','--impact-ink':'#DCD2FF'} }
+                                      '--impact':'#D4F73C','--impact-ink':'#3346F0'} }
   ];
   let palIdx = 0;
   const palToast = document.getElementById('pal-toast');

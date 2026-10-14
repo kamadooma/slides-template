@@ -18,6 +18,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | SECONDARY | Cobalt | `#3346F0` | `--cobalt` | **明るい地の文字色**・リンク。カード `.n4`。黒地・Navy地のセル。地 `theme-cobalt` |
 | SECONDARY | Teal | `#18B7A0` | `--teal` | 小さなハイライト。カード `.n3` |
 | SECONDARY | Navy | `#141B4D` | `--navy` | 地 `theme-navy` **のみ**。文字・箱には使わない |
+| 追加 | Neon Lime | `#D4F73C` | `--neon-lime` | **見せ場の色**(まどか指定でガイドに追加)。濃色地の強調語・巨大数字、インパクト背景、カード `.n7` |
 
 > Hot Magenta and Blaze work as a pair, side by side on Pale Lilac or Lilac. Navy carries all text and is the dark ground.
 > Cobalt is kept for links, Teal for small highlights. No magenta behind small text.
@@ -27,13 +28,13 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 | theme | 地 | 文字 | セル(`.cell`/`.step`/サイドバー) | 強調(`.a1`〜`.a5`/`.num`) |
 |---|---|---|---|---|
-| `black`(既定) | #0B0B0D | Pale Lilac(`w`で白) | Cobalt | Magenta / Blaze / Lilac / Teal / Pale Lilac |
+| `black`(既定) | #0B0B0D | Pale Lilac(`w`で白) | Cobalt | **Neon Lime** / Blaze / Lilac / Teal / Magenta |
 | `pale-lilac` | Pale Lilac | Cobalt | Lilac | Magenta / Blaze / Teal / Cobalt |
 | `lilac` | Lilac | Cobalt | Pale Lilac | Magenta / Cobalt |
-| `cobalt` | Cobalt | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | Pale Lilac(セル内は Magenta / Blaze / Teal / Cobalt) |
-| `magenta` | Hot Magenta | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | Pale Lilac(セル内は各色) |
+| `cobalt` | Cobalt | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | **Neon Lime**(a1) / Pale Lilac(セル内は Magenta / Blaze / Teal / Cobalt) |
+| `magenta` | Hot Magenta | Pale Lilac(`w`で白) | Pale Lilac(文字 Cobalt) | **Neon Lime**(a1) / Pale Lilac(セル内は各色) |
 | `white` | #FAFAF8 | Cobalt | Pale Lilac | Magenta / Blaze / Teal / Cobalt |
-| `navy` | Navy | Pale Lilac(`w`で白) | Cobalt | Magenta / Blaze / Lilac / Teal(セル内は Pale Lilac) |
+| `navy` | Navy | Pale Lilac(`w`で白) | Cobalt | **Neon Lime** / Blaze / Lilac / Teal / Magenta(セル内は Lime / Pale Lilac) |
 
 ### 絶対ルール(まどか指定・破ると即NG)
 - **Navy は地(`theme-navy`)にしか使わない。Navy の文字・Navy の箱は禁止**。明るい地の文字は Cobalt
@@ -44,7 +45,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 - カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta(混色なし)。文字は Blaze・Teal は白、Lilac・Pale Lilac は Cobalt、Cobalt・Magenta は Pale Lilac(`--cN-ink`)
 - `.n6`(Hot Magenta)は見出しだけ。本文を載せない(ブランドルール "No magenta behind small text")
-- インパクトスライドは Hot Magenta 全面 + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ)。`data-background-color="var(--impact)"`
+- インパクトスライドは **Neon Lime 全面 + Cobalt 文字**。`data-background-color="var(--impact)"`
 - サイドバーの現在地は Cobalt(黒・Cobalt・Navy 地では Hot Magenta)+ Pale Lilac 文字
 
 ## 制作フロー
@@ -84,7 +85,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - 装飾しない。1カードに1つまで
 
 ### インパクトスライド
-- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Hot Magenta (`--impact`)**、文字は Pale Lilac (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
+- 言い切りの一文は全面アクセント色 + 極太文字。背景は **Neon Lime (`--impact`)**、文字は Cobalt (`--impact-ink`)。`data-background-color="var(--impact)"` を使う
 - `data-chrome="off"` でNotes風UIを消して全画面に
 - **1デッキ1〜2枚まで**
 
@@ -99,7 +100,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | クラス | 用途 |
 |---|---|
 | `.note .n1`〜`.n6` | カラー付箋カード: Blaze / Lilac / Teal / Cobalt / Pale Lilac / Hot Magenta |
-| `.note .n7` | 長文を読ませるカード: Pale Lilac + Cobalt 文字 |
+| `.note .n7` | 見せ場のカード: Neon Lime + Cobalt 文字 |
 | `section.dense` | 2×2 の4枚カードのスライドに付ける。カードの文字と余白を詰めてPDFで1ページに収める |
 | `.cell` | ダーク/ライトのベントセル |
 | `.bento` / `.bento2` | 3列 / 2列グリッド (`.wide`で2列分) |
@@ -137,7 +138,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 ### 文字色
 - **読ませる本文は Pale Lilac か白**(濃色地)/ **Cobalt**(明るい地)。色をつけてよいのは**タイトルと強調語、巨大数字だけ**
-- 明るい地では本文は Cobalt。強調色はテーマごとに自動で読める色になる(コントラスト保証)
+- 明るい地では本文は Cobalt。強調色はテーマごとに自動で読める色になる(濃色地は Neon Lime、明るい地は Magenta / Cobalt)
 
 ### カラーカード
 - **ブランド色そのままのベタ塗り(混色なし)+ 白 / Cobalt / Pale Lilac の文字・ピクトグラム**。`<div class="note n2">`
@@ -156,7 +157,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **ボックスと隣接要素、図と文字が接触するのは絶対禁止**。上下に必ず十分な間(最低 1.25em)を空ける
 - 実装上の注意: 中身は `.lang-ja`/`.lang-en` ラッパーの内側にあるため、`section > *` だけに余白を付けても効かない。
   必ず `.lang-ja > * + *` / `.lang-en > * + *`(隣接兄弟)にも上マージンを付与すること。これを怠るとカードや箱が接触する
-- インパクトスライドは Hot Magenta 背景 + Pale Lilac 文字
+- インパクトスライドは Neon Lime 背景 + Cobalt 文字
 
 ### 箱(ボックス)の使用可否
 - **中身をただ囲うだけの、透明/枠だけの「座布団」ボックスは禁止**(ダサい)。情報整理は**余白と字間**で行う
