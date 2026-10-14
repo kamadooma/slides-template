@@ -53,7 +53,9 @@
      旧: Apple Notes基準パレット
      --c1:#FFC872; --c2:#04D3FE; --c3:#B591FB; --c4:#E3ED8D; --c5:#FFE490; --c6:#FD9A71; --impact:#FF3D7A; */
 
-  /* ---------- 背景テーマ: black(既定) / white / gray / magenta — tキーで切替 ---------- */
+  /* ---------- 背景テーマ: black(既定) / lilac / white / gray / magenta — tキーで切替 ---------- */
+  /* lilac = Pale Lilac 地 + Deep Plum 文字 + Warm Cream セル。明るいデッキ向けのブランド版(白テーマの代わりに使う) */
+  body.theme-lilac { --bg:var(--pale-lilac); --fg:var(--deep-plum); --muted:#5E4F8A; --card:var(--warm-cream); --border:rgba(36,16,41,.28); --chrome:#CFC3FA; --shadow:rgba(36,16,41,.22); }
   /* magenta は Hot Magenta 地 + Deep Plum 文字の全面ブランド版。読みにくいので既定にはしない(見せ場の数枚だけ) */
   body.theme-magenta { --bg:var(--hot-magenta); --fg:var(--deep-plum); --muted:#5C1C4E; --card:var(--warm-cream); --border:rgba(36,16,41,.45); --chrome:#D81F8A; --shadow:rgba(36,16,41,.35); }
   body.theme-black { --bg:#0B0B0D; --fg:#F5F5F5; --muted:#9A9AA2; --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45); }
@@ -84,6 +86,10 @@
   body.theme-white .num, body.theme-gray .a1, body.theme-gray .a2, body.theme-gray .a3,
   body.theme-gray .a4, body.theme-gray .a5, body.theme-gray .num { color: var(--fg); }
   body.theme-white .reveal a, body.theme-gray .reveal a { color: var(--fg); text-decoration: underline; }
+  /* 薄紫地では強調文字・巨大数字は Cobalt(薄紫上でマゼンタ・ライム・ティールは読めない)、リンクは Deep Plum 下線 */
+  body.theme-lilac .a1, body.theme-lilac .a2, body.theme-lilac .a3, body.theme-lilac .a4, body.theme-lilac .a5,
+  body.theme-lilac .num { color: var(--cobalt); }
+  body.theme-lilac .reveal a { color: var(--fg); text-decoration: underline; }
   /* マゼンタ地では強調文字・巨大数字は Neon Lime(big moments)、リンクは Deep Plum 下線 */
   body.theme-magenta .a1, body.theme-magenta .a2, body.theme-magenta .a3, body.theme-magenta .a4, body.theme-magenta .a5,
   body.theme-magenta .num { color: var(--neon-lime); }
@@ -231,13 +237,13 @@
     <h1>プレゼンテーション・タイトル<br>サブタイトル</h1>
     <p style="margin-top:1.2em;"><b>まどか</b><br>
     <span class="small" style="color: var(--muted);">会場 / イベント名 ・ 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/白/グレー/マゼンタ · <kbd>s</kbd> ノート</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> 日英切替 · <kbd>t</kbd> 背景 黒/薄紫/白/グレー · <kbd>s</kbd> ノート</p>
   </div>
   <div class="lang-en">
     <h1>Presentation Title<br>Subtitle</h1>
     <p style="margin-top:1.2em;"><b>Madoka</b><br>
     <span class="small" style="color: var(--muted);">Venue / Event · 2026</span></p>
-    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/white/gray/magenta · <kbd>s</kbd> notes</p>
+    <p class="tiny" style="margin-top:2em;"><kbd>l</kbd> JA/EN · <kbd>t</kbd> bg black/lilac/white/gray · <kbd>s</kbd> notes</p>
   </div>
   <aside class="notes">
     <div class="lang-ja">タイトルのスピーカーノート。</div>
@@ -461,7 +467,7 @@
   }
 
   /* ---------- 背景テーマ切替 (黒/白/グレー) ---------- */
-  const THEMES = ['theme-black', 'theme-white', 'theme-gray', 'theme-magenta'];
+  const THEMES = ['theme-black', 'theme-lilac', 'theme-white', 'theme-gray', 'theme-magenta'];
   function setTheme(name) {
     document.body.classList.remove(...THEMES);
     document.body.classList.add(THEMES.includes('theme-' + name) ? 'theme-' + name : name);
@@ -523,7 +529,7 @@
 
   const params = new URLSearchParams(location.search);
   if (['en','ja'].includes(params.get('lang'))) setLanguage(params.get('lang'));
-  if (['magenta','black','white','gray'].includes(params.get('theme'))) setTheme(params.get('theme'));
+  if (['black','lilac','white','gray','magenta'].includes(params.get('theme'))) setTheme(params.get('theme'));
   if (params.get('sidebar') === 'off') document.body.classList.add('no-sidebar');
   const pQ = params.get('palette');
   if (pQ) { const idx = PALETTES.findIndex(p => p.id === pQ); if (idx >= 0) applyPalette(idx); }

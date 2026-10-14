@@ -17,17 +17,17 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | SECONDARY | Cobalt | `#3346F0` | `--cobalt` | 代替グラウンド(カード `.n1`) |
 | SECONDARY | Blaze | `#FF7A00` | `--blaze` | アクセント・代替グラウンド(カード `.n2`) |
 | SECONDARY | Teal | `#18B7A0` | `--teal` | ハイライト。**小さく使う**(カード `.n3`) |
-| SECONDARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 穏やかな面。長文を載せるカード `.n7` |
+| SECONDARY | Pale Lilac | `#DCD2FF` | `--pale-lilac` | 穏やかな面。**明るい背景テーマ `theme-lilac`**、長文カード `.n7` |
 | SECONDARY | Warm Cream | `#F4E9D8` | `--warm-cream` | 読ませる面。長文カード `.n8` |
 
 > Hot Magenta is the ground and Deep Plum carries every word. Neon Lime is for the logo and big moments.
 > Cobalt and Blaze take turns as grounds for posts. Pale Lilac and Warm Cream hold long reading. Teal stays small.
 
-- **背景は黒(既定)**。文字は白、強調は `.a1`〜`.a5`。Hot Magenta の全面背景(`theme-magenta`)は読みにくいので使わない(`t`キーの最後に残してあるだけ)
+- **背景は黒(既定)か薄紫(`theme-lilac`)**。黒地では文字は白・強調は `.a1`〜`.a5` の各色。薄紫地では文字は Deep Plum・強調は自動で Cobalt に統一・セルは Warm Cream。Hot Magenta の全面背景(`theme-magenta`)は読みにくいので使わない(`t`キーの最後に残してあるだけ)
 - 既定パレット `madoka`: `--c1` Cobalt / `--c2` Blaze / `--c3` Teal / `--c4` Neon Lime / `--c5` Hot Magenta / `--c6` Deep Plum
 - 淡色カード(Neon Lime `.n4` / Pale Lilac `.n7` / Warm Cream `.n8`)は黒を混ぜず(`--nc-mix:100%`)、文字は Deep Plum(`--nc-ink`)。濃色カード(`.n1`〜`.n3`, `.n5`, `.n6`)は従来どおり白文字
 - インパクトスライドは `data-background-color="var(--impact)"` = Neon Lime 全面 + Deep Plum 文字(`--impact-ink`)
-- 背景テーマは `t`キーで 黒(既定) → 白 → グレー → マゼンタ
+- 背景テーマは `t`キーで 黒(既定) → 薄紫 → 白 → グレー → マゼンタ。`?theme=lilac` でも指定可
 
 ## 制作フロー
 
@@ -51,7 +51,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - **キーワードを色で囲む加工(蛍光マーカー等)は禁止**。強調は太字か、限定的に `.a1`〜`.a5`(アクセント色文字)のみ
 
 ### コントラスト(最重要)
-- 黒背景(既定) → 文字は白抜き。白/グレー背景 → 文字は黒。常にはっきり読めること
+- 黒背景(既定) → 文字は白抜き。薄紫背景 → 文字は Deep Plum、強調は Cobalt。白/グレー背景 → 文字は黒。常にはっきり読めること
 - 淡いアクセント色文字(.a4/.a5等)は白背景で見えにくいので、白・グレーテーマでは自動的に本文色(黒)へ落ちる。色はカード背景側(暗い文字×明るい塗り=高コントラスト)で使うのが基本
 
 ### カラーパレット切替 (pキー)
@@ -59,7 +59,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 - `?palette=tech` のようにURLでも指定可。JSの `PALETTES` 配列に追加すれば増やせる
 
 ### 色
-- 背景は **黒(既定)/ 白 / グレー**(マゼンタは非推奨) — `t`キーまたは `?theme=white` で切替
+- 背景は **黒(既定)/ 薄紫 / 白 / グレー**(マゼンタは非推奨) — `t`キーまたは `?theme=lilac` で切替
 - 現行パレットは上記ブランドカラー(`madoka`)。旧ポップ / 旧Apple Notes基準パレットは slides.html 内にコメントで保存
 - カード上の文字は常に黒 (`--note-ink`)。背景テーマに関係なく変えない
 - ブランドカラーはデッキごとに変えない。別ムードが必要なときは `p`キーのプリセットを使う
