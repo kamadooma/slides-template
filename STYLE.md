@@ -31,16 +31,17 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 | `pale-lilac` | Pale Lilac | Navy | Lilac | Magenta(a1) / 他は Cobalt |
 | `lilac` | Lilac | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
 | `navy` | Navy | Pale Lilac | Cobalt | Magenta / Blaze / Lilac / Teal(セル内は Pale Lilac) |
-| `cobalt` | Cobalt | Pale Lilac | Navy | Pale Lilac(セル内は Magenta / Blaze / Lilac / Teal) |
-| `magenta` | Hot Magenta | Pale Lilac | Navy | Pale Lilac(セル内は各色) |
+| `cobalt` | Cobalt | Pale Lilac | Pale Lilac(文字 Navy) | Pale Lilac(セル内は Magenta / Cobalt) |
+| `magenta` | Hot Magenta | Pale Lilac | Pale Lilac(文字 Navy) | Pale Lilac(セル内は Magenta / Cobalt) |
 | `blaze` | Blaze | Navy | Pale Lilac | Navy(セル内は Magenta / Cobalt) |
 | `white` | #FAFAF8 | Navy | 白 | Magenta(a1) / 他は Cobalt |
 
 - カラーカード `.n1`〜`.n6` = Blaze / Lilac / Teal / Cobalt / Navy / Hot Magenta(混色なし)。文字は明るい色なら Navy、暗い色なら Pale Lilac(`--cN-ink`)
 - `.n6`(Hot Magenta)は見出しだけ。本文を載せない(ブランドルール "No magenta behind small text")
-- 地と同じ色のカードはテーマごとに自動で別色に置き換わる(例: `theme-cobalt` の `.n4` は Navy になる)
+- 地と同じ色のカードはテーマごとに自動で別色に置き換わる(例: `theme-cobalt` の `.n4` は Pale Lilac、`theme-magenta` の `.n6` は Blaze になる)
+- **Navy は小さい面(セル・サイドバー項目・現在地・置き換えカード)には使わない**。Navy の面は大きなカード `.n5` と `theme-navy` の地だけ
 - インパクトスライドは Hot Magenta 全面 + Pale Lilac 文字(ロゴの "Light on Hot Magenta" と同じ)。`data-background-color="var(--impact)"`
-- サイドバーの現在地は Navy(濃色地では Cobalt)+ Pale Lilac 文字
+- サイドバーの現在地は Cobalt + Pale Lilac 文字(Cobalt 地では Teal + Navy 文字)
 
 ## 制作フロー
 
@@ -85,7 +86,7 @@ Claudeにスライドを作らせるときは、このファイルを読ませ�
 
 ### Notes風クローム
 - 上部バー(トラフィックライト) + 左サイドバー(目次)
-- サイドバーは `data-section-ja` / `data-section-en` を持つスライドから自動生成、現在地が Navy(濃色地では Cobalt)でハイライト
+- サイドバーは `data-section-ja` / `data-section-en` を持つスライドから自動生成、現在地が Cobalt でハイライト
 - `data-meta="July 2026"` で日付等の小さいメタ行を追加できる
 - PDFエクスポート時は自動で非表示(全面スライドのみ出力)
 

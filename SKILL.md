@@ -37,6 +37,7 @@ description: >-
 - 背景は8テーマ `black`(既定) / `pale-lilac` / `lilac` / `navy` / `cobalt` / `magenta` / `blaze` / `white` を `t`キー or `?theme=` で選ぶ。デッキごとに変えてよい
 - 文字・セル・強調色はテーマごとに自動で読める色になる(`--fg --card --acc1〜5 --cacc1〜5`)。手で色指定しない
 - 地と同色のカードは自動で別色に置き換わる
+- **Navy を小さい面(セル・サイドバー・現在地)に使わない**。Navy の面は大きなカード `.n5` と `theme-navy` の地だけ
 - インパクト: `data-background-color="var(--impact)"` = Hot Magenta + Pale Lilac 文字
 
 ## 1. コントラスト(最優先・破ると即NG)

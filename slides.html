@@ -47,36 +47,37 @@
 
   /* ---------- 背景テーマ(tキーで循環 / ?theme=navy 等) ----------
      各テーマで「地・文字・セル・強調色」をブランド7色だけで組む。
-     --acc1〜5 = 地の上の強調文字(.a1〜.a5 / .num)、--cacc1〜5 = セル(.cell/.step)の中の強調文字 */
+     --acc1〜5 = 地の上の強調文字(.a1〜.a5 / .num)、--cacc1〜5 = セル(.cell/.step)の中の強調文字
+     --card-fg = セルの中の文字色(地の文字色と違うときだけ指定)。Navy は小さい面(セル・サイドバー・現在地)には使わない */
   body.theme-black      { --bg:#0B0B0D; --fg:var(--pale-lilac); --muted:var(--lilac); --card:#17171B; --border:#2A2A30; --chrome:#111114; --shadow:rgba(0,0,0,.45);
                           --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac); }
   body.theme-pale-lilac { --bg:var(--pale-lilac); --fg:var(--navy); --muted:#4B4F8C; --card:var(--lilac); --border:rgba(20,27,77,.25); --chrome:#CFC3FA; --shadow:rgba(20,27,77,.2);
-                          --link:var(--cobalt); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy);
                           --cacc1:var(--navy); --cacc2:var(--navy); --cacc3:var(--navy); --cacc4:var(--navy); --cacc5:var(--navy); }
   body.theme-lilac      { --bg:var(--lilac); --fg:var(--navy); --muted:#3B3F7A; --card:var(--pale-lilac); --border:rgba(20,27,77,.25); --chrome:#A994EE; --shadow:rgba(20,27,77,.25);
-                          --link:var(--navy); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --link:var(--navy); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
                           --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
   body.theme-navy       { --bg:var(--navy); --fg:var(--pale-lilac); --muted:var(--lilac); --card:var(--cobalt); --border:rgba(220,210,255,.25); --chrome:#0F1440; --shadow:rgba(0,0,0,.45);
                           --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--blaze); --acc3:var(--lilac); --acc4:var(--teal); --acc5:var(--pale-lilac);
                           --cacc1:var(--pale-lilac); --cacc2:var(--pale-lilac); --cacc3:var(--pale-lilac); --cacc4:var(--pale-lilac); --cacc5:var(--pale-lilac); }
-  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--navy); --border:rgba(220,210,255,.3); --chrome:var(--cobalt); --shadow:rgba(0,0,40,.4);
-                          --link:var(--pale-lilac); --active:var(--navy); --active-fg:var(--pale-lilac);
+  body.theme-cobalt     { --bg:var(--cobalt); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--navy); --border:rgba(220,210,255,.3); --chrome:var(--cobalt); --shadow:rgba(0,0,40,.4);
+                          --link:var(--pale-lilac); --active:var(--teal); --active-fg:var(--navy);
                           --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--lilac); --cacc4:var(--teal); --cacc5:var(--pale-lilac); }
-  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--navy); --border:rgba(220,210,255,.35); --chrome:var(--hot-magenta); --shadow:rgba(20,27,77,.35);
-                          --link:var(--pale-lilac); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
+  body.theme-magenta    { --bg:var(--hot-magenta); --fg:var(--pale-lilac); --muted:var(--pale-lilac); --card:var(--pale-lilac); --card-fg:var(--navy); --border:rgba(220,210,255,.35); --chrome:var(--hot-magenta); --shadow:rgba(20,27,77,.35);
+                          --link:var(--pale-lilac); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--pale-lilac); --acc2:var(--pale-lilac); --acc3:var(--pale-lilac); --acc4:var(--pale-lilac); --acc5:var(--pale-lilac);
-                          --cacc1:var(--hot-magenta); --cacc2:var(--blaze); --cacc3:var(--lilac); --cacc4:var(--teal); --cacc5:var(--pale-lilac); }
+                          --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
   body.theme-blaze      { --bg:var(--blaze); --fg:var(--navy); --muted:var(--navy); --card:var(--pale-lilac); --border:rgba(20,27,77,.3); --chrome:var(--blaze); --shadow:rgba(20,27,77,.3);
-                          --link:var(--navy); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --link:var(--navy); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--navy); --acc2:var(--navy); --acc3:var(--navy); --acc4:var(--navy); --acc5:var(--navy);
                           --cacc1:var(--hot-magenta); --cacc2:var(--cobalt); --cacc3:var(--cobalt); --cacc4:var(--cobalt); --cacc5:var(--navy); }
   body.theme-white      { --bg:#FAFAF8; --fg:var(--navy); --muted:#6B6E99; --card:#FFFFFF; --border:#E4E4E7; --chrome:#F1F1EF; --shadow:rgba(0,0,0,.14);
-                          --link:var(--cobalt); --active:var(--navy); --active-fg:var(--pale-lilac);
+                          --link:var(--cobalt); --active:var(--cobalt); --active-fg:var(--pale-lilac);
                           --acc1:var(--hot-magenta); --acc2:var(--cobalt); --acc3:var(--cobalt); --acc4:var(--cobalt); --acc5:var(--navy); }
 
   html, body, .reveal { background: var(--bg) !important; color: var(--fg); }
@@ -126,14 +127,16 @@
   body.theme-pale-lilac .n7 { --nc: var(--lilac);      --nc-ink: var(--navy); }
   body.theme-lilac      .n2 { --nc: var(--pale-lilac); --nc-ink: var(--navy); }
   body.theme-navy       .n5 { --nc: var(--cobalt);     --nc-ink: var(--pale-lilac); }
-  body.theme-cobalt     .n4 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
-  body.theme-magenta    .n6 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
-  body.theme-blaze      .n1 { --nc: var(--navy);       --nc-ink: var(--pale-lilac); }
+  body.theme-cobalt     .n4 { --nc: var(--pale-lilac); --nc-ink: var(--navy); }
+  body.theme-magenta    .n6 { --nc: var(--blaze);      --nc-ink: var(--navy); }   /* Magenta + Blaze のペア */
+  body.theme-blaze      .n1 { --nc: var(--cobalt);     --nc-ink: var(--pale-lilac); }
 
   /* ---------- ダークセル(ベント) ---------- */
+  .cell, .flow .step, .eq-block, table.compare th, #sidebar li, .reveal kbd { color: var(--card-fg, var(--fg)); }
+  .cell h4, .cell p, .flow .step h4, .flow .step p { color: inherit; }
   .cell { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1em 1.15em; }
   .cell h4 { font-size: 0.95em; margin: 0 0 0.45em 0; }
-  .cell p  { font-size: 0.8em; font-weight: 500; margin: 0; color: var(--fg); line-height: 1.6; }
+  .cell p  { font-size: 0.8em; font-weight: 500; margin: 0; line-height: 1.6; }
 
   .bento  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5em; align-items: stretch; }
   .bento2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5em; align-items: stretch; }
@@ -152,7 +155,7 @@
   .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0.4em; align-items: center; text-align: center; }
   .flow .step { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 0.65em 0.5em; }
   .flow .step h4 { font-size: 0.9em; margin: 0.3em 0 0.15em 0; }
-  .flow .step p { font-size: 0.7em; color: var(--fg); margin: 0; }
+  .flow .step p { font-size: 0.7em; margin: 0; }
   .flow .arrow { color: var(--muted); font-size: 1.1em; }
 
   /* ---------- インパクトスライド ---------- */
@@ -193,7 +196,7 @@
   #sidebar { position: absolute; top: 44px; left: 0; bottom: 0; width: 206px; background: var(--chrome); border-right: 1px solid var(--border); padding: 14px 12px; box-sizing: border-box; }
   #sidebar .side-title { color: var(--muted); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; margin: 2px 4px 10px 4px; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; }
   #sidebar ul { list-style: none; margin: 0; padding: 0; }
-  #sidebar li { color: var(--fg); background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
+  #sidebar li { background: var(--card); border: 1px solid var(--border); font-size: 12.5px; font-weight: 700; font-family: 'Inter','Zen Kaku Gothic New',sans-serif; padding: 10px 11px; border-radius: 10px; margin-bottom: 8px; line-height: 1.3; }
   #sidebar li .meta { display: block; color: var(--muted); font-size: 10px; font-weight: 500; margin-top: 3px; }
   #sidebar li.active { background: var(--active); border-color: var(--active); color: var(--active-fg); }
   #sidebar li.active .meta { color: var(--active-fg); opacity: .8; }
