@@ -15,6 +15,7 @@ description: >-
 作る前に必ず読むこと。** ルールは実際のダメ出しから来ているので、破ると必ず怒られる。
 
 ## 0. 制作フロー
+0. **言葉づかいと好みは `VOICE.md`** に集約してある。タイトルや本文を書く前に必ず読む
 1. **ヒアリング**: テーマ・ムード(鮮やか/彩度)・(あれば)写真を先に聞く
 2. **色は JOURNA 7色のみ**: 背景テーマを `t`キー/`?theme=` で選ぶだけ。`:root` のブランドトークンは書き換えない
 3. **概要は日本語で受け取る**: まどかが日本語で内容を渡す
@@ -93,6 +94,13 @@ description: >-
 - Lilac の塗り + Cobalt 文字、`border-radius: 999px`。縁線・影は付けない。lilac 地のテーマでは Pale Lilac の塗り
 - ボタンと見出し(h2)のあいだは 0.55em 空ける。長すぎるトピック名は短くする
 
+## 8.6 出典・事例・参考文献(まどか指定)
+- 外部の事実(事件・数字・研究)を使ったスライドには、**必ずスライドの下に出典**を書く:`<p class="sources">出典:媒体名「タイトル」(公開日) URL</p>`
+- 一次情報(元の報告・論文・公式ドキュメント)を優先し、報道は補足
+- 事例は `<p class="case"><b>事例</b> …</p>` で、いつ・どこで・誰が・何を示したかを1〜2文。**実験か実際の被害か**を区別する
+- 最後に参考文献ページ `<section class="refs">` + `.reflist`。各スライドの出典と同じものを並べる
+- カード内の太字はカードの文字色を引き継ぐ(`.note b { color: inherit }`)
+
 ## 9. インパクトスライド
 - 言い切りの一文を Cobalt 全面 + Neon Lime の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
 
@@ -100,7 +108,7 @@ description: >-
 `.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Pale Lilac / Magenta カード)/ `.n7`(Neon Lime の見せ場カード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
 `.twocol`(二段組) / `.big`(巨大数字) / `.flow`+`.step`+`.arrow`(3ステップ図) /
 `.takeaway`・`.insight`(枠なし要点テキスト) / `.picto`・`.picto-lg` / `.fig-card` /
-`table.compare` / `.kicker`(見出し上のトピック名・ボタン型)
+`table.compare` / `.kicker`(見出し上のトピック名・ボタン型) / `.sources`(スライド下の出典) / `.case`(事例の説明) / `section.refs`+`.reflist`(参考文献)
 
 ## 運用
 - `npm run dev` プレビュー / `npm run pdf` PDF出力(元リポジトリのスクリプト)

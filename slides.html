@@ -239,6 +239,16 @@
   /* PDFエクスポート時はクロームを外して全面に */
   html.print-pdf #chrome, html.print-pdf .nav-hint, html.print-pdf .lang-badge { display: none; }
   html.print-pdf .reveal { position: static; width: 100%; height: 100%; }
+  /* ---------- 出典・事例・参考文献(まどか指定:外部の事実を使ったスライドには、必ず下に出典を書く) ---------- */
+  .reveal .sources { font-size: 0.5em; color: var(--muted); line-height: 1.5; font-weight: 500; }
+  .reveal .case { font-size: 0.62em; line-height: 1.6; color: var(--fg); font-weight: 500; }
+  .reveal .case b { color: var(--acc1); }
+  section.refs .reflist { font-size: .5em; line-height: 1.5; color: var(--muted); font-weight: 500; }
+  section.refs .reflist b { color: var(--fg); display: inline-block; margin-top: .5em; }
+  section.refs h2 { margin-bottom: .3em; }
+  section.refs .lang-ja > * + *, section.refs .lang-en > * + * { margin-top: .6em; }
+  /* カード内の太字はカードの文字色を引き継ぐ(--fg のままだと明るいカードの上で溶ける) */
+  .note b, .note strong, .cell b, .cell strong { color: inherit; }
 </style>
 </head>
 <body class="lang-ja theme-black">
@@ -476,6 +486,58 @@
     <div class="lang-ja">数式は KaTeX: \(p(h \mid X)\)。</div>
     <div class="lang-en">Math via KaTeX: \(p(h \mid X)\).</div>
   </aside>
+</section>
+
+<!-- =================== 7. CASE + SOURCES (事例の説明と、スライド下の出典) =================== -->
+<section data-section-ja="事例と出典" data-section-en="Case & sources">
+  <div class="lang-ja">
+    <div class="kicker">5 / 6 · 事例と出典</div>
+    <h2>外部の事実を使ったら、<span class="a1">下に出典</span>を書く</h2>
+    <div class="twocol">
+      <div class="cell"><h4>何が起きるか</h4><p>• 要点を短く3行まで<br>• 細かい説明はノートへ<br>• 数字は出典どおりに</p></div>
+      <div class="note n3"><h4>私たちがすべきこと</h4><p>• 対策も3行まで<br>• 主語をはっきり書く<br>• 用語は一言で説明する</p></div>
+    </div>
+    <p class="case"><b>事例</b> いつ・どこで・誰が・何を示したかを1〜2文で。実験か、実際の被害かも区別する。</p>
+    <p class="sources">出典:媒体名・組織名「記事タイトル」(公開日) URL</p>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">5 / 6 · Case & sources</div>
+    <h2>If you use outside facts, <span class="a1">cite them below</span></h2>
+    <div class="twocol">
+      <div class="cell"><h4>What happens</h4><p>• Three short lines at most<br>• Details go in the notes<br>• Numbers exactly as the source says</p></div>
+      <div class="note n3"><h4>What we should do</h4><p>• Three lines for actions too<br>• Make the subject clear<br>• Explain terms in a phrase</p></div>
+    </div>
+    <p class="case"><b>The case</b> When, where, who, and what was shown, in one or two sentences. Say whether it was an experiment or a real incident.</p>
+    <p class="sources">Source: Outlet or organization, "Article title" (date) URL</p>
+  </div>
+  <aside class="notes">
+    <div class="lang-ja">.case は事例の説明、.sources は出典。出典は各スライドの下と、最後の参考文献ページの両方に書く。</div>
+    <div class="lang-en">.case explains a case; .sources lists citations. Cite at the bottom of each slide and again on the references slide.</div>
+  </aside>
+</section>
+
+<!-- =================== 8. REFERENCES (参考文献) =================== -->
+<section class="refs" data-section-ja="参考文献" data-section-en="References">
+  <div class="lang-ja">
+    <div class="kicker">参考文献</div>
+    <h2>出典一覧</h2>
+    <div class="reflist">
+      <b>テーマ A</b><br>
+      著者・組織, "タイトル" (YYYY-MM-DD) https://example.com/<br>
+      <b>テーマ B</b><br>
+      著者・組織, "タイトル" (YYYY-MM-DD) https://example.com/
+    </div>
+  </div>
+  <div class="lang-en">
+    <div class="kicker">References</div>
+    <h2>Sources</h2>
+    <div class="reflist">
+      <b>Topic A</b><br>
+      Author or organization, "Title" (YYYY-MM-DD) https://example.com/<br>
+      <b>Topic B</b><br>
+      Author or organization, "Title" (YYYY-MM-DD) https://example.com/
+    </div>
+  </div>
 </section>
 
 </div></div>
