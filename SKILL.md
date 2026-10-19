@@ -88,6 +88,11 @@ description: >-
 - `data-meta="…"` で日付等の小メタ行。PDF出力時はクローム自動非表示
 - キー: `l`日英 / `t`背景テーマ / `w`白文字 / `c`サイドバー開閉 / `s`ノート / `f`全画面 / `esc`一覧
 
+## 8.5 トピック名(.kicker)はボタン型で固定
+- 見出しの上のトピック名(例:「危険 1 ・ 入れるもの」)は、角が完全に丸いボタン型(ピル)にする。まどかのお気に入り・全デッキで固定
+- Lilac の塗り + Cobalt 文字、`border-radius: 999px`。縁線・影は付けない。lilac 地のテーマでは Pale Lilac の塗り
+- ボタンと見出し(h2)のあいだは 0.55em 空ける。長すぎるトピック名は短くする
+
 ## 9. インパクトスライド
 - 言い切りの一文を Cobalt 全面 + Neon Lime の極太文字(`var(--impact)` / `--impact-ink`)。`data-chrome="off"` で全画面。1デッキ1〜2枚まで
 
@@ -95,7 +100,7 @@ description: >-
 `.note .n1〜.n6`(Blaze / Lilac / Teal / Cobalt / Pale Lilac / Magenta カード)/ `.n7`(Neon Lime の見せ場カード) / `.cell`(ダークセル) / `.bento`・`.bento2`(3列/2列) /
 `.twocol`(二段組) / `.big`(巨大数字) / `.flow`+`.step`+`.arrow`(3ステップ図) /
 `.takeaway`・`.insight`(枠なし要点テキスト) / `.picto`・`.picto-lg` / `.fig-card` /
-`table.compare` / `.kicker`(セクション表示)
+`table.compare` / `.kicker`(見出し上のトピック名・ボタン型)
 
 ## 運用
 - `npm run dev` プレビュー / `npm run pdf` PDF出力(元リポジトリのスクリプト)

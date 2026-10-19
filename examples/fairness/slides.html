@@ -100,7 +100,7 @@
   /* 縦リズム(最重要): 言語ラッパー .lang-ja/.lang-en の内側要素にも必ず間隔を付ける。
      これが無いとカードや箱が上下の要素と接触する。隣接兄弟(owl)に上マージンを付与。 */
   .reveal .lang-ja > * + *, .reveal .lang-en > * + * { margin-top: 1.25em; }
-  .reveal .lang-ja > .kicker + h2, .reveal .lang-en > .kicker + h2 { margin-top: 0.15em; }
+  .reveal .lang-ja > .kicker + h2, .reveal .lang-en > .kicker + h2 { margin-top: 0.55em; }
 
   .reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--fg); font-weight: 900; letter-spacing: -0.02em; text-transform: none; }
   .reveal h2 { font-size: 1.5em; margin: 0 0 0.6em 0; }
@@ -121,7 +121,11 @@
 
   .tiny  { font-size: 0.7em; color: var(--muted); }
   .small { font-size: 0.95em; }
-  .kicker { color: var(--muted); font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.2em; }
+  /* 見出し上のトピック名 = ボタン型(ピル)。Lilac 地 + Cobalt 文字、縁線・影なし(まどか指定・固定) */
+  .kicker { display: inline-block; background: var(--lilac); color: var(--cobalt); border-radius: 999px;
+            padding: .38em 1.15em; font-size: 0.7em; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.3; margin-bottom: 0; }
+  body.theme-lilac .kicker { background: var(--pale-lilac); }   /* 地と同じ色の箱は禁止 */
+  .reveal section.center .kicker { margin-left: auto; margin-right: auto; }
 
   /* ---------- Notes風カラーカード(付箋) ---------- */
   /* カラーカード = ブランド色そのまま(混色なし)。文字色は色ごとに固定(--cN-ink): 明るい色は Navy、暗い色は Pale Lilac */
