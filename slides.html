@@ -249,6 +249,21 @@
   section.refs .lang-ja > * + *, section.refs .lang-en > * + * { margin-top: .6em; }
   /* カード内の太字はカードの文字色を引き継ぐ(--fg のままだと明るいカードの上で溶ける) */
   .note b, .note strong, .cell b, .cell strong { color: inherit; }
+  /* 図と箱の列を並べるとき、図を箱の列の高さいっぱいに合わせる(まどか指定 2026-10-23)
+     行の高さは箱の列が決める。図はその高さいっぱいに、縦横比を保って最大まで大きくする
+     使い方: <div class="fit-row" style="grid-template-columns: 1fr 2fr;">
+               <div class="fit-img"><div class="fit-box"><img src="..."></div></div>
+               <div style="display:grid; gap:.6em;"> 箱… </div>
+             </div> */
+  .fit-row { display: grid; align-items: stretch; gap: 1.4em; }
+  .fit-row > .fit-img { display: flex; flex-direction: column; min-height: 0; }
+  .fit-row > .fit-img .fit-box { position: relative; flex: 1 1 auto; min-height: 0; }
+  .fit-row > .fit-img .fit-box img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: contain; border-radius: 10px; }
+  .fit-row > .fit-img .fig-caption { flex: 0 0 auto; margin-top: .4em; text-align: center; }
+  /* 飾りの UI は出さない(まどか指定 2026-10-23) */
+  .tl, .nav-hint, .lang-badge, #topbar .tools { display: none !important; }
+  /* キャプションは小さく1行(まどか指定 2026-10-23) */
+  .reveal .fig-caption { font-size: .5em !important; line-height: 1.4; margin-top: .4em; opacity: .85; letter-spacing: .02em; }
 </style>
 </head>
 <body class="lang-ja theme-black">
